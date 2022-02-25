@@ -33,7 +33,7 @@ abstract type Drawing2D <: Drawing end
     Scatter2D <: Drawing2D
 
 2D Line plot(s) or scatter plot(s).
-See also [`plot!`](@ref), [`line!`](@ref) and [`scatter!`](@ref).
+See also `plot!`, `line!` and `scatter!`.
 """
 mutable struct Scatter2D{T} <: Drawing2D
     data        ::T                   # data container (zip; T = trick to avoid failure on 1.0)
@@ -62,13 +62,13 @@ Scatter2D(d, m, n) = Scatter2D(
     Fill2D <: Drawing2D
 
 Fill-plot between two 2D curves. Missing values are not allowed.
-See [`fill_between!`](@ref).
+See `fill_between!`.
 """
 @with_kw mutable struct Fill2D{T} <: Drawing2D
     data     ::T  # data iterator
     #
-    xmin     ::Option{Float64} = ∅           # left most anchor
-    xmax     ::Option{Float64} = ∅           # right most anchor
+    xmin     ::Option{F64} = ∅           # left most anchor
+    xmax     ::Option{F64} = ∅           # right most anchor
     fillstyle::FillStyle       = FillStyle() # describes the area between the curves
     label    ::String          = ""
 end
@@ -106,7 +106,7 @@ Bar plot(s).
     #
     stacked::Bool            = false
     horiz  ::Bool            = false
-    bwidth ::Option{Float64} = ∅ # general bar width
+    bwidth ::Option{F64} = ∅ # general bar width
     #
     labels ::Vector{String}  = String[]
 end
@@ -130,7 +130,7 @@ Bar2D(d, m, n) = Bar2D(
 Boxplot(s).
 """
 @with_kw mutable struct Boxplot <: Drawing2D
-    stats::Matrix{Float64}  # quantile etc
+    stats::Matrix{F64}  # quantile etc
     nobj ::Int
     #
     boxstyles::Vector{BoxplotStyle}
@@ -157,8 +157,8 @@ Heatmap of a matrix.
 """
 @with_kw mutable struct Heatmap <: Drawing2D
     data::Matrix{Int}
-    zmin::Float64
-    zmax::Float64
+    zmin::F64
+    zmax::F64
     #
     cmap::Vector{Color} = colormap("RdBu", 10)
     cmiss::Color = c"white" # box filling for missing values

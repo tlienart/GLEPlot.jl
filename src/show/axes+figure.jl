@@ -9,7 +9,7 @@ function Base.show(io::IO, ::MIME"text/plain", a::Axes2D{GLE})
         _gs("Math mode:")     * "$(a.math)" *
         _gs("Layout origin:") * (isdef(a.origin) ? "$(round.(a.origin, digits=1))" : "auto")
     )
-    return nothing
+    return
 end
 
 
@@ -25,5 +25,5 @@ function Base.show(io::IO, ::MIME"text/plain", f::Figure{GLE})
         _gs("LaTeX:")       * (isdef(f.texlabels)    ? "$(f.texlabels)"    : "false") *
         _gs("Transparent:") * (isdef(f.transparency) ? "$(f.transparency)" : "false")
     )
-    return nothing
+    return
 end

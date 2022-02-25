@@ -9,10 +9,10 @@
     textstyle::TextStyle = TextStyle() # parent textstyle of axis
     # ---
     title ::Option{Title}   = ∅ # title of the axis
-    base  ::Option{Float64} = ∅ # scale font and ticks
-    lwidth::Option{Float64} = ∅ # width of the axis spine
-    min   ::Option{Float64} = ∅ # minimum span of the axis
-    max   ::Option{Float64} = ∅ # maximum span of the axis
+    base  ::Option{F64} = ∅ # scale font and ticks
+    lwidth::Option{F64} = ∅ # width of the axis spine
+    min   ::Option{F64} = ∅ # minimum span of the axis
+    max   ::Option{F64} = ∅ # maximum span of the axis
     # -- toggle-able
     off   ::Bool = false # if true, axis is not shown
     log   ::Bool = false # log scale

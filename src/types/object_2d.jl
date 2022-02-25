@@ -30,10 +30,11 @@ end
 """
     StraightLine2D <: Object2D
 
-Place either a vertical or horizontal straightline at given anchor (from axis to axis).
+Place either a vertical or horizontal straightline at given anchor (from axis
+to axis).
 """
 @with_kw mutable struct StraightLine2D <: Object2D
-    anchor::Float64
+    anchor::F64
     horiz::Bool
     linestyle::LineStyle = LineStyle()
 end
@@ -63,8 +64,8 @@ end
 Add a colorbar.
 """
 @with_kw mutable struct Colorbar <: Object2D
-    zmin::Float64
-    zmax::Float64
+    zmin::F64
+    zmax::F64
     cmap::Vector{Color}
     # -- optional things
     ticks::Ticks # constructed
@@ -78,7 +79,7 @@ Add a colorbar.
 end
 
 
-Colorbar(zmin::Float64, zmax::Float64, cmap::Vector{<:Color}) =
+Colorbar(zmin::F64, zmax::F64, cmap::Vector{<:Color}) =
     Colorbar(
         zmin=zmin,
         zmax=zmax,

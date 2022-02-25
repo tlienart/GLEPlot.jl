@@ -5,7 +5,12 @@ isdef(el) = (el !== nothing)
 isanydef(obj) = any(isdef, (getfield(obj, f) for f ∈ fieldnames(typeof(obj))))
 
 # see cla! (clear axes)
-function reset!(obj::T; exclude=Vector{Symbol}(), inits...) where T
+function reset!(
+            obj::T;
+            exclude=Symbol[],
+            inits...
+        )::T where T
+
     # create a new object of the same type, assumes there is
     # a constructor that accepts empty input
     fresh = T(; inits...)
@@ -31,16 +36,6 @@ rmax(::Nothing, y) = y
 rmax(x, y)         = max(x, y)
 
 #
-# cast object to float if relevant.
-#
-
-fl(::Missing) = missing
-fl(::Nothing) = nothing
-fl(x::Real)   = Float64(x)
-fl(t::Tuple)  = fl.(t)
-fl(v::AVM)    = fl.(v)
-
-#
 # return a number with 3 digits accuracy, useful in col2str
 #
 round3d(x::Real) = round(x, digits=3)
@@ -48,7 +43,11 @@ round3d(x::Real) = round(x, digits=3)
 #
 # takes a colorant and transform it to a standard string rgba(...)
 #
-function col2str(col::Colorant; str=false)
+function col2str(
+            col::Colorant;
+            str=false
+        )::String
+
     crgba = convert(RGBA, col)
     r, g, b, α = round3d.([crgba.r, crgba.g, crgba.b, crgba.alpha])
     s  = "rgba($r,$g,$b,$α)"
@@ -72,7 +71,12 @@ nvec(n::Int, T) = [T() for _ ∈ 1:n]
 #
 # Materialise an array/matrix to file
 #
-function csv_writer(path::String, z::AVM, hasmissing::Bool)
+function csv_writer(
+            path::String,
+            z::AVM,
+            hasmissing::Bool
+        )::Nothing
+
     dirpath = splitdir(path)[1]
     isdir(dirpath) || mkpath(dirpath)
     if hasmissing
@@ -87,7 +91,7 @@ function csv_writer(path::String, z::AVM, hasmissing::Bool)
     else
         writedlm(path, z)
     end
-    return nothing
+    return
 end
 
 
