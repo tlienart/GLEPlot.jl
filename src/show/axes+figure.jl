@@ -1,8 +1,8 @@
 _gs(s) = "\n\t" * rpad(s, 15)
 
-function Base.show(io::IO, ::MIME"text/plain", a::Axes2D{GLE})
+function Base.show(io::IO, ::MIME"text/plain", a::Axes2D)
     write(io,
-        "GPlot.Axes2D{GLE}"  *
+        "GPlot.Axes2D"  *
         _gs("Title:")         * (isdef(a.title) ? "\"$(a.title.text)\"" : "none") *
         _gs("N. drawings:")   * "$(length(a.drawings))" *
         _gs("N. objects:")    * "$(length(a.objects))" *
@@ -13,11 +13,11 @@ function Base.show(io::IO, ::MIME"text/plain", a::Axes2D{GLE})
 end
 
 
-function Base.show(io::IO, ::MIME"text/plain", f::Figure{GLE})
+function Base.show(io::IO, ::MIME"text/plain", f::Figure)
     tbg = (f.bgcolor === nothing)
     wbg = (f.bgcolor == RGB(1,1,1))
     write(io,
-        "GPlot.Figure{GLE}" *
+        "GPlot.Figure" *
         _gs("Name:")        * (f.id == "_fig_" ? "default (\"_fig_\")" : "\"$(f.id)\"") *
         _gs("Size:")        * "$(round.(f.size, digits=1))" *
         _gs("Bg. color:")   * (tbg ? "none" : ifelse(wbg, "white", col2str(f.bgcolor))) *

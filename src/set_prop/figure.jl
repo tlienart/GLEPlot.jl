@@ -35,7 +35,6 @@ or `"none"`)
    * none:  do not scale LaTeX.
 """
 function set_texscale!(o::Figure, v::String)
-   @assert get_backend() == GLE "texscale/only GLE backend supported"
    v ∈ GLE_TEXSCALE || throw(
       OptionValueError("texscale", v)
    )

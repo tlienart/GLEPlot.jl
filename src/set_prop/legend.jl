@@ -6,7 +6,6 @@ Internal function to set the position of the legend using a describer like
 See `GLE_POSITION`.
 """
 function set_position!(o::Union{Legend,Box2D}, v::String)
-   @assert get_backend() == GLE "position/only GLE backend supported"
    o.position = get(GLE_POSITION, v) do
       throw(OptionValueError("position", v))
    end

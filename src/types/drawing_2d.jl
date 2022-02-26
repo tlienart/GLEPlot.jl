@@ -69,8 +69,8 @@ See `fill_between!`.
     #
     xmin     ::Option{F64} = ∅           # left most anchor
     xmax     ::Option{F64} = ∅           # right most anchor
-    fillstyle::FillStyle       = FillStyle() # describes the area between the curves
-    label    ::String          = ""
+    fillstyle::FillStyle   = FillStyle() # describes the area between the curves
+    label    ::String      = ""
 end
 
 

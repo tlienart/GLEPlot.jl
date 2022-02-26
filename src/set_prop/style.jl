@@ -149,7 +149,6 @@ function set_font!(
             font::String
         )::Nothing
 
-    @assert get_backend() == GLE "font // only GLE backend supported"
     ts.font = get(GLE_FONTS, font) do
         throw(
             OptionValueError("font", font, "(Unknown font)")
@@ -200,7 +199,6 @@ function set_lstyle!(
             v::String
         )::Nothing
 
-    @assert get_backend() == GLE "lstyle // only GLE backend supported"
     o.lstyle = get(GLE_LSTYLES, v) do
         throw(
             OptionValueError("lstyle", v)
@@ -243,7 +241,6 @@ function set_marker!(
             v::String
         )::Nothing
 
-    @assert get_backend() == GLE "marker // only GLE backend supported"
     o.marker = get(GLE_MARKERS, v) do
         throw(
             OptionValueError("marker", v)

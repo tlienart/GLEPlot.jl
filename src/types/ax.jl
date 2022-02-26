@@ -24,10 +24,10 @@ Axis(p::String; o...) = Axis(prefix=p; o...)
 # AXES (set of 2 or more axis)
 #
 
-abstract type Axes{B <: Backend} end
+abstract type Axes end
 
 
-@with_kw mutable struct Axes2D{B} <: Axes{B}
+@with_kw mutable struct Axes2D <: Axes
     parent::String # id of the parent figure
     # --
     xaxis ::Axis = Axis("x")
@@ -50,7 +50,7 @@ abstract type Axes{B <: Backend} end
 end
 
 
-@with_kw mutable struct Axes3D{B} <: Axes{B}
+@with_kw mutable struct Axes3D <: Axes
     parent::String
     # --
     xaxis::Axis = Axis("x"; min=0, max=1) # NOTE color = ticks, not spine if box

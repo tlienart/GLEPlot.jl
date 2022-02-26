@@ -1,3 +1,11 @@
+"""
+    p1 / p2
+
+Acts as joinpath.
+"""
+(/)(s...) = joinpath(s...)
+
+
 isdef(el) = (el !== nothing)
 
 # check if object `obj` has at least one field that is not "Nothing"
@@ -57,11 +65,24 @@ function col2str(
 end
 
 #
+# takes a Float64 and output a short string representation
+#
+function fl2str(
+            f::Float64;
+            d::Int=4
+        )::String
+
+    return string(round(f, digits=d))
+end
+
+#
 # unroll a vector into a string with the elements separated by a space
 #
-vec2str(v::AV; sep=" ")         = join((string(vi) for vi in v), sep)
-vec2str(v::AV{String}, sep=" ") = join(("\"$vi\"" for vi ∈ v),   " ")
+vec2str(v::AV{String}, sep=" ")     = join(("\"$vi\""  for vi in v), sep)
+vec2str(v::AV; sep=" ")             = join((string(vi) for vi in v), sep)
+vec2str(v::Base.Generator, sep=" ") = join((string(vi) for vi in v), sep)
 
+dlist(rge::UnitRange, sep=" ")  = vec2str(("d$i" for i in rge), sep)
 
 #
 # call a constructor n times and return a vector of instances
@@ -117,3 +138,18 @@ end
 
 @eval const $(Symbol("@t_str")) = $(Symbol("@tex_str"))
 @eval const $(Symbol("@c_str")) = $(Symbol("@colorant_str"))
+
+
+"""
+    palette(v::Vector{Color})
+
+Set the default palette. To see the current one, write `GPlot.GP_ENV["PALETTE"]` in the REPL.
+"""
+set_palette(v::Vector{<:Color}) = (GP_ENV["PALETTE"] = v;)
+
+"""
+    continuous_preview(b)
+
+Set the continuous preview on (`b=true`, default value) or off.
+"""
+continuous_preview(b::Bool) = (GP_ENV["CONT_PREVIEW"] = b;)

@@ -1,9 +1,9 @@
-mutable struct Figure{B<:Backend}
+mutable struct Figure
     # NOTE: couldn't use @kw_args here, clashed with the format of the base constructor.
-    g ::B      # description buffer
+    g ::GS     # description buffer
     id::String # id of the figure
     # ---
-    axes     ::Vector{Axes{B}}   # subplots
+    axes     ::Vector{Axes}   # subplots
     size     ::T2F               # (width, heigth)
     textstyle::TextStyle         # parent font etc
     bgcolor  ::Option{Colorant}  # background col, nothing=transparent
@@ -15,11 +15,11 @@ mutable struct Figure{B<:Backend}
     # ---
     subroutines::Dict{String,String}
 end
-Figure(g::Backend, id::String) =
+Figure(g::GS, id::String) =
     Figure(
         g, id,
         # --
-        Vector{Axes{B}}(),
+        Vector{Axes}(),
         (12., 9.),
         TextStyle(font="texcmss", hei=0.35),
         c"white",
@@ -37,9 +37,9 @@ Figure(g::Backend, id::String) =
 
 Internal function to completely refresh the figure `f` only keeping its id and size.
 """
-function reset!(f::Figure{B}) where B
+function reset!(f::Figure)
     take!(f.g) # empty the buffer
-    f.axes         = Vector{Axes{B}}() # clean axes
+    f.axes         = Vector{Axes}() # clean axes
     f.textstyle    = TextStyle(font="texcmss", hei=0.35) # default fontstyle
     f.bgcolor      = c"white" # default bg color
     f.texlabels    = ∅

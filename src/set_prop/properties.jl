@@ -200,9 +200,9 @@ const PROP_ALIAS = LittleDict(
     :colors             => :col,
     :colours            => :col,
     #
-    :textcol            => :col,
-    :textcolor          => :col,
-    :textcolour         => :col,
+    :textcol            => :tc,
+    :textcolor          => :tc,
+    :textcolour         => :tc,
     #
     :lc                 => :col,
     :linecol            => :col,
@@ -210,6 +210,18 @@ const PROP_ALIAS = LittleDict(
     :linecolors         => :col,
     :linecolour         => :col,
     :linecolours        => :col,
+    #
+    :mcol               => :mc,
+    :markercol          => :mc,
+    :markercolor        => :mc,
+    :markercolour       => :mc,
+    #
+    :ecol               => :ec,
+    :edgecol            => :ec,
+    :edgecolor          => :ec,
+    :edgecolour         => :ec,
+    :edgecolors         => :ec,
+    :edgecolours        => :ec,
     #
     :fill               => :col,
     :fills              => :col,
@@ -226,24 +238,12 @@ const PROP_ALIAS = LittleDict(
     #
     :smooths            => :smooth,
     #
+    :markers            => :marker,
+    #
     :msize              => :ms,
     :markersize         => :ms,
     :msizes             => :ms,
     :markersizes        => :ms,
-    #
-    :mcol               => :mc,
-    :markercol          => :mc,
-    :markercolor        => :mc,
-    :markercolour       => :mc,
-    #
-    :markers            => :marker,
-    #
-    :ecol               => :ec,
-    :edgecol            => :ec,
-    :edgecolor          => :ec,
-    :edgecolour         => :ec,
-    :edgecolors         => :ec,
-    :edgecolours        => :ec,
     #
     :bwidth             => :width,
     :barwidth           => :width,
@@ -379,7 +379,7 @@ const OptsDict = LittleDict{Symbol,Pair{Function,Function}}
 const TEXTSTYLE_OPTS = OptsDict(
     :font     => lc    => set_font!,
     :fontsize => posfl => set_hei!,
-    :col      => col   => set_textcolor!,
+    :tc       => col   => set_textcolor!,
     )
 
 const LINESTYLE_OPTS = OptsDict(
@@ -436,6 +436,7 @@ const TITLE_OPTS = OptsDict(
 merge!(TITLE_OPTS, TEXTSTYLE_OPTS)
 set_properties!(t::Title; opts...) = set_properties!(TITLE_OPTS, t; opts...)
 
+
 const LEGEND_OPTS = OptsDict(
     # position of the legend
     :pos     => lc    => set_position!, # set_legend
@@ -454,6 +455,7 @@ const LEGEND_OPTS = OptsDict(
     )
 merge!(LEGEND_OPTS, TEXTSTYLE_OPTS)
 set_properties!(l::Legend; opts...) = set_properties!(LEGEND_OPTS, l; opts...)
+
 
 const TICKS_OPTS = OptsDict(
     # ticks
@@ -490,6 +492,7 @@ merge!(SCATTER2D_OPTS, GLINESTYLE_OPTS)
 merge!(SCATTER2D_OPTS, GMARKERSTYLE_OPTS)
 set_properties!(s::Scatter2D; opts...) = set_properties!(SCATTER2D_OPTS, s; opts...)
 
+
 const FILL2D_OPTS = OptsDict(
     :xmin  => fl  => set_xmin!,
     :xmax  => fl  => set_xmax!,
@@ -497,6 +500,7 @@ const FILL2D_OPTS = OptsDict(
     )
 merge!(FILL2D_OPTS, FILLSTYLE_OPTS)
 set_properties!(f::Fill2D; opts...) = set_properties!(FILL2D_OPTS, f; opts...)
+
 
 const HIST2D_OPTS = OptsDict(
     :bins    => posint => set_bins!,
@@ -508,6 +512,7 @@ merge!(HIST2D_OPTS, BARSTYLE_OPTS)
 merge!(HIST2D_OPTS, FILLSTYLE_OPTS)
 set_properties!(h::Hist2D; opts...) = set_properties!(HIST2D_OPTS, h; opts...)
 
+
 const BAR2D_OPTS = OptsDict(
     :stacked => bool => set_stacked!,
     :horiz   => bool => set_horiz!,
@@ -515,6 +520,7 @@ const BAR2D_OPTS = OptsDict(
     )
 merge!(BAR2D_OPTS, GBARSTYLE_OPTS)
 set_properties!(gb::Bar2D; opts...) = set_properties!(BAR2D_OPTS, gb; opts...)
+
 
 const BOXPLOT_OPTS = OptsDict(
     # -- global toggle
@@ -547,10 +553,12 @@ const BOXPLOT_OPTS = OptsDict(
     )
 set_properties!(bp::Boxplot; opts...) = set_properties!(BOXPLOT_OPTS, bp; opts...)
 
+
 const HEATMAP_OPTS = OptsDict(
     :cmap     => col => set_cmap!,
     )
 set_properties!(h::Heatmap; opts...) = set_properties!(HEATMAP_OPTS, h; opts...)
+
 
 const SCATTER3D_OPTS = OptsDict(
     :label  => str => set_label!, # .
@@ -566,17 +574,18 @@ set_properties!(s::Scatter3D; opts...) = set_properties!(SCATTER3D_OPTS, s; opts
 ####
 ###############################################################
 
-
 const TEXT2D_OPTS = OptsDict(
     :pos => str => set_position!,
     )
 merge!(TEXT2D_OPTS, TEXTSTYLE_OPTS)
 set_properties!(t::Text2D; opts...) = set_properties!(TEXT2D_OPTS, t; opts...)
 
+
 const STRAIGHTLINE2D_OPTS = OptsDict(
     )
 merge!(STRAIGHTLINE2D_OPTS, LINESTYLE_OPTS)
 set_properties!(t::StraightLine2D; opts...) = set_properties!(STRAIGHTLINE2D_OPTS, t; opts...)
+
 
 const BOX2D_OPTS = OptsDict(
     :pos      => str   => set_position!,
@@ -587,6 +596,7 @@ const BOX2D_OPTS = OptsDict(
     )
 merge!(BOX2D_OPTS, LINESTYLE_OPTS)
 set_properties!(b::Box2D; opts...) = set_properties!(BOX2D_OPTS, b; opts...)
+
 
 const COLORBAR_OPTS = OptsDict(
     :pixels     => posint => set_pixels!,
@@ -602,12 +612,12 @@ merge!(COLORBAR_OPTS, TICKS_OPTS)
 merge!(COLORBAR_OPTS, TEXTSTYLE_OPTS)
 set_properties!(b::Colorbar; opts...) = set_properties!(COLORBAR_OPTS, b; opts...)
 
+
 ###############################################################
 ####
 #### Options for AX*
 ####
 ###############################################################
-
 
 const  AXES_OPTS = OptsDict(
     :size  => fl   => set_size!,
@@ -615,6 +625,7 @@ const  AXES_OPTS = OptsDict(
     :off   => bool => set_off!,
     )
 set_properties!(a::Axes; opts...) = set_properties!(AXES_OPTS, a; opts...)
+
 
 const AXIS_OPTS = OptsDict(
     :title  => str   => set_title!,
@@ -634,7 +645,6 @@ set_properties!(a::Axis; opts...) = set_properties!(AXIS_OPTS, a; opts...)
 #### Options for FIGURE
 ####
 ###############################################################
-
 
 const FIGURE_OPTS = OptsDict(
     :size     => posfl => set_size!,
