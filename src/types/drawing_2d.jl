@@ -47,8 +47,7 @@ end
 """
     Scatter2D(d, m, n)
 
-Internal constructor for Scatter2D object adding linestyles, markerstyles,
-and labels.
+I/ Constructor for Scatter2D adding linestyles, markerstyles, and labels.
 """
 Scatter2D(d, m, n) = Scatter2D(
     d, m, n,
@@ -114,7 +113,7 @@ end
 """
     Bar2D(data, hasmissing, nobj)
 
-Internal constructor for Bar2D object adding barstyles.
+I/ Constructor for Bar2D object adding barstyles.
 """
 Bar2D(d, m, n) = Bar2D(
     data=d,
@@ -141,7 +140,7 @@ end
 """
     Boxplot(d, n)
 
-Internal constructor for Boxplot object.
+I/ Constructor for Boxplot object adding boxstyles.
 """
 Boxplot(d, n) = Boxplot(
     stats=d,
@@ -161,7 +160,7 @@ Heatmap of a matrix.
     zmax::F64
     #
     cmap::Vector{Color} = colormap("RdBu", 10)
-    cmiss::Color = c"white" # box filling for missing values
+    cmiss::Color = colorant"white" # box filling for missing values
     # transpose
     # whether to write the matrix as a transpose
     # this is useful because GLE can deal only with 1000-cols

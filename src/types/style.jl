@@ -21,12 +21,12 @@ end
 
 @with_kw mutable struct BarStyle <: Style
     color::Option{Color}    = ∅
-    fill::Colorant          = c"white"
+    fill::Colorant          = colorant"white"
 #   pattern::Option{String}   =  .... see page 39 of manual, test first
 end
 
 @with_kw mutable struct FillStyle <: Style
-    fill::Colorant = c"cornflowerblue"
+    fill::Colorant = colorant"cornflowerblue"
 end
 
 @with_kw mutable struct BoxplotStyle <: Style

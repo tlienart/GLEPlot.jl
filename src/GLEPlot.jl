@@ -62,15 +62,6 @@ end
 # see gle_sub/
 const GLE_DRAW_SUB = LittleDict{String, String}()
 
-# ----------------------------
-# GPlot
-# - /utils ✅
-#
-# types ✅
-# set_prop  ✅
-#
-#
-# ----------------------------
 
 include("utils.jl")
 include("exceptions.jl")

@@ -1,4 +1,4 @@
-using GLEPlot, Test
+using GLEPlot, Test, Colors
 const G = GLEPlot
 
 (//)(s1::String, s2::String) = strip(s1) == strip(s2)

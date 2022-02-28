@@ -22,7 +22,7 @@ Figure(g::GS, id::String) =
         Vector{Axes}(),
         (12., 9.),
         TextStyle(font="texcmss", hei=0.35),
-        c"white",
+        colorant"white",
         # --
         ∅,
         ∅,
@@ -41,7 +41,7 @@ function reset!(f::Figure)
     take!(f.g) # empty the buffer
     f.axes         = Vector{Axes}() # clean axes
     f.textstyle    = TextStyle(font="texcmss", hei=0.35) # default fontstyle
-    f.bgcolor      = c"white" # default bg color
+    f.bgcolor      = colorant"white" # default bg color
     f.texlabels    = ∅
     f.texscale     = ∅
     f.texpreamble  = ∅

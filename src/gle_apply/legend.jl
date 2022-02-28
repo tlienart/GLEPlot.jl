@@ -47,7 +47,7 @@ function apply_legend_spec!(g::GS, h::DrawingHandle{Hist2D{T}},
     hist = h.drawing
     "\n\ttext \"$label\"" |> g
     # precedence of fill over color
-    if hist.barstyle.fill != c"white"
+    if hist.barstyle.fill != colorant"white"
         "fill $(col2str(hist.barstyle.fill))" |> g
     else
         "marker square color $(col2str(hist.barstyle.color))" |> g
@@ -60,7 +60,7 @@ function apply_legend_spec!(g::GS, h::DrawingHandle{Bar2D{T}},
     labels isa Vector || (labels = fill(labels, bar.nobj))
     for (k, barstyle) ∈ enumerate(bar.barstyles)
         "\n\ttext \"$(labels[k])\"" |> g
-        if barstyle.fill != c"white"
+        if barstyle.fill != colorant"white"
             "fill $(col2str(barstyle.fill))" |> g
         else
             "marker square color $(col2str(barstyle.color))" |> g
