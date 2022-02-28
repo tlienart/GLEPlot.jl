@@ -47,9 +47,9 @@ const GP_ENV = LittleDict{String, Any}(
     "TMP_PATH"     => mktempdir(),   # where intermediate files are stored
     "PALETTE"      => PALETTE_1,
     "CONT_PREVIEW" => true,
-    "ALLFIGS"      => nothing,
-    "CURFIG"       => nothing,
-    "CURAXES"      => nothing
+    "ALL_FIGS"      => nothing,
+    "CUR_FIG"       => nothing,
+    "CUR_AXES"      => nothing
 )
 
 function palette(cntr::Int)::Color
@@ -59,13 +59,14 @@ function palette(cntr::Int)::Color
     return GP_ENV["PALETTE"][idx]
 end
 
-# see gle_sub/
+# see subroutines/
 const GLE_DRAW_SUB = LittleDict{String, String}()
 
 
 include("utils.jl")
 include("exceptions.jl")
 include("gle_script.jl")
+include("strings.jl")
 
 include("types/style.jl")
 include("types/drawing_2d.jl")
@@ -77,30 +78,31 @@ include("types/ax.jl")
 include("types/figure.jl")
 include("types/utils.jl")
 
-include("set_prop/prop_dicts.jl")
-include("set_prop/style.jl")
-include("set_prop/drawing.jl")
-include("set_prop/object.jl")
-include("set_prop/ax_object.jl")
-include("set_prop/legend.jl")
-include("set_prop/ax.jl")
-include("set_prop/figure.jl")
-include("set_prop/properties.jl")
+include("set/prop_dicts.jl")
+include("set/style.jl")
+include("set/drawing.jl")
+include("set/object.jl")
+include("set/ax_object.jl")
+include("set/legend.jl")
+include("set/ax.jl")
+include("set/figure.jl")
+include("set/properties.jl")
 
-include("gle_apply/style.jl")
-include("gle_apply/drawing_2d.jl")
-include("gle_apply/drawing_3d.jl")
-include("gle_apply/object_2d.jl")
-include("gle_apply/ax_object.jl")
-include("gle_apply/legend.jl")
-include("gle_apply/ax.jl")
-include("gle_apply/figure.jl")
+include("apply/utils.jl")
+include("apply/style.jl")
+include("apply/drawing_2d.jl")
+include("apply/drawing_3d.jl")
+include("apply/object_2d.jl")
+include("apply/ax_object.jl")
+include("apply/legend.jl")
+include("apply/ax.jl")
+include("apply/figure.jl")
 
-include("gle_sub/boxplot.jl")
-include("gle_sub/heatmap.jl")
-include("gle_sub/marker.jl")
-include("gle_sub/palette.jl")
-include("gle_sub/plot3.jl")
+include("subroutines/boxplot.jl")
+include("subroutines/heatmap.jl")
+include("subroutines/marker.jl")
+include("subroutines/palette.jl")
+include("subroutines/plot3.jl")
 
 include("calls/drawing_2d.jl")
 include("calls/drawing_3d.jl")

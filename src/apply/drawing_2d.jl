@@ -44,7 +44,7 @@ and axes id to avoid replacing an-already existing file.
 """
 function auxdata(o::Drawing, fid::String, axid::Int; nomiss=false)
     # write data to a temporary CSV file
-    faux = auxpath(hash(o.data), figid, axidx)
+    faux = auxpath(hash(o.data), fid, axid)
     # don't rewrite if it's the exact same zipper
     isfile(faux) || csv_writer(faux, o.data, !nomiss && o.hasmissing)
     return faux
@@ -181,12 +181,12 @@ function apply_drawing!(
 
     # if no color has been specified, assign one according to the PALETTE
     if !isdef(hist.barstyle.color)
-        if hist.barstyle.fill == colorant"white"
+        if hist.barstyle.fill == c"white"
             cc = mod(el_cntr, GP_ENV["SZ_PALETTE"])
             (cc == 0) && (cc = GP_ENV["SZ_PALETTE"])
             hist.barstyle.color = GP_ENV["PALETTE"][cc]
         else
-            hist.barstyle.color = colorant"white" # looks nicer than black
+            hist.barstyle.color = c"white" # looks nicer than black
         end
     end
 
@@ -255,10 +255,10 @@ function apply_drawing!(
     # if no color has been specified, assign with palette
     for c ∈ eachindex(bar.barstyles)
         if !isdef(bar.barstyles[c].color)
-            if bar.barstyles[c].fill == colorant"white"
+            if bar.barstyles[c].fill == c"white"
                 bar.barstyles[c].color = palette(el_cntr + c - 1)
             else
-                bar.barstyles[c].color = colorant"white"
+                bar.barstyles[c].color = c"white"
             end
         end
     end

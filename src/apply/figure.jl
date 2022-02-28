@@ -9,7 +9,7 @@ function assemble_figure(f::Figure; debug=false)::String
     "size $(f.size[1]) $(f.size[2])" |> g
 
     # >> apply background color if different than nothing or white
-    if isdef(f.bgcolor) && f.bgcolor != colorant"white"
+    if isdef(f.bgcolor) && f.bgcolor != c"white"
         # add a box that is slightly larger than the size
         "\namove -0.05 -0.05" |> g
         "\nbox $(f.size[1]+0.1) $(f.size[2]+0.1)" |> g

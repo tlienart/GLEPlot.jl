@@ -50,6 +50,39 @@ I/ Create a `Vector{T}` with `n`
 """
 nvec(n::Int, T) = [T() for _ ∈ 1:n]
 
+
+const GLE_INVALID_PAT = r"missing|NaN|Inf"
+
+"""
+    csv_writer(path, z)
+
+I/ Write data `z` to `path`.
+"""
+function csv_writer(
+            path::String,
+            z,
+            hasmissing::Bool
+        )::Nothing
+
+    dirpath = splitdir(path)[1]
+    isdir(dirpath) || mkpath(dirpath)
+    if hasmissing
+        tempio = IOBuffer()
+        writedlm(tempio, z)
+        # NOTE assumes it's fine to materialize the buffer with huge arrays
+        # it's probably not ideal but in general should be fine, huge arrays
+        # are more likely to happen with 3D objects (mesh) which are somewhat
+        # less likely to have missings
+        temps = String(take!(tempio))
+        write(path, replace(temps, GLE_INVALID_PAT => "?"))
+    else
+        writedlm(path, z)
+    end
+    return
+end
+
+
+
 # #
 # # "robust" min/max which allow comparison with nothing
 # #
@@ -70,93 +103,10 @@ nvec(n::Int, T) = [T() for _ ∈ 1:n]
 # #
 # # takes a colorant and transform it to a standard string rgba(...)
 # #
-# function col2str(
-#             col::Colorant;
-#             str=false
-#         )::String
-#
-#     crgba = convert(RGBA, col)
-#     r, g, b, α = round3d.([crgba.r, crgba.g, crgba.b, crgba.alpha])
-#     s  = "rgba($r,$g,$b,$α)"
-#     # used by str(markerstyle), remove things that confuse gle
-#     sr = replace(s, r"[\(\),\.]"=>"_")
-#     return ifelse(str, sr, s)
-# end
 #
 # #
-# # takes a Float64 and output a short string representation
-# #
-# function fl2str(
-#             f::Float64;
-#             d::Int=4
-#         )::String
-#
-#     return string(round(f, digits=d))
-# end
-#
-# #
-# # unroll a vector into a string with the elements separated by a space
-# #
-# vec2str(v::AV{String}, sep=" ")     = join(("\"$vi\""  for vi in v), sep)
-# vec2str(v::AV; sep=" ")             = join((string(vi) for vi in v), sep)
-# vec2str(v::Base.Generator, sep=" ") = join((string(vi) for vi in v), sep)
-#
-# dlist(rge::UnitRange, sep=" ")  = vec2str(("d$i" for i in rge), sep)
-#
-# #
-# # call a constructor n times and return a vector of instances
-# #
-# nvec(n::Int, T) = [T() for _ ∈ 1:n]
-#
-# #
-# # Materialise an array/matrix to file
-# #
-# function csv_writer(
-#             path::String,
-#             z::AVM,
-#             hasmissing::Bool
-#         )::Nothing
-#
-#     dirpath = splitdir(path)[1]
-#     isdir(dirpath) || mkpath(dirpath)
-#     if hasmissing
-#         tempio = IOBuffer()
-#         writedlm(tempio, z)
-#         # NOTE assumes it's fine to materialize the buffer with huge arrays
-#         # it's probably not ideal but in general should be fine, huge arrays
-#         # are more likely to happen with 3D objects (mesh) which are somewhat
-#         # less likely to have missings
-#         temps = String(take!(tempio))
-#         write(path, replace(temps, r"missing|NaN|Inf"=>"?"))
-#     else
-#         writedlm(path, z)
-#     end
-#     return
-# end
-#
-#
-# """
-#     tex_str(s)
-#
-# Allows use of \$ and \\ while also allowing interpolation via `##name`. This is useful
-# for labels that contain tex-like expressions that may be generated in a sequence.
-#
-# ### Example
-#
-# ```julia
-#  i=5
-# t"\$x+##i\$" # amounts to "\$x+5\$"
-# ```
-# """
-# macro tex_str(s)
-#     m = match(r"##([_\p{L}](?:[\p{L}\d_]*))", s)
-#     m === nothing && return s
-#     v = Symbol(m.captures[1])
-#     esc(:(replace($s, r"##([_\p{L}](?:[\p{L}\d_]*))"=>string(eval($v)))))
-# end
-#
-# @eval const $(Symbol("@t_str")) = $(Symbol("@tex_str"))
-# @eval const $(Symbol("@c_str")) = $(Symbol("@colorant_str"))
+
+
 #
 #
 # """

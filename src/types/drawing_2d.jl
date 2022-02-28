@@ -160,7 +160,7 @@ Heatmap of a matrix.
     zmax::F64
     #
     cmap::Vector{Color} = colormap("RdBu", 10)
-    cmiss::Color = colorant"white" # box filling for missing values
+    cmiss::Color = c"white" # box filling for missing values
     # transpose
     # whether to write the matrix as a transpose
     # this is useful because GLE can deal only with 1000-cols

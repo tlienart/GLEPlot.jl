@@ -7,14 +7,14 @@ export plot!, plot, scatter!, scatter,
     plotdata(x)
     plotdata(x, ys...)
 
-Preprocess data for a 2D plot.
+I/ Preprocess data for a 2D plot.
 """
 function plotdata(
             x::AVM{<:CanMiss{<:Real}}
         )::NamedTuple
 
     isempty(x) && throw(
-        ArgumentError("Cannot display an empty vector")
+        ArgumentError("Cannot display empty vectors.")
     )
     hasmissing = Missing <: eltype(x) ||
                    any(isinf, x)      ||
@@ -66,7 +66,7 @@ end
 """
     filldata(x, y1, y2)
 
-Preprocess data for a Fill2D.
+I/ Preprocess data for a Fill2D.
 """
 function filldata(
             x::AVR,
@@ -118,8 +118,8 @@ end
 """
     plot!(...)
 
-Add a plot. Keyword arguments can be passed to specify the linestyle(s), label(s) and
-markerstyle(s).
+E/ Add a plot. Keyword arguments can be passed to specify the linestyle(s),
+label(s) and markerstyle(s).
 
 ## Example
 
@@ -139,7 +139,7 @@ function plot!(
             axes=nothing,
             overwrite=false,
             o...
-        )::DrawingHandle{Scatter2D}
+        )::DrawingHandle{<:Scatter2D}
 
     # are current axes empty?
     # -> if so don't do anything as the user may have pre-specified things
@@ -190,7 +190,7 @@ function fill_between!(
             axes=nothing,
             overwrite=false,
             o...
-        )::DrawingHandle{Fill2D}
+        )::DrawingHandle{<:Fill2D}
 
     axes = check_axes(axes)
     if overwrite && !all(isempty, (axes.drawings, axes.objects))
@@ -219,7 +219,7 @@ function hist!(
             axes=nothing,
             overwrite=false,
             o...
-        )::DrawingHandle{Hist2D}
+        )::DrawingHandle{<:Hist2D}
 
     axes = check_axes(axes)
     if overwrite
@@ -251,7 +251,7 @@ function bar!(
             axes=nothing,
             overwrite=false,
             o...
-        )::DrawingHandle{Bar2D}
+        )::DrawingHandle{<:Bar2D}
 
     axes = check_axes(axes)
     if overwrite

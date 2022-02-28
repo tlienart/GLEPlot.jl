@@ -1,4 +1,7 @@
-GP_ENV["ALLFIGS"] = LittleDict{String, Figure}()
+export gcf, gca
+
+
+GP_ENV["ALL_FIGS"] = LittleDict{String, Figure}()
 
 
 """
@@ -6,7 +9,7 @@ GP_ENV["ALLFIGS"] = LittleDict{String, Figure}()
 
 Return the current active Figure or a new figure if there isn't one.
 """
-gcf()::Figure = isdef(GP_ENV["CURFIG"]) ? GP_ENV["CURFIG"] : Figure()
+gcf()::Figure = isdef(GP_ENV["CUR_FIG"]) ? GP_ENV["CUR_FIG"] : Figure()
 
 
 """
@@ -14,14 +17,15 @@ gcf()::Figure = isdef(GP_ENV["CURFIG"]) ? GP_ENV["CURFIG"] : Figure()
 
 Return the current active Axes and `nothing` if there isn't one.
 """
-gca()::Option{Axes} = GP_ENV["CURAXES"] # if nothing, whatever called it will create
+gca()::Option{Axes} = GP_ENV["CUR_AXES"] # if nothing, whatever called it will create
 
 
 """
     check_axes(a)
 
-Internal function to check if Axes `a` is defined, if not it calls `gca`.
-If `gca` also returns `nothing`, it adds axes. Used in `plot!` etc.
+I/ Check if Axes object `a` is defined, if not, call `gca`.
+If `gca` also returns `nothing`, add new axes.
+Used in `plot!` etc.
 """
 function check_axes(
             a::Option{Axes};
