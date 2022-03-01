@@ -15,7 +15,7 @@ apply_axes(g, a, ...)
 > apply elements
 > end graph
 
-assemble_figure(f) (write GLE script)
+write_figure(f) (write GLE script)
 > apply size
 > apply background
 > apply tex preamble
@@ -23,6 +23,6 @@ assemble_figure(f) (write GLE script)
 > write to file
 
 savefig(f, fn, ...)
-> assemble_figure(f)
+> write_figure(f)
 > glecom = pipeline(`...`)
 ```

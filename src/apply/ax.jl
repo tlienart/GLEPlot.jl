@@ -3,7 +3,12 @@
 
 Internal function to apply an `Axis` object `a` in a GLE context.
 """
-function apply_axis!(g::GS, a::Axis, parent_font::String)
+function apply_axis!(
+            g::GS,
+            a::Axis,
+            parent_font::String
+        )::Nothing
+
     parent_font = ifelse(isdef(a.textstyle.font), a.textstyle.font, parent_font)
     apply_ticks!(g, a.ticks, a.prefix, parent_font)
     if isdef(a.title)
@@ -30,7 +35,13 @@ Internal function to apply an `Axes2D` object `a` in a GLE context.
 The `figid` is useful to keep track of the figure the axes belong to
 which is required in the `apply_drawings` subroutine that is called.
 """
-function apply_axes!(g::GS, a::Axes2D, figid::String, axidx::Int)
+function apply_axes!(
+            g::GS,
+            a::Axes2D,
+            figid::String,
+            axidx::Int
+        )::Nothing
+
     a.off && return
 
     isdef(a.origin) && "\namove $(a.origin[1]) $(a.origin[2])" |> g
@@ -68,10 +79,12 @@ function apply_axes!(g::GS, a::Axes2D, figid::String, axidx::Int)
 end
 
 
-function apply_axes!(g::GS, a::Axes3D, figid::String, axidx::Int)
-# TODO
-# -- title
-# -- perspective
+function apply_axes!(
+            g::GS,
+            a::Axes3D,
+            figid::String,
+            axidx::Int
+        )::Nothing
 
     a.off && return
     axid = "a3d_$(hash(a))"

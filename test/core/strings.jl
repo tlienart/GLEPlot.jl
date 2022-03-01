@@ -30,7 +30,7 @@ end
 end
 
 
-@testset "vec2str" begin
+@testset "vec2str, dlist" begin
     s = G.vec2str(["ab", "cd"])
     @test s // "\"ab\" \"cd\""
     s = G.vec2str(["ab", "cd"]; sep=",")

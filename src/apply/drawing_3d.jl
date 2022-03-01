@@ -67,13 +67,3 @@ function apply_drawing!(
 
     return el_cntr + 1
 end
-
-#=
-NOTE
-
-* need to think about how to push and retrieve axes, they MUST be present otherwise
-the whole thing is badly scaled.
-
-any call --> update axes lims
-assembling --> call axes lims
-=#

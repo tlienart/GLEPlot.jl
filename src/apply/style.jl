@@ -6,8 +6,9 @@ Internal function to apply the textstyle `s` in a GLE context.
 function apply_textstyle!(
             g::GS,
             s::TextStyle,
-            parent_font::String="";
-            addset::Bool=false
+            parent_font::String = "";
+            #
+            addset::Bool = false
         )::Nothing
 
     if !isdef(s.font) && !isempty(parent_font)
@@ -35,8 +36,9 @@ Internal function to apply the linestyle `s` in a GLE context.
 function apply_linestyle!(
             g::GS,
             s::LineStyle;
-            nosmooth::Bool=false,   # smooth makes sense for 2d
-            addset::Bool=false
+            #
+            nosmooth::Bool = false,
+            addset::Bool   = false
         )::Nothing
 
     isanydef(s) || return
@@ -58,8 +60,9 @@ Internal function to apply the markerstyle `s` in a GLE context.
 function apply_markerstyle!(
             g::GS,
             s::MarkerStyle;
-            mcol::Bool=false,
-            mscale::Float64=1.0
+            #
+            mcol::Bool      = false,
+            mscale::Float64 = 1.0
         )::Nothing
 
     isanydef(s) || return

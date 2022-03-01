@@ -19,3 +19,7 @@ end
 @testset "calls" begin
     include("calls/drawing_2d.jl")
 end
+
+@testset "render" begin
+    include("render/show_text.jl")
+end

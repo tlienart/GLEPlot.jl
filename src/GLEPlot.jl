@@ -49,7 +49,8 @@ const GP_ENV = LittleDict{String, Any}(
     "CONT_PREVIEW" => true,
     "ALL_FIGS"      => nothing,
     "CUR_FIG"       => nothing,
-    "CUR_AXES"      => nothing
+    "CUR_AXES"      => nothing,
+    "CLEAN_TMP"     => true,
 )
 
 function palette(cntr::Int)::Color
@@ -113,6 +114,7 @@ include("calls/legend.jl")
 include("calls/figure.jl")
 include("calls/layout.jl")
 
-include("show/axes+figure.jl")
+include("render/show_text.jl")
+include("render/savefig.jl")
 
 end

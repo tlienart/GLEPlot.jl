@@ -42,7 +42,14 @@ auxpath(h::UInt, fid::String, axid::Int) =
 Write the auxilliary data to a Drawing to file taking into account the figure
 and axes id to avoid replacing an-already existing file.
 """
-function auxdata(o::Drawing, fid::String, axid::Int; nomiss=false)
+function auxdata(
+            o::Drawing,
+            fid::String,
+            axid::Int;
+            #
+            nomiss = false
+        )::String
+
     # write data to a temporary CSV file
     faux = auxpath(hash(o.data), fid, axid)
     # don't rewrite if it's the exact same zipper

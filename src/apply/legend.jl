@@ -6,10 +6,10 @@ specific drawing handle.
 """
 function apply_legend_spec!(
             g::GS,
-            h::DrawingHandle{Scatter2D{T}},
+            h::DrawingHandle{<:Scatter2D},
             labels::Union{String, Vector{String}},
             figid::String
-        )::Nothing where T
+        )::Nothing
 
     scatter = h.drawing
     labels isa Vector || (labels = fill(labels, scatter.nobj))
@@ -36,14 +36,24 @@ function apply_legend_spec!(
     end
     return
 end
-function apply_legend_spec!(g::GS, h::DrawingHandle{Fill2D{T}},
-                            label::String, ::String) where T
+function apply_legend_spec!(
+            g::GS,
+            h::DrawingHandle{<:Fill2D},
+            label::String,
+            ::String
+        )::Nothing
+
     fill = h.drawing
     "\n\ttext \"$label\" fill $(col2str(fill.fillstyle.fill))" |> g
     return
 end
-function apply_legend_spec!(g::GS, h::DrawingHandle{Hist2D{T}},
-                            label::String, ::String) where T
+function apply_legend_spec!(
+            g::GS,
+            h::DrawingHandle{<:Hist2D},
+            label::String,
+            ::String
+        )::Nothing
+
     hist = h.drawing
     "\n\ttext \"$label\"" |> g
     # precedence of fill over color
@@ -54,8 +64,13 @@ function apply_legend_spec!(g::GS, h::DrawingHandle{Hist2D{T}},
     end
     return
 end
-function apply_legend_spec!(g::GS, h::DrawingHandle{Bar2D{T}},
-                            labels::Union{String,Vector{String}}, ::String) where T
+function apply_legend_spec!(
+            g::GS,
+            h::DrawingHandle{<:Bar2D},
+            labels::Union{String,Vector{String}},
+            ::String
+        )::Nothing
+
     bar = h.drawing
     labels isa Vector || (labels = fill(labels, bar.nobj))
     for (k, barstyle) ∈ enumerate(bar.barstyles)
@@ -76,7 +91,13 @@ end
 Internal function to apply a `Legend` object `leg` in a GLE context with
 entries `entries` (constructed through the `apply_drawings` process).
 """
-function apply_legend!(g::GS, l::Legend, parent_font::String, figid::String)
+function apply_legend!(
+            g::GS,
+            l::Legend,
+            parent_font::String,
+            figid::String
+        )::Nothing
+
     l.off && return
     isempty(l.handles) && return
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -13,8 +13,9 @@ Internal function to set the title of axes (`el==:title`) or axis objects
 """
 function _title(
             el::Symbol,
-            text::String="";
-            axes=nothing,
+            text::String = "";
+            #
+            axes::Option{Axes2D} = nothing,
             opts...
         )::PreviewFigure
 
@@ -33,7 +34,12 @@ for axs ∈ ("", "x", "y", "x2", "y2")
     f2  = Symbol(axs * "label")
     ex = quote
         # mutate
-        $f(t::String=""; o...) = _title(Symbol($axs * "axis"), t; axes=gca(), o...)
+        function $f(t::String = ""; o...)
+            _title(
+                Symbol($axs * "axis"), t;
+                axes = gca(), o...
+            )
+        end
         # synonyms xlabel, ylabel, etc
         !isempty($axs) && ($f2 = $f)
     end
@@ -44,8 +50,15 @@ end
 #### [x|y|x2|y2]ticks
 ####
 
-function _ticks(axis_sym::Symbol, loc::Vector{Float64}=Float64[],
-                lab::Vector{String}=String[]; axes=nothing, opts...)
+function _ticks(
+            axis_sym::Symbol,
+            loc::Vector{Float64} = Float64[],
+            lab::Vector{String}  = String[];
+            #
+            axes::Option{Axes2D} = nothing,
+            opts...
+        )::PreviewFigure
+
     axes = check_axes(axes)
     # retrieve the appropriate axis
     axis = getfield(axes, axis_sym)
@@ -84,7 +97,12 @@ for axs ∈ ("x", "y", "x2", "y2")
     a  = Symbol(axs * "axis")
     ex = quote
         # xticks([1, 2], ["a", "b"]; o...)
-        $f(loc::AVR, lab=String[]; o...) = _ticks(Symbol($axs * "axis"), fl(loc), lab; o...)
+        function $f(loc::AVR, lab=String[]; o...)
+            _ticks(
+                Symbol($axs * "axis"), Float64.(loc), lab;
+                o...
+            )
+        end
         # xticks("off"; o...)
         function $f(s::String=""; o...)
             isempty(s) && return _ticks(Symbol($axs * "axis"); o...)

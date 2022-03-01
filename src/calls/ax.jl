@@ -30,8 +30,9 @@ clo() = (gca().objects = Vector{Object2D}(); PreviewFigure(gcf()))
 ####
 
 function axis(
-            short::String="";
-            axes=nothing
+            short::String = "";
+            #
+            axes::Option{Axes2D} = nothing
         )::PreviewFigure
 
     axes = check_axes(axes)
@@ -70,8 +71,9 @@ for axs ∈ ("x", "y", "x2", "y2")
     f  = Symbol(axs * "axis")    # :xaxis  ...
     ex = quote
         function $f(
-                    short::String="";
-                    axes=nothing,
+                    short::String = "";
+                    #
+                    axes::Option{Axes2D} = nothing,
                     opts...
                 )::PreviewFigure
 
@@ -118,8 +120,9 @@ results will be rather ugly).
 
 """
 function math(
-            short::String="";
-            axes=nothing
+            short::String = "";
+            #
+            axes::Option{Axes2D} = nothing
         )::PreviewFigure
 
     axes = check_axes(axes)
@@ -153,8 +156,9 @@ or their width.
 """
 function grid(
             short::String="";
-            axes=nothing,
-            axis::Vector{String}=["x", "y"],
+            #
+            axes::Option{Axes2D} = nothing,
+            axis::Vector{String} = ["x", "y"],
             opts...
         )::PreviewFigure
 
@@ -205,7 +209,8 @@ function _lim(
             axis_sym::Symbol,
             min::Option{Float64},
             max::Option{Float64};
-            axes=nothing
+            #
+            axes::Option{Axes2D} = nothing
         )::PreviewFigure
 
     axes = check_axes(axes)
@@ -235,7 +240,8 @@ end
 function _scale(
             axis_sym::Symbol,
             v::String;
-            axes=nothing
+            #
+            axes::Option{Axes2D} = nothing
         )::PreviewFigure
 
     axes = check_axes(axes)

@@ -25,9 +25,10 @@ should be sent or not (for the user: yes, internally: sometimes not as we want t
 properties)
 """
 function Figure(
-            id::String="_fig_";
-            reset=false,
-            _noreset=false,
+            id::String = "_fig_";
+            #
+            reset::Bool    = false,
+            _noreset::Bool = false,
             opts...
         )::Figure
     # return a fresh figure when calling Figure() unless _noreset

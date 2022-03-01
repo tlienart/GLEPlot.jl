@@ -42,7 +42,12 @@ end
 
 Apply a StraightLine2D object.
 """
-function apply_object!(g::GS, obj::StraightLine2D, ::String)
+function apply_object!(
+            g::GS,
+            obj::StraightLine2D,
+            ::String
+        )::Nothing
+
     gsave(g)
     apply_linestyle!(g, obj.linestyle; addset=true)
     if obj.horiz

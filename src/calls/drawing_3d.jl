@@ -4,8 +4,8 @@ function plot3!(
             x::AV{<:Real},
             y::AV{<:Real},
             z::AV{<:Real};
-            axes::Option{Axes}=nothing,
-            overwrite::Bool=false,
+            axes::Option{Axes3D} = nothing,
+            overwrite::Bool      = false,
             o...
         )::DrawingHandle{Scatter3D}
 

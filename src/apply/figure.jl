@@ -1,10 +1,14 @@
 """
-    assemble_figure(f)
+    write_figure(f)
 
 Internal function to generate and write the GLE script associated with the
 figure object `f`.
 """
-function assemble_figure(f::Figure; debug=false)::String
+function write_figure(
+            f::Figure,
+            opath::String = ""
+        )::String
+
     g = f.g
     "size $(f.size[1]) $(f.size[2])" |> g
 
@@ -66,12 +70,9 @@ function assemble_figure(f::Figure; debug=false)::String
     gtemp |> g
 
     # >> either return as string or write to file
-    if debug
-        return String(take!(g))
-    else
-        write(joinpath(GP_ENV["TMP_PATH"], f.id * ".gle"), take!(g))
-        return ""
-    end
+    isempty(opath) && return String(take!(g))
+    write(opath, take!(g))
+    return ""
 end
 
 
@@ -80,5 +81,5 @@ end
 
 Print the GLE script associated with figure `f` for debugging.
 """
-debug_gle(f::Figure) = println(assemble_figure(f; debug=true))
+debug_gle(f::Figure) = println(write_figure(f))
 debug_gle()          = debug_gle(gcf())

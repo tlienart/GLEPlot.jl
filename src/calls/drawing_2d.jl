@@ -140,8 +140,9 @@ label(s) and markerstyle(s).
 """
 function plot!(
             x, ys...;
-            axes=nothing,
-            overwrite=false,
+            #
+            axes::Option{Axes2D} = nothing,
+            overwrite::Bool      = false,
             o...
         )::DrawingHandle{<:Scatter2D}
 
@@ -170,7 +171,8 @@ function plot!(
             f::Function,
             from::Real,
             to::Real;
-            length=100,
+            #
+            length::Int = 100,
             o...
         )
 
@@ -191,8 +193,9 @@ Add a fill plot between two lines. The arguments must not have missings but
 """
 function fill_between!(
             x, y1, y2;
-            axes=nothing,
-            overwrite=false,
+            #
+            axes::Option{Axes2D} = nothing,
+            overwrite::Bool      = false,
             o...
         )::DrawingHandle{<:Fill2D}
 
@@ -220,8 +223,9 @@ Add a histogram of `x` on the current axes.
 """
 function hist!(
             x;
-            axes=nothing,
-            overwrite=false,
+            #
+            axes::Option{Axes2D} = nothing,
+            overwrite::Bool      = false,
             o...
         )::DrawingHandle{<:Hist2D}
 
@@ -252,8 +256,9 @@ Add a bar plot.
 """
 function bar!(
             x, ys...;
-            axes=nothing,
-            overwrite=false,
+            #
+            axes::Option{Axes2D} = nothing,
+            overwrite::Bool      = false,
             o...
         )::DrawingHandle{<:Bar2D}
 
@@ -288,7 +293,8 @@ Infinities or Nans.
 """
 function boxplot(
             ys...;
-            axes=nothing,
+            #
+            axes::Option{Axes2D} = nothing,
             o...
         )::DrawingHandle{Boxplot}
 
@@ -397,7 +403,7 @@ Returns ticks position centered appropriately for a heatmap.
 """
 function heatmap_ticks(
             ax::String,
-            axes::Axes
+            axes::Axes2D
         )::Vector{F64}
 
     # it must necessarily be the first object since heatmap resets the axes
@@ -436,7 +442,8 @@ Note: handles missing values but not NaN or Inf.
 """
 function heatmap(
             data::Matrix{<:CanMiss{Real}};
-            axes::Option{Axes}=nothing,
+            #
+            axes::Option{Axes2D} = nothing,
             o...
         )::DrawingHandle{Heatmap}
 
