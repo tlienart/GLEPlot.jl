@@ -1,14 +1,17 @@
 include("../utils.jl")
 
+
 @testset "tex_str" begin
     i = 5
     s = t"\$x+##i\$"
     @test s // "\\\$x+5\\\$"
 end
 
+
 @testset "c_str" begin
     @test c"red" == colorant"red"
 end
+
 
 @testset "col2str" begin
     c = c"red"
@@ -18,12 +21,14 @@ end
     @test s // "rgba_1_0_0_0_0_0_1_0_"
 end
 
+
 @testset "fl2str" begin
     s = G.fl2str(0.5555555)
     @test s // "0.5556"
     s = G.fl2str(Rational(1, 2))
     @test s // "0.5"
 end
+
 
 @testset "vec2str" begin
     s = G.vec2str(["ab", "cd"])

@@ -1,5 +1,6 @@
 include("../utils.jl")
 
+
 @testset "Scatter2D" begin
     d = [1 1; 2 2]
     s = G.Scatter2D(d, false, 1)
@@ -16,6 +17,7 @@ include("../utils.jl")
     @test dh isa G.DrawingHandle{G.Scatter2D{T}} where T
 end
 
+
 @testset "Fill2D" begin
     d = [1 1; 2 2]
     s = G.Fill2D(data=d, xmin=0.5)
@@ -24,6 +26,7 @@ end
     @test !G.isdef(s.xmax)
     @test isempty(s.label)
 end
+
 
 @testset "Hist2D" begin
     d = [1 1; 2 2]
@@ -51,6 +54,7 @@ end
     @test isempty(s.labels)
 end
 
+
 @testset "Boxplot" begin
     d = [0.1 0.2; 0.3 0.4]
     b = G.Boxplot(d, 2)
@@ -58,6 +62,7 @@ end
     @test length(b.boxstyles) == b.nobj == 2
     @test b.horiz == false
 end
+
 
 @testset "Heatmap" begin
     d = [1 2; 1 2]

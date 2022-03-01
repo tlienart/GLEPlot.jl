@@ -4,7 +4,7 @@
 
 ```
 plot(a...; opts...)  | calls/drawing_2d
-> d = plotdata(a...)
+> d = plot_data(a...)
 > s = Scatter2D(d, ...)
 > set_properties!(s; opts...)
 > DrawingHandle(s)

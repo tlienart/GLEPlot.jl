@@ -1,5 +1,6 @@
 include("../utils.jl")
 
+
 @testset "TextStyle" begin
     ts = G.TextStyle(
         font="hello",
@@ -16,6 +17,7 @@ include("../utils.jl")
     G.reset!(ts)
     @test !G.isanydef(ts)
 end
+
 
 @testset "LineStyle" begin
     # Everything optional
@@ -37,6 +39,7 @@ end
     @test !G.isanydef(ls)
 end
 
+
 @testset "MarkerStyle" begin
     ms = G.MarkerStyle(
         marker = "v",
@@ -54,6 +57,7 @@ end
     @test !G.isanydef(ms)
 end
 
+
 @testset "BarStyle" begin
     bs = G.BarStyle(
         color = c"red",
@@ -70,6 +74,7 @@ end
     @test bs.fill == c"white"
 end
 
+
 @testset "FillStyle" begin
     fs = G.FillStyle(
         fill = c"blue"
@@ -81,6 +86,7 @@ end
     G.reset!(fs)
     @test fs.fill == c"cornflowerblue"
 end
+
 
 @testset "BoxplotStyle" begin
     bs = G.BoxplotStyle(

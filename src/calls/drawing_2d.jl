@@ -4,12 +4,12 @@ export plot!, plot, scatter!, scatter,
        boxplot, heatmap, heatmap_ticks
 
 """
-    plotdata(x)
-    plotdata(x, ys...)
+    plot_data(x)
+    plot_data(x, ys...)
 
 I/ Preprocess data for a 2D plot.
 """
-function plotdata(
+function plot_data(
             x::AVM{<:CanMiss{<:Real}}
         )::NamedTuple
 
@@ -25,8 +25,8 @@ function plotdata(
         nobj       = size(x, 2)
     )
 end
-# NOTE: these typechecks within the function body is to avoid clashes/ambiguity with plotdata(x)
-function plotdata(
+# NOTE: these typechecks within the function body is to avoid clashes/ambiguity with plot_data(x)
+function plot_data(
             x,
             ys...
         )::NamedTuple
@@ -64,11 +64,11 @@ end
 
 
 """
-    filldata(x, y1, y2)
+    fill_data(x, y1, y2)
 
 I/ Preprocess data for a Fill2D.
 """
-function filldata(
+function fill_data(
             x::AVR,
             y1::Union{Real, AVR},
             y2::Union{Real,AVR}
@@ -89,24 +89,28 @@ end
 
 
 """
-    histdata(x)
+    hist_data(x)
 
-Preprocess data for a Hist2D/
+I/ Preprocess data for a Hist2D.
+Missing values are allowed but are not counted as observations.
 """
-function histdata(
+function hist_data(
             x::AV{<:CanMiss{<:Real}}
         )::NamedTuple
 
     isempty(x) && throw(
-        ArgumentError("Cannot display an empty vector.")
+        ArgumentError("Cannot have a histogram with an empty vector.")
     )
 
     sx = skipmissing(x)
+    isempty(sx) && throw(
+        ArgumentError("Cannot have a histogram with only missing values")
+    )
     return (
         data       = zip(x),
         hasmissing = (Missing <: eltype(x)),
         nobs       = sum(e -> 1, sx),
-        range      = fl(extrema(sx))
+        range      = Float64.(extrema(sx))
     )
 end
 
@@ -152,7 +156,7 @@ function plot!(
     end
 
     # Form the scatter object
-    pd      = plotdata(x, ys...)
+    pd      = plot_data(x, ys...)
     scatter = Scatter2D(pd.data, pd.hasmissing, pd.nobj)
 
     # Add properties & add scatter to axes
@@ -198,7 +202,7 @@ function fill_between!(
     end
 
     # form the fill2d object
-    fd   = filldata(x, y1, y2)
+    fd   = fill_data(x, y1, y2)
     fill = Fill2D(fd)
     set_properties!(fill; o...)
 
@@ -226,7 +230,7 @@ function hist!(
         all(isempty, (axes.drawings, axes.objects)) || reset!(axes; parent=axes.parent)
     end
 
-    hd   = histdata(x)
+    hd   = hist_data(x)
     hist = Hist2D(hd.data, hd.hasmissing, hd.nobs, hd.range)
     set_properties!(hist; o...)
 
@@ -258,7 +262,7 @@ function bar!(
         all(isempty, (axes.drawings, axes.objects)) || reset!(axes; parent=axes.parent)
     end
 
-    bd  = plotdata(x, ys...)
+    bd  = plot_data(x, ys...)
     bar = Bar2D(bd.data, bd.hasmissing, bd.nobj)
     set_properties!(bar; o...)
 
