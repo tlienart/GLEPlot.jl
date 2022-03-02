@@ -16,7 +16,7 @@ const GLE_DEFAULTS = LittleDict{Symbol,Any}(
     :textstyle_hei   => 0.35,
     :textstyle_color => nothing,
     #
-    :linestyle_lstyle => 0,
+    :linestyle_lstyle => nothing,
     :linestyle_lwidth => nothing,
     :linestyle_smooth => nothing,
     :linestyle_color  => nothing,

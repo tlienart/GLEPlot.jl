@@ -1,10 +1,10 @@
 # """
-#     apply_drawing!(g, hm, ...)
+#     apply_drawing!(f, hm, ...)
 #
 # Apply Scatter3D.
 # """
 # function apply_drawing!(
-#             g::GS,
+#             f::Figure,
 #             scatter3::Scatter3D,
 #             el_cntr::Int,
 #             figid::String,
@@ -32,38 +32,38 @@
 #     end
 #
 #     # start of scatter3d, store
-#     "\ngsave"    |> g
+#     "\ngsave"    |> f
 #
 #     # apply linestyle
-#     apply_linestyle!(g, ls; nosmooth=true, addset=true)
+#     apply_linestyle!(f, ls; nosmooth=true, addset=true)
 #     showline = Int(ls.lstyle != -1)
 #
-#     "\nplot3 \"$faux\" $xmin $xspan $ymin $yspan $showline" |> g
+#     "\nplot3 \"$faux\" $xmin $xspan $ymin $yspan $showline" |> f
 #
 #     # apply markerstyle
 #     ms = scatter3.markerstyle
 #     if isanydef(ms)
-#         "1"  |> g # showmarker
+#         "1"  |> f # showmarker
 #         # fill default values
 #         isdef(ms.marker) || (ms.marker = "fcircle")
 #         isdef(ms.color)  || (ms.color  = ls.color)
 #         isdef(ms.msize)  || (ms.msize  = 0.1)
 #         if (ms.color != ls.color)
 #             add_sub_marker!(fig, ms)
-#             str(ms) |> g
+#             str(ms) |> f
 #             # see also boxplot for an explanation of the scaling
-#             "$(2 * ms.msize / fig.textstyle.hei)" |> g
+#             "$(2 * ms.msize / fig.textstyle.hei)" |> f
 #         else
-#             ms.marker |> g
-#             "$(2 * ms.msize)" |> g
+#             ms.marker |> f
+#             "$(2 * ms.msize)" |> f
 #         end
 #     else
 #         # don't show marker, default fields (won't be read)
-#         "-1 xxx 0" |> g
+#         "-1 xxx 0" |> f
 #     end
 #
 #     # end of scatter3d, restore style
-#     "\ngrestore" |> g
+#     "\ngrestore" |> f
 #
 #     return el_cntr + 1
 # end

@@ -1,61 +1,61 @@
 """
-    apply_objects!(g, objects)
+    apply_objects!(f, objects)
 
 Internal function to apply a vector of `Object` contained in an `Axes`
 container in a GLE context.
 """
 function apply_objects!(
-            g::GS,
+            f::Figure,
             objects::Vector{<:Object},
             figid::String
         )::Nothing
 
     for o in objects
-        apply_object!(g, o, figid)
+        apply_object!(f, o, figid)
     end
     return
 end
 
 """
-    apply_object!(g, text2d, fid)
+    apply_object!(f, text2d, fid)
 
 Apply a Text2D object.
 """
 function apply_object!(
-            g::GS,
+            f::Figure,
             obj::Text2D,
             ::String
         )::Nothing
 
-    gsave(g)
-    "\nset just $(obj.position)"                        |> g
-    apply_textstyle!(g, obj.textstyle, addset=true)
-    "\namove xg($(obj.anchor[1])) yg($(obj.anchor[2]))" |> g
-    "\nwrite \"$(obj.text)\""                           |> g
+    gsave(f)
+    "\nset just $(obj.position)"                        |> f
+    apply_textstyle!(f, obj.textstyle, addset=true)
+    "\namove xg($(obj.anchor[1])) yg($(obj.anchor[2]))" |> f
+    "\nwrite \"$(obj.text)\""                           |> f
     grestore(g)
     return
 end
 
 
 """
-    apply_object!(g, straightline2d, fid)
+    apply_object!(f, straightline2d, fid)
 
 Apply a StraightLine2D object.
 """
 function apply_object!(
-            g::GS,
+            f::Figure,
             obj::StraightLine2D,
             ::String
         )::Nothing
 
-    gsave(g)
-    apply_linestyle!(g, obj.linestyle; addset=true)
+    gsave(f)
+    apply_linestyle!(f, obj.linestyle; addset=true)
     if obj.horiz
-        "\namove xg(xgmin) yg($(obj.anchor))" |> g
-        "\naline xg(xgmax) yg($(obj.anchor))" |> g
+        "\namove xg(xgmin) yg($(obj.anchor))" |> f
+        "\naline xg(xgmax) yg($(obj.anchor))" |> f
     else
-        "\namove xg($(obj.anchor)) yg(ygmin)" |> g
-        "\naline xg($(obj.anchor)) yg(ygmax)" |> g
+        "\namove xg($(obj.anchor)) yg(ygmin)" |> f
+        "\naline xg($(obj.anchor)) yg(ygmax)" |> f
     end
     grestore(g)
     return
@@ -63,39 +63,39 @@ end
 
 
 """
-    apply_object!(g, box2d, fid)
+    apply_object!(f, box2d, fid)
 
 Apply a Box2D object.
 """
 function apply_object!(
-            g::GS,
+            f::Figure,
             obj::Box2D,
             ::String
         )::Nothing
 
-    gsave(g)
-    obj.position == "bl" || "\nset just $(obj.position)"      |> g
-    apply_linestyle!(g, obj.linestyle; addset=true)
+    gsave(f)
+    obj.position == "bl" || "\nset just $(obj.position)"      |> f
+    apply_linestyle!(f, obj.linestyle; addset=true)
     # move to the corner of the box and draw it
-    "\namove xg($(obj.anchor[1])) yg($(obj.anchor[2]))"       |> g
-    "\nbox xg($(obj.size[1]))-xg(0) yg($(obj.size[2]))-yg(0)" |> g
+    "\namove xg($(obj.anchor[1])) yg($(obj.anchor[2]))"       |> f
+    "\nbox xg($(obj.size[1]))-xg(0) yg($(obj.size[2]))-yg(0)" |> f
     # discard bounding box if nobox
-    obj.nobox && "nobox"                    |> g
+    obj.nobox && "nobox"                    |> f
     # apply fill
     fs = obj.fillstyle
-    isdef(fs) && "fill $(col2str(fs.fill))" |> g
+    isdef(fs) && "fill $(col2str(fs.fill))" |> f
     grestore(g)
     return
 end
 
 
 """
-    apply_object!(g, cbar, fid)
+    apply_object!(f, cbar, fid)
 
 Apply a ColorBar object.
 """
 function apply_object!(
-            g::GS,
+            f::Figure,
             obj::Colorbar,
             figid::String
         )::Nothing
@@ -116,29 +116,29 @@ function apply_object!(
     end
 
     if obj.position == "right"
-        "\namove xg(xgmax)+$dx yg(ygmin)+$dy"             |> g
+        "\namove xg(xgmax)+$dx yg(ygmin)+$dy"             |> f
     elseif obj.position == "left"
-        "\namove xg(xgmin)-$dx-0.3-$width yg(ygmin)+$dy"  |> g
+        "\namove xg(xgmin)-$dx-0.3-$width yg(ygmin)+$dy"  |> f
     elseif obj.position == "bottom"
-        "\namove xg(xgmin)+$dx yg(ygmin)-$dy-0.3-$height" |> g
+        "\namove xg(xgmin)+$dx yg(ygmin)-$dy-0.3-$height" |> f
     else
-        "\namove xg(xgmin)+$dx yg(ygmax)+$dy"             |> g
+        "\namove xg(xgmin)+$dx yg(ygmax)+$dy"             |> f
     end
 
-    "\nbegin box name cmap" |> g
-    obj.nobox && "nobox"    |> g
+    "\nbegin box name cmap" |> f
+    obj.nobox && "nobox"    |> f
 
     #
     # colormap "y" 0 1 0 1 1 pixels width height palette palette$
     #
-    "\n\tcolormap" |> g
+    "\n\tcolormap" |> f
     if obj.position ∈ ["right", "left"]
-        "\"y\" 0 1 0 1 1 $(obj.pixels)"     |> g
+        "\"y\" 0 1 0 1 1 $(obj.pixels)"     |> f
     else
-        "\"x\" 0 1 0 1 $(obj.pixels) 1"     |> g
+        "\"x\" 0 1 0 1 $(obj.pixels) 1"     |> f
     end
-    "$width $height palette cmap_$(hash(obj.cmap))" |> g
-    "\nend box" |> g
+    "$width $height palette cmap_$(hash(obj.cmap))" |> f
+    "\nend box" |> f
 
     # ticks (not axis elem this time)
     # map the ticks from 0.0 to 1.0
@@ -153,11 +153,11 @@ function apply_object!(
             tlength = isdef(obj.ticks.length) ?
                         fl2str(obj.ticks.length) :
                         "$width/3"
-            gsave(g)
-            apply_linestyle!(g, obj.ticks.linestyle; nosmooth=true, addset=true)
+            gsave(f)
+            apply_linestyle!(f, obj.ticks.linestyle; nosmooth=true, addset=true)
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmax)+$dx+$width yg(ygmin)+$dy+$height*$tick" |> g
-                "\nrline $tlength 0" |> g # draw tick
+                "\namove xg(xgmax)+$dx+$width yg(ygmin)+$dy+$height*$tick" |> f
+                "\nrline $tlength 0" |> f # draw tick
             end
             grestore(g)
         end
@@ -169,10 +169,10 @@ function apply_object!(
                         "$width/3"
             shift  = isdef(obj.ticks.labels.shift) ?
                         fl2str(obj.ticks.labels.shift) : "0"
-            gsave(g)
-            apply_textstyle!(g, obj.ticks.labels.textstyle; addset=true)
+            gsave(f)
+            apply_textstyle!(f, obj.ticks.labels.textstyle; addset=true)
              # justify center wrt anchor
-            "\nset just lc" |> g
+            "\nset just lc" |> f
 
             # retrieve the labels
             labels = obj.ticks.labels.names
@@ -186,10 +186,10 @@ function apply_object!(
 
             # write the labels
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmax)+$dx+$width yg(ygmin)+$dy+$height*$tick" |> g
-                "\nrmove $offset*1.3 0"             |> g  # move a bit more to write the label
-                iszero(shift) || "\nrmove 0 $shift" |> g  # shift vertical
-                "\nwrite $(labels[i])"              |> g  # write label
+                "\namove xg(xgmax)+$dx+$width yg(ygmin)+$dy+$height*$tick" |> f
+                "\nrmove $offset*1.3 0"             |> f  # move a bit more to write the label
+                iszero(shift) || "\nrmove 0 $shift" |> f  # shift vertical
+                "\nwrite $(labels[i])"              |> f  # write label
             end
             grestore(g)
         end
@@ -201,11 +201,11 @@ function apply_object!(
             tlength = isdef(obj.ticks.length) ?
                         fl2str(obj.ticks.length) :
                         "$width/3"
-            gsave(g)
-            apply_linestyle!(g, obj.ticks.linestyle; nosmooth=true, addset=true)
+            gsave(f)
+            apply_linestyle!(f, obj.ticks.linestyle; nosmooth=true, addset=true)
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmin)-$dx yg(ygmin)+$dy" |> g
-                "\nrline -$tlength 0"                 |> g
+                "\namove xg(xgmin)-$dx yg(ygmin)+$dy" |> f
+                "\nrline -$tlength 0"                 |> f
             end
             grestore(g)
         end
@@ -214,9 +214,9 @@ function apply_object!(
         if !(obj.ticks.labels.off)
             offset = isdef(obj.ticks.labels.dist) ? obj.ticks.labels.dist : "$width/3"
             shift  = isdef(obj.ticks.labels.shift) ? obj.ticks.labels.shift : 0
-            "\ngsave"       |> g
-            "\nset just lc" |> g # justify center wrt anchor
-            apply_textstyle!(g, obj.ticks.labels.textstyle; addset=true)
+            "\ngsave"       |> f
+            "\nset just lc" |> f # justify center wrt anchor
+            apply_textstyle!(f, obj.ticks.labels.textstyle; addset=true)
             # retrieve the labels
             labels = obj.ticks.labels.names
             if isempty(labels)
@@ -227,13 +227,13 @@ function apply_object!(
             end
             # write them
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmin)-$dx yg(ygmin)+$dy" |> g
-                "\nrmove -$offset*1.3 0"    |> g # move a bit more to write the label
-                iszero(shift) || "\nrmove 0 $shift"   |> g # shift vertical
-                "\nset just lc"         |> g # justify center wrt anchor
-                "\nwrite $(labels[i])"  |> g # write label
+                "\namove xg(xgmin)-$dx yg(ygmin)+$dy" |> f
+                "\nrmove -$offset*1.3 0"    |> f # move a bit more to write the label
+                iszero(shift) || "\nrmove 0 $shift"   |> f # shift vertical
+                "\nset just lc"         |> f # justify center wrt anchor
+                "\nwrite $(labels[i])"  |> f # write label
             end
-            "\ngrestore" |> g
+            "\ngrestore" |> f
         end
 
     elseif obj.position == "bottom"
@@ -243,11 +243,11 @@ function apply_object!(
             tlength = isdef(obj.ticks.length) ?
                         fl2str(obj.ticks.length) :
                         "$height/3"
-            gsave(g)
-            apply_linestyle!(g, obj.ticks.linestyle; nosmooth=true, addset=true)
+            gsave(f)
+            apply_linestyle!(f, obj.ticks.linestyle; nosmooth=true, addset=true)
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmin)+$dx yg(ygmin)-$dy-0.3-$height" |> g
-                "\nrline 0 -$tlength"                             |> g
+                "\namove xg(xgmin)+$dx yg(ygmin)-$dy-0.3-$height" |> f
+                "\nrline 0 -$tlength"                             |> f
             end
             grestore(g)
         end
@@ -259,9 +259,9 @@ function apply_object!(
                         "$width/3"
             shift  = isdef(obj.ticks.labels.shift) ?
                         fl2str(obj.ticks.labels.shift) : "0"
-            gsave(g)
-            apply_textstyle!(g, obj.ticks.labels.textstyle; addset=true)
-            "\nset just lc" |> g # justify center wrt anchor
+            gsave(f)
+            apply_textstyle!(f, obj.ticks.labels.textstyle; addset=true)
+            "\nset just lc" |> f # justify center wrt anchor
             # retrieve the labels
             labels = obj.ticks.labels.names
             if isempty(labels)
@@ -272,13 +272,13 @@ function apply_object!(
             end
             # write them
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmin)+$dx yg(ygmin)-$dy-0.3-$height" |> g
-                "\nrmove 0 -$offset*1.3"            |> g
-                iszero(shift) || "\nrmove $shift 0" |> g
-                "\nset just lc"                     |> g
-                "\nwrite $(labels[i])"              |> g
+                "\namove xg(xgmin)+$dx yg(ygmin)-$dy-0.3-$height" |> f
+                "\nrmove 0 -$offset*1.3"            |> f
+                iszero(shift) || "\nrmove $shift 0" |> f
+                "\nset just lc"                     |> f
+                "\nwrite $(labels[i])"              |> f
             end
-            "\ngrestore" |> g
+            "\ngrestore" |> f
         end
 
     # top
@@ -288,11 +288,11 @@ function apply_object!(
             tlength = isdef(obj.ticks.length) ?
                         fl2str(obj.ticks.length) :
                         "$height/3"
-            gsave(g)
-            apply_linestyle!(g, obj.ticks.linestyle; nosmooth=true, addset=true)
+            gsave(f)
+            apply_linestyle!(f, obj.ticks.linestyle; nosmooth=true, addset=true)
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmin)+$dx yg(ygmax)+$dy" |> g
-                "\nrline 0 $tlength"                  |> g
+                "\namove xg(xgmin)+$dx yg(ygmax)+$dy" |> f
+                "\nrline 0 $tlength"                  |> f
             end
             grestore(g)
         end
@@ -303,9 +303,9 @@ function apply_object!(
                         "$width/3"
             shift  = isdef(obj.ticks.labels.shift) ?
                         fl2str(obj.ticks.labels.shift) : 0
-            gsave(g)
-            apply_textstyle!(g, obj.ticks.labels.textstyle; addset=true)
-            "\nset just lc" |> g # justify center wrt anchor
+            gsave(f)
+            apply_textstyle!(f, obj.ticks.labels.textstyle; addset=true)
+            "\nset just lc" |> f # justify center wrt anchor
             # retrieve the labels
             labels = obj.ticks.labels.names
             if isempty(labels)
@@ -316,11 +316,11 @@ function apply_object!(
             end
             # write them
             for (i, tick) ∈ enumerate(ticks)
-                "\namove xg(xgmin)+$dx yg(ygmax)+$dy" |> g
-                "\nrmove 0 $offset*1.3"               |> g
-                iszero(shift) || "\nrmove $shift 0"   |> g
-                "\nset just lc"                       |> g
-                "\nwrite $(labels[i])"                |> g
+                "\namove xg(xgmin)+$dx yg(ygmax)+$dy" |> f
+                "\nrmove 0 $offset*1.3"               |> f
+                iszero(shift) || "\nrmove $shift 0"   |> f
+                "\nset just lc"                       |> f
+                "\nwrite $(labels[i])"                |> f
             end
             grestore(g)
         end

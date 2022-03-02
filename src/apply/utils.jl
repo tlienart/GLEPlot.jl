@@ -1,12 +1,12 @@
-function add(g::GS, o, s::Symbol)
+function add(f::Figure, o, s::Symbol)
     v = getfield(o, s)
-    val2str(s, v) |> g
+    val2str(s, v) |> f
     return
 end
 
-function add(g::GS, o, ss...)
+function add(f::Figure, o, ss...)
     for s in ss
-        add(g, o, s)
+        add(f, o, s)
     end
 end
 

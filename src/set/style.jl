@@ -53,7 +53,7 @@ function set_colors!(
         end
     else
         for (i, col) ∈ enumerate(c)
-            set_color!(getfield(vs[i], field), col)
+            set_color!(fetfield(vs[i], field), col)
         end
     end
     return
@@ -106,7 +106,7 @@ function set_fills!(
         end
     else
         for (i, col) ∈ enumerate(c)
-            set_fill!(getfield(vs[i], field), col)
+            set_fill!(fetfield(vs[i], field), col)
         end
     end
     return
@@ -295,7 +295,7 @@ for case ∈ ("lstyle", "lwidth", "smooth", "marker", "msize", "mcol")
                 end
             else
                 for (i, vi) ∈ enumerate(v)
-                    $f_scalar!(getfield(vs[i], f), vi)
+                    $f_scalar!(fetfield(vs[i], f), vi)
                 end
             end
             return

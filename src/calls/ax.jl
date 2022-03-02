@@ -12,7 +12,7 @@ Clears the current axes, removing all drawings and resetting all options.
 function cla()::Option{PreviewFigure}
     f = gcf()
     isempty(f.axes) && return nothing
-    reset!(gca(); parent=f.id);
+    reset!(fca(); parent=f.id);
     return PreviewFigure(f)
 end
 
@@ -84,13 +84,13 @@ for axs ∈ ("x", "y", "x2", "y2")
                 # try to interpret the string as a shorthand and apply on gca
                 s_lc = lowercase(short)
                 if s_lc == "off"
-                    set_properties!(gca().$f; off=true, opts...)
+                    set_properties!(fca().$f; off=true, opts...)
                 elseif s_lc == "on"
-                    set_properties!(gca().$f; off=false, opts...)
+                    set_properties!(fca().$f; off=false, opts...)
                 elseif s_lc == "log"
-                    set_properties!(gca().$f; log=true, opts...)
+                    set_properties!(fca().$f; log=true, opts...)
                 elseif s_lc ∈ ["lin", "linear"]
-                    set_properties!(gca().$f; log=false, opts...)
+                    set_properties!(fca().$f; log=false, opts...)
                 else
                     throw(
                         OptionValueError("Unrecognised shorthand toggle for axis.", short)

@@ -14,5 +14,5 @@ take!(g::GS) = take!(g.io)
 
 |>(gi::GS, go::GS) = write(go.io, take!(gi))
 
-gsave(g::GS)    = "\ngsave"    |> g
-grestore(g::GS) = "\ngrestore" |> g
+gsave(g)    = "\ngsave"    |> g
+grestore(g) = "\ngrestore" |> g

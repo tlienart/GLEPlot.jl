@@ -1,5 +1,5 @@
 """
-    apply_drawings!(g, drawings, figid, axidx)
+    apply_drawings!(f, drawings, figid, axidx)
 
 Internal function to apply a vector of `Drawing` objects contained in an
 `Axes` container in a GLE context. The `axidx` and `figid` help keep track
@@ -7,7 +7,7 @@ of where individual drawings belong to which is useful when writing auxiliary
 files containing the drawing data.
 """
 function apply_drawings!(
-            g::GS,
+            f::Figure,
             drawings::Vector{<:Drawing},
             figid::String,
             axidx::Int
@@ -18,7 +18,7 @@ function apply_drawings!(
     # how many columns it looks at.
     el_cntr = 1
     for drawing ∈ drawings
-        el_cntr = apply_drawing!(g, drawing, el_cntr, figid, axidx)
+        el_cntr = apply_drawing!(f, drawing, el_cntr, figid, axidx)
     end
     return
 end
@@ -63,12 +63,12 @@ end
 
 
 """
-    apply_drawing!(g, scatter, ...)
+    apply_drawing!(f, scatter, ...)
 
 Apply Scatter2D plot. Missing values are allowed.
 """
 function apply_drawing!(
-            g::GS,
+            f::Figure,
             scatter::Scatter2D,
             el_cntr::Int,
             figid::String,
@@ -87,7 +87,7 @@ function apply_drawing!(
     for k ∈ 1:scatter.nobj
 
         # (1) indicate what data to read
-        "\n\tdata \"$faux\" d$(el_cntr)=c1,c$(k+1)" |> g
+        "\n\tdata \"$faux\" d$(el_cntr)=c1,c$(k+1)" |> f
 
         # if no color has been specified, assign one according to the palette
         if !isdef(scatter.linestyles[k].color)
@@ -98,8 +98,8 @@ function apply_drawing!(
         # (2.A) - there is a line
         if scatter.linestyles[k].lstyle != -1
             # Line
-            "\n\td$el_cntr line" |> g
-            apply_linestyle!(g, scatter.linestyles[k])
+            "\n\td$el_cntr line" |> f
+            apply_linestyle!(f, scatter.linestyles[k])
 
             # Marker
             mcol   = false
@@ -114,7 +114,7 @@ function apply_drawing!(
                 add_sub_marker!(f, scatter.markerstyles[k])
                 mscale = f.textstyle.hei
             end
-            apply_markerstyle!(g, scatter.markerstyles[k]; mcol, mscale)
+            apply_markerstyle!(f, scatter.markerstyles[k]; mcol, mscale)
 
         # (2.B) - only markers
         else
@@ -123,8 +123,8 @@ function apply_drawing!(
             if !isdef(scatter.markerstyles[k].color)
                 scatter.markerstyles[k].color = scatter.linestyles[k].color
             end
-            "\n\td$el_cntr" |> g
-            apply_markerstyle!(g, scatter.markerstyles[k])
+            "\n\td$el_cntr" |> f
+            apply_markerstyle!(f, scatter.markerstyles[k])
         end
 
         el_cntr += 1
@@ -134,12 +134,12 @@ end
 
 
 """
-    apply_drawing!(g, fill, ...)
+    apply_drawing!(f, fill, ...)
 
 Apply Fill2D plot. Missing values are NOT allowed.
 """
 function apply_drawing!(
-            g::GS,
+            f::Figure,
             fill::Fill2D,
             el_cntr::Int,
             figid::String,
@@ -153,11 +153,11 @@ function apply_drawing!(
     #   data datafile.dat d1=c1,c2 d2=c1,c3
     #   fill d1,d2 color rgb(1,1,1) xmin 0 xmax 1
     #
-    "\n\tdata \"$faux\" d$(el_cntr)=c1,c2 d$(el_cntr+1)=c1,c3" |> g
+    "\n\tdata \"$faux\" d$(el_cntr)=c1,c2 d$(el_cntr+1)=c1,c3" |> f
 
-    "\n\tfill d$(el_cntr),d$(el_cntr+1)"    |> g
-    "color $(col2str(fill.fillstyle.fill))" |> g
-    add(g, fill, :xmin, :xmax)
+    "\n\tfill d$(el_cntr),d$(el_cntr+1)"    |> f
+    "color $(col2str(fill.fillstyle.fill))" |> f
+    add(f, fill, :xmin, :xmax)
 
     el_cntr += 2
     return el_cntr
@@ -165,12 +165,12 @@ end
 
 
 """
-    apply_drawing!(g, hist, ...)
+    apply_drawing!(f, hist, ...)
 
 Apply Hist2D plot. Missing values are allowed.
 """
 function apply_drawing!(
-            g::GS,
+            f::Figure,
             hist::Hist2D,
             el_cntr::Int,
             figid::String,
@@ -198,45 +198,45 @@ function apply_drawing!(
     end
 
     # (1) indicate what data to read
-    "\n\tdata \"$faux\" d$(el_cntr)" |> g
+    "\n\tdata \"$faux\" d$(el_cntr)" |> f
 
     # (2) hist description  | let d(k+1) = hist dk from min to max
     minx, maxx = hist.range
-    "\n\tlet d$(el_cntr+1) = hist d$(el_cntr)" |> g
-    "from $minx to $maxx" |> g
+    "\n\tlet d$(el_cntr+1) = hist d$(el_cntr)" |> f
+    "from $minx to $maxx" |> f
     el_cntr += 1
 
     # number of bins
     nobs = hist.nobs
     nbauto = (nobs == 0 ? 1 : ceil(Integer, log2(nobs))+1) # sturges, see StatsBase
     bins = isdef(hist.bins) ? hist.bins : nbauto
-    add(g, hist, :bins)
+    add(f, hist, :bins)
 
     # (3) compute appropriate scaling
     width   = (maxx - minx) / bins
     scaling = 1.0
     hist.scaling == "probability" && (scaling /= nobs)
     hist.scaling == "pdf"         && (scaling /= (nobs * width))
-    "\n\tlet d$(el_cntr) = d$(el_cntr)*$scaling" |> g
+    "\n\tlet d$(el_cntr) = d$(el_cntr)*$scaling" |> f
 
     # (4) apply histogram
-    "\n\tbar d$(el_cntr) width $width" |> g
+    "\n\tbar d$(el_cntr) width $width" |> f
 
     # apply styling
-    apply_barstyle!(g, hist.barstyle)
-    add(g, hist, :horiz)
+    apply_barstyle!(f, hist.barstyle)
+    add(f, hist, :horiz)
 
     return el_cntr + 1
 end
 
 
 """
-    apply_drawing!(g, bar, ...)
+    apply_drawing!(f, bar, ...)
 
 Apply Bar2D plot. Missing values are allowed.
 """
 function apply_drawing!(
-            g::GS,
+            f::Figure,
             bar::Bar2D,
             el_cntr::Int,
             figid::String,
@@ -273,30 +273,30 @@ function apply_drawing!(
     nbars = bar.nobj
 
     # (1) indicate what data to read "data file d1 d2 d3..."
-    "\n\tdata \"$faux\""      |> g
-    dlist(el_cntr .+ 1:nbars) |> g
+    "\n\tdata \"$faux\""      |> f
+    dlist(el_cntr .+ 1:nbars) |> f
 
     # (2) non stacked (or single barset)
     if nbars==1 || !bar.stacked
         # bar d1,d2,d3
-        "\n\tbar"                          |> g
-        dlist(el_cntr .+ 1:nbars, sep=",") |> g
+        "\n\tbar"                          |> f
+        dlist(el_cntr .+ 1:nbars, sep=",") |> f
         # styling
-        isdef(bar.bwidth) && "width $(bar.bwidth)" |> g
-        apply_barstyles_nostack!(g, bar.barstyles)
-        add(g, bar, :horiz)
+        isdef(bar.bwidth) && "width $(bar.bwidth)" |> f
+        apply_barstyles_nostack!(f, bar.barstyles)
+        add(f, bar, :horiz)
 
     # (2) stacked
     else
         # first base bar
-        "\n\tbar d$(el_cntr)"                      |> g
-        isdef(bar.bwidth) && "width $(bar.bwidth)" |> g
-        apply_barstyle!(g, bar.barstyles[1])
-        add(g, bar, :horiz)
+        "\n\tbar d$(el_cntr)"                      |> f
+        isdef(bar.bwidth) && "width $(bar.bwidth)" |> f
+        apply_barstyle!(f, bar.barstyles[1])
+        add(f, bar, :horiz)
         # bars stacked on top
         for i ∈ 2:nbars
-            "\n\tbar d$(el_cntr+i-1) from d$(el_cntr+i-2)" |> g
-            apply_barstyle!(g, bar.barstyles[i])
+            "\n\tbar d$(el_cntr+i-1) from d$(el_cntr+i-2)" |> f
+            apply_barstyle!(f, bar.barstyles[i])
         end
     end
 
@@ -305,12 +305,12 @@ end
 
 
 """
-    apply_drawing!(g, boxplot, ...)
+    apply_drawing!(f, boxplot, ...)
 
 Apply Boxplot.
 """
 function apply_drawing!(
-            g::GS,
+            f::Figure,
             bp::Boxplot,
             el_cntr::Int,
             figid::String,
@@ -331,8 +331,8 @@ function apply_drawing!(
 
         # 2. call the subroutine and apply the style
         s = bp.boxstyles[k]
-        "\n\tdraw $subname $k $stats_str" |> g
-        apply_boxplotstyle!(g, s, f)
+        "\n\tdraw $subname $k $stats_str" |> f
+        apply_boxplotstyle!(f, s, f)
 
         el_cntr += 1
     end
@@ -341,12 +341,12 @@ end
 
 
 """
-    apply_drawing!(g, hm, ...)
+    apply_drawing!(f, hm, ...)
 
 Apply Heatmap.
 """
 function apply_drawing!(
-            g::GS,
+            f::Figure,
             hm::Heatmap,
             el_cntr::Int,
             figid::String,
@@ -371,11 +371,11 @@ function apply_drawing!(
 
     # 3. load data
     vs = join(("d$j=c0,c$j" for j ∈ 1:nct), " ")
-    "\n\tdata \"$faux\" $vs" |> g
+    "\n\tdata \"$faux\" $vs" |> f
 
     # 4. go over all the columns and draw the boxes (scales linearly with # cols)
     for j ∈ 1:nct
-        "\n\tdraw hm_$hashid $j d$j $bw $bh" |> g
+        "\n\tdraw hm_$hashid $j d$j $bw $bh" |> f
     end
     return el_cntr + 1
 end

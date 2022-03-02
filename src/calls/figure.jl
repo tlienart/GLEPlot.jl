@@ -85,7 +85,7 @@ properties etc). See also [`clf`](@ref) and [`reset!`](@ref).
 """
 function erase!(f::Figure)
     # empty associated buffer
-    take!(f.g)
+    take!(f.script)
     # give `f` a fresh set of axes
     f.axes = Vector{Axes}()
     GP_ENV["CUR_FIG"]  = f

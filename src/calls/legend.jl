@@ -5,7 +5,7 @@ export cll, legend
 
 Clears the current legend.
 """
-cll() = (reset!(gca().legend); PreviewFigure(gcf()))
+cll() = (reset!(fca().legend); PreviewFigure(gcf()))
 
 """
     legend(...)

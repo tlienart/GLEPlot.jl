@@ -519,7 +519,7 @@ const BAR2D_OPTS = OptsDict(
     :label   => str  => set_labels!,
     )
 merge!(BAR2D_OPTS, GBARSTYLE_OPTS)
-set_properties!(gb::Bar2D; opts...) = set_properties!(BAR2D_OPTS, gb; opts...)
+set_properties!(fb::Bar2D; opts...) = set_properties!(BAR2D_OPTS, gb; opts...)
 
 
 const BOXPLOT_OPTS = OptsDict(
