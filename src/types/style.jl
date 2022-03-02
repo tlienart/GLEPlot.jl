@@ -1,59 +1,82 @@
 abstract type Style end
 
-@with_kw mutable struct TextStyle <: Style
-    font ::Option{String}  = ∅
-    hei  ::Option{F64}     = ∅
-    color::Option{Color}   = ∅
-end
 
-@with_kw mutable struct LineStyle <: Style
-    lstyle::Option{Int}   = ∅
-    lwidth::Option{F64}   = ∅
-    smooth::Option{Bool}  = ∅
-    color ::Option{Color} = ∅
+mutable struct TextStyle <: Style
+    font ::Option{String}
+    hei  ::Option{F64}
+    color::Option{Color}
 end
+TextStyle() = default(TextStyle)
 
-@with_kw mutable struct MarkerStyle <: Style
-    marker::Option{String} = ∅
-    msize::Option{F64}     = ∅
-    color::Option{Color}   = ∅
+
+mutable struct LineStyle <: Style
+    lstyle::Option{Int}
+    lwidth::Option{F64}
+    smooth::Option{Bool}
+    color ::Option{Color}
 end
+LineStyle() = default(LineStyle)
 
-@with_kw mutable struct BarStyle <: Style
-    color::Option{Color}    = ∅
-    fill::Colorant          = c"white"
+
+mutable struct MarkerStyle <: Style
+    marker::Option{String}
+    msize ::Option{F64}
+    color ::Option{Color}
+end
+MarkerStyle() = default(MarkerStyle)
+
+
+mutable struct BarStyle <: Style
+    color::Option{Color}
+    fill ::Colorant
 #   pattern::Option{String}   =  .... see page 39 of manual, test first
 end
+BarStyle() = default(BarStyle)
 
-@with_kw mutable struct FillStyle <: Style
-    fill::Colorant = c"cornflowerblue"
-end
 
-@with_kw mutable struct BoxplotStyle <: Style
-    # box and whisker styling
-    bwidth::F64   = 0.6              # width of the box
-    wwidth::F64   = 0.3              # width of the whiskers
-    wrlength::F64 = 1.5              # whisker length is wrlength * IQR, if INF will be min-max
-    blstyle::LineStyle = LineStyle(  # box line style
-        lstyle = 1,
-        lwidth = 0,
-        color  = c"black"
-    )
-    mlstyle::LineStyle = LineStyle(      # median line style
-        lstyle = 1,
-        lwidth = 0,
-        color  = c"seagreen"
-    )
-    mmstyle::MarkerStyle = MarkerStyle(  # mean marker style
-        marker = "fdiamond",
-        msize  = 0.4,
-        color  = c"dodgerblue"
-    )
-    omstyle::MarkerStyle = MarkerStyle(  # outlier marker style
-        marker = "+",
-        msize  = 0.5,
-        color  = c"tomato"
-    )
-    mshow::Bool = true
-    oshow::Bool = true
+mutable struct FillStyle <: Style
+    fill::Colorant
 end
+FillStyle() = default(FillStyle)
+
+
+mutable struct BoxplotStyle <: Style
+    bwidth  ::F64          # width of the box
+    wwidth  ::F64          # width of the whiskers
+    wrlength::F64          # whisker length is wrlength * IQR, if INF will be min-max
+    blstyle ::LineStyle    # box line style
+    mlstyle ::LineStyle    # median line style
+    mmstyle ::MarkerStyle  # mean marker style
+    omstyle ::MarkerStyle  # outlier marker style
+    mshow   ::Bool         # show the mean
+    oshow   ::Bool         # show outliers
+end
+BoxplotStyle() = BoxplotStyle(
+    GLE_DEFAULTS[:boxplotstyle_bwidth],
+    GLE_DEFAULTS[:boxplotstyle_wwidth],
+    GLE_DEFAULTS[:boxplotstyle_wrlength],
+    LineStyle(
+        GLE_DEFAULTS[:boxplotstyle_blstyle_lstyle],
+        GLE_DEFAULTS[:boxplotstyle_blstyle_lwidth],
+        false,
+        GLE_DEFAULTS[:boxplotstyle_blstyle_color]
+    ),
+    LineStyle(
+        GLE_DEFAULTS[:boxplotstyle_mlstyle_lstyle],
+        GLE_DEFAULTS[:boxplotstyle_mlstyle_lwidth],
+        false,
+        GLE_DEFAULTS[:boxplotstyle_mlstyle_color]
+    ),
+    MarkerStyle(
+        GLE_DEFAULTS[:boxplotstyle_mmstyle_marker],
+        GLE_DEFAULTS[:boxplotstyle_mmstyle_msize],
+        GLE_DEFAULTS[:boxplotstyle_mmstyle_color]
+    ),
+    MarkerStyle(
+        GLE_DEFAULTS[:boxplotstyle_omstyle_marker],
+        GLE_DEFAULTS[:boxplotstyle_omstyle_msize],
+        GLE_DEFAULTS[:boxplotstyle_omstyle_color]
+        ),
+    GLE_DEFAULTS[:boxplotstyle_mshow],
+    GLE_DEFAULTS[:boxplotstyle_oshow]
+)

@@ -12,8 +12,10 @@ function write_figure(
     g = f.g
     "size $(f.size[1]) $(f.size[2])" |> g
 
-    # >> apply background color if different than nothing or white
-    if isdef(f.bgcolor) && f.bgcolor != c"white"
+    # >> apply background color if different than nothing
+    # Note that if it's white, we apply it as this makes a
+    # difference for transparent outputs like SVG.
+    if isdef(f.bgcolor)
         # add a box that is slightly larger than the size
         "\namove -0.05 -0.05" |> g
         "\nbox $(f.size[1]+0.1) $(f.size[2]+0.1)" |> g

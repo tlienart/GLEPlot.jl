@@ -2,7 +2,7 @@ export savefig
 
 
 const OUTPUT_FORMATS = ("eps", "ps", "pdf", "svg", "jpg", "png")
-
+const OUTPUT_FORMATS_RASTER = ("jpg", "png")
 
 # XXX
 # --> make a "path" function
@@ -19,6 +19,7 @@ function savefig(
             format::String  = "svg",
             resolution::Int = 200,
             res::Int        = resolution,
+            info::Bool      = true
         )::String
 
     #
@@ -56,7 +57,7 @@ function savefig(
     output_path = output_dir / fname * "." * format
 
     #
-    # 5. assemble the figure proper
+    # 5. assemble the figure proper and write it to script_path
     #
     write_figure(fig, script_path)
 
@@ -72,7 +73,7 @@ function savefig(
     )
 
     cext  = `-d $format`
-    cres  = `-r $res`
+    cres  = ifelse(format in OUTPUT_FORMATS_RASTER, `-r $res`, ``)
     copt  = `$cairo $texlabels $transparent`
     cverb = `-vb 0`
     cout  = `-o $output_path $script_path`
@@ -95,7 +96,7 @@ function savefig(
 
     δt     = time() - start
     δt_str = ceil(Int, δt * 1e3)
-    @info """
+    info && @info """
         Saved figure $(fig.id) at '$output_path' in $(δt_str)ms.
         """
 

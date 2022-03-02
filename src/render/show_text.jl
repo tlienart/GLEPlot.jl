@@ -3,7 +3,12 @@ _gs(s, s2) = "\n\t" * rpad(s, 15) * string(s2)
 #
 # Axes2D | show
 #
-function Base.show(io::IO, ::MIME"text/plain", a::Axes2D)
+function Base.show(
+            io::IO,
+            ::MIME"text/plain",
+            a::Axes2D
+        )::Nothing
+
     write(io,
         "GLEPlot.Axes2D"  *
         _gs("Title:",         isdef(a.title) ? "\"$(a.title.text)\"" : "none"   ) *
@@ -18,7 +23,12 @@ end
 #
 # Figure | show
 #
-function Base.show(io::IO, ::MIME"text/plain", f::Figure)
+function Base.show(
+            io::IO,
+            ::MIME"text/plain",
+            f::Figure
+        )::Nothing
+
     tbg = (f.bgcolor === nothing)
     wbg = (f.bgcolor == RGB(1,1,1))
     write(io,

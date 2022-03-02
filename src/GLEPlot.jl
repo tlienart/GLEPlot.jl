@@ -68,6 +68,7 @@ include("utils.jl")
 include("exceptions.jl")
 include("gle_script.jl")
 include("strings.jl")
+include("defaults.jl")
 
 include("types/style.jl")
 include("types/drawing_2d.jl")
@@ -115,6 +116,7 @@ include("calls/figure.jl")
 include("calls/layout.jl")
 
 include("render/show_text.jl")
+include("render/show_image.jl")
 include("render/savefig.jl")
 
 end

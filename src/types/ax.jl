@@ -2,22 +2,20 @@
 # AXIS
 #
 
-@with_kw mutable struct Axis
+mutable struct Axis
     prefix::String # x, y, x2, y2, z
-    # ---
-    ticks    ::Ticks     = Ticks()     # ticks of the axis
-    textstyle::TextStyle = TextStyle() # parent textstyle of axis
-    # ---
-    title ::Option{Title}   = ∅ # title of the axis
-    base  ::Option{F64} = ∅ # scale font and ticks
-    lwidth::Option{F64} = ∅ # width of the axis spine
-    min   ::Option{F64} = ∅ # minimum span of the axis
-    max   ::Option{F64} = ∅ # maximum span of the axis
-    # -- toggle-able
-    off   ::Bool = false # if true, axis is not shown
-    log   ::Bool = false # log scale
+    #
+    ticks    ::Ticks          # ticks of the axis
+    textstyle::TextStyle      # parent textstyle of axis
+    title    ::Option{Title}  # title of the axis
+    base     ::Option{F64}    # scale font and ticks
+    lwidth   ::Option{F64}    # width of the axis spine
+    min      ::Option{F64}    # minimum span of the axis
+    max      ::Option{F64}    # maximum span of the axis
+    off      ::Bool           # if true, axis is not shown
+    log      ::Bool           # log scale
 end
-Axis(p::String; o...) = Axis(prefix=p; o...)
+Axis(p) = default(Axis, p)
 
 
 #

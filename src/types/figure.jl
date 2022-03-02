@@ -21,7 +21,7 @@ Figure(g::GS, id::String) =
         # --
         Vector{Axes}(),
         (12., 9.),
-        TextStyle(font="texcmss", hei=0.35),
+        TextStyle(),
         c"white",
         # --
         ∅,
