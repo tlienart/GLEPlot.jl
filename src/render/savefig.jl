@@ -72,7 +72,7 @@ function savefig(
         `-transparent`, ``
     )
 
-    glex  = GP_ENV["GLE_PATH"]
+    glex  = get(ENV, "GLE", `gle`)
     cext  = `-d $format`
     cres  = ifelse(format in OUTPUT_FORMATS_RASTER, `-r $res`, ``)
     copt  = `$cairo $texlabels $transparent`
