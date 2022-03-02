@@ -67,14 +67,14 @@ end
 
 Internal function to add empty `Axes2D` to the current figure.
 """
-add_axes2d!() = (f=gcf(); add_axes!(f, Axes2D(parent=f.id)))
+add_axes2d!() = (f=gcf(); add_axes!(f, Axes2D(f.id)))
 
-"""
-    add_axes3d!()
-
-Internal function to add empty `Axes3D` to the current figure.
-"""
-add_axes3d!() = (f=gcf(); add_axes!(f, Axes3D(parent=f.id)))
+# """
+#     add_axes3d!()
+#
+# Internal function to add empty `Axes3D` to the current figure.
+# """
+# add_axes3d!() = (f=gcf(); add_axes!(f, Axes3D(parent=f.id)))
 
 """
     erase!(fig)

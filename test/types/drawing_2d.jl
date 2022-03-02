@@ -20,7 +20,7 @@ end
 
 @testset "Fill2D" begin
     d = [1 1; 2 2]
-    s = G.Fill2D(data=d, xmin=0.5)
+    s = G.Fill2D(d, 0.5)
     @test s isa G.Fill2D{Matrix{T}} where T
     @test s.xmin == 0.5
     @test !G.isdef(s.xmax)
@@ -30,7 +30,7 @@ end
 
 @testset "Hist2D" begin
     d = [1 1; 2 2]
-    s = G.Hist2D(data=d, hasmissing=false, nobs=3, range=(0.5,0.7))
+    s = G.Hist2D(d, false, 3, (0.5,0.7))
     @test s isa G.Hist2D{Matrix{T}} where T
     @test s.hasmissing == false
     @test s.nobs == 3
@@ -66,7 +66,7 @@ end
 
 @testset "Heatmap" begin
     d = [1 2; 1 2]
-    h = G.Heatmap(data=d, zmin=0.1, zmax=0.2)
+    h = G.Heatmap(d, 0.1, 0.2)
     @test h isa G.Heatmap
     @test h.zmin == 0.1
     @test h.zmax == 0.2

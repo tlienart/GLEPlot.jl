@@ -25,49 +25,53 @@ Axis(p) = default(Axis, p)
 abstract type Axes end
 
 
-@with_kw mutable struct Axes2D <: Axes
-    parent::String # id of the parent figure
-    # --
-    xaxis ::Axis = Axis("x")
-    x2axis::Axis = Axis("x2")
-    yaxis ::Axis = Axis("y")
-    y2axis::Axis = Axis("y2")
-    # ---
-    drawings::Vector{Drawing2D} = Vector{Drawing2D}()
-    objects ::Vector{Object2D}  = Vector{Object2D}()
-    # ---
-    title ::Option{Title}  = ∅
-    size  ::Option{T2F}    = ∅ # (width cm, height cm)
-    legend::Option{Legend} = ∅
-    origin::Option{T2F}    = ∅ # related to layout
-    # -- toggle-able
-    math::Bool = false # axis crossing (0, 0)
-    off::Bool = false
-    # --
-    scale::String = "auto"
+mutable struct Axes2D <: Axes
+    parent  ::String # id of the parent figure
+    xaxis   ::Axis
+    x2axis  ::Axis
+    yaxis   ::Axis
+    y2axis  ::Axis
+    drawings::Vector{Drawing2D}
+    objects ::Vector{Object2D}
+    #
+    title ::Option{Title}
+    size  ::Option{T2F}     # (width cm, height cm)
+    legend::Option{Legend}
+    origin::Option{T2F}     # related to layout
+    math  ::Bool            # axis crossing (0, 0)
+    off   ::Bool
+    scale ::String
 end
+Axes2D(p=""; parent=p) = default(Axes2D,
+    parent, Axis("x"), Axis("x2"), Axis("y"), Axis("y2"),
+    Drawing2D[], Object2D[]
+)
 
 
-@with_kw mutable struct Axes3D <: Axes
-    parent::String
-    # --
-    xaxis::Axis = Axis("x"; min=0, max=1) # NOTE color = ticks, not spine if box
-    yaxis::Axis = Axis("y"; min=0, max=1) # if nobox, then spine
-    zaxis::Axis = Axis("z"; min=0, max=1)
-    # ---
-    drawings::Vector{Drawing3D} = Vector{Drawing3D}()
-    objects ::Vector{Object3D}  = Vector{Object3D}()
-    # ---
-    title::Option{Title} = ∅
-    size ::T2F           = (20.,10.) # box size
-    # cube
-    nocube   ::Bool      = false # XXX if true, then xaxis have an expressed linestyle
-    cubedims ::T3F       = (20.,20.,10.) # cube sides x,y,z
-    linestyle::LineStyle = LineStyle() # XXX only lstyle, color, see set
-    # XXX legend::Legend ...
-    origin::Option{T2F} = ∅
-    # rotation and view
-    rotate::Option{T2F} = ∅
-    # XXX view x y p
-    off::Bool = false # do not show
+mutable struct Axes3D <: Axes
 end
+
+#
+# @with_kw mutable struct Axes3D <: Axes
+#     parent::String
+#     # --
+#     xaxis::Axis = Axis("x"; min=0, max=1) # NOTE color = ticks, not spine if box
+#     yaxis::Axis = Axis("y"; min=0, max=1) # if nobox, then spine
+#     zaxis::Axis = Axis("z"; min=0, max=1)
+#     # ---
+#     drawings::Vector{Drawing3D} = Vector{Drawing3D}()
+#     objects ::Vector{Object3D}  = Vector{Object3D}()
+#     # ---
+#     title::Option{Title} = ∅
+#     size ::T2F           = (20.,10.) # box size
+#     # cube
+#     nocube   ::Bool      = false # XXX if true, then xaxis have an expressed linestyle
+#     cubedims ::T3F       = (20.,20.,10.) # cube sides x,y,z
+#     linestyle::LineStyle = LineStyle() # XXX only lstyle, color, see set
+#     origin   ::Option{T2F} = ∅
+#     rotate   ::Option{T2F} = ∅
+#     off      ::Bool = false # do not show
+# end
+# Axes3D(p) = default(Axes3D,
+#     p, Axis("x")
+# )

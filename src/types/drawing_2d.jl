@@ -43,16 +43,10 @@ mutable struct Scatter2D{T} <: Drawing2D
     markerstyles::Vector{MarkerStyle} # marker style (color, size, ...)
     labels      ::Vector{String}      # plot labels (to go in the legend)
 end
-
-"""
-    Scatter2D(d, m, n)
-
-I/ Constructor for Scatter2D adding linestyles, markerstyles, and labels.
-"""
 Scatter2D(d, m, n) = Scatter2D(
     d, m, n,
-    nvec(n, LineStyle),
-    nvec(n, MarkerStyle),
+    nvec(n, LineStyle,   "scatter2d_linestyles"),
+    nvec(n, MarkerStyle, "scatter2d_markerstyles"),
     String[]
 )
 
@@ -63,14 +57,19 @@ Scatter2D(d, m, n) = Scatter2D(
 Fill-plot between two 2D curves. Missing values are not allowed.
 See `fill_between!`.
 """
-@with_kw mutable struct Fill2D{T} <: Drawing2D
+mutable struct Fill2D{T} <: Drawing2D
     data     ::T  # data iterator
     #
-    xmin     ::Option{F64} = ∅           # left most anchor
-    xmax     ::Option{F64} = ∅           # right most anchor
-    fillstyle::FillStyle   = FillStyle() # describes the area between the curves
-    label    ::String      = ""
+    xmin     ::Option{F64}  # left most anchor
+    xmax     ::Option{F64}  # right most anchor
+    fillstyle::FillStyle    # describes the area between the curves
+    label    ::String
 end
+Fill2D(d, xmin=nothing, xmax=nothing) = Fill2D(
+    d, xmin, xmax,
+    FillStyle(),
+    ""
+)
 
 
 """
@@ -78,18 +77,25 @@ end
 
 Histogram.
 """
-@with_kw mutable struct Hist2D{T} <: Drawing2D
+mutable struct Hist2D{T} <: Drawing2D
     data      ::T     # data container
     hasmissing::Bool  # whether has missing|inf|nan data
     nobs      ::Int   # number of non-missing entries
     range     ::T2F   # (minvalue, maxvalue)
     #
-    barstyle::BarStyle    = BarStyle() #
-    horiz   ::Bool        = false      # horizontal histogram?
-    bins    ::Option{Int} = ∅          # number of bins
-    scaling ::String      = "none"     # scaling (pdf, count=none, probability)
-    label   ::String      = ""
+    barstyle::BarStyle     #
+    horiz   ::Bool         # horizontal histogram?
+    bins    ::Option{Int}  # number of bins
+    scaling ::String       # scaling (pdf, count=none, probability)
+    label   ::String
 end
+Hist2D(d, m, n, r) = Hist2D(
+    d, m, n, r, BarStyle(),
+    GLE_DEFAULTS[:hist2d_horiz],
+    GLE_DEFAULTS[:hist2d_bins],
+    GLE_DEFAULTS[:hist2d_scaling],
+    GLE_DEFAULTS[:hist2d_label],
+)
 
 
 """
@@ -97,29 +103,23 @@ end
 
 Bar plot(s).
 """
-@with_kw mutable struct Bar2D{T} <: Drawing2D
+mutable struct Bar2D{T} <: Drawing2D
     data      ::T               # data container
     hasmissing::Bool            # whether has missing|inf|nan
     nobj      ::Int
     barstyles ::Vector{BarStyle}
     #
-    stacked::Bool            = false
-    horiz  ::Bool            = false
-    bwidth ::Option{F64} = ∅ # general bar width
-    #
-    labels ::Vector{String}  = String[]
+    stacked::Bool
+    horiz  ::Bool
+    bwidth ::Option{F64}  # general bar width
+    labels ::Vector{String}
 end
-
-"""
-    Bar2D(data, hasmissing, nobj)
-
-I/ Constructor for Bar2D object adding barstyles.
-"""
 Bar2D(d, m, n) = Bar2D(
-    data=d,
-    hasmissing=m,
-    nobj=n,
-    barstyles=nvec(n, BarStyle)
+    d, m, n, nvec(n, BarStyle),
+    GLE_DEFAULTS[:bar2d_stacked],
+    GLE_DEFAULTS[:bar2d_horiz],
+    GLE_DEFAULTS[:bar2d_bwidth],
+    GLE_DEFAULTS[:bar2d_labels],
 )
 
 
@@ -128,25 +128,14 @@ Bar2D(d, m, n) = Bar2D(
 
 Boxplot(s).
 """
-@with_kw mutable struct Boxplot <: Drawing2D
-    stats::Matrix{F64}  # quantile etc
-    nobj ::Int
-    #
+mutable struct Boxplot <: Drawing2D
+    stats    ::Matrix{F64}  # quantile etc
+    nobj     ::Int
     boxstyles::Vector{BoxplotStyle}
     #
-    horiz::Bool = false # vertical boxplots by default
+    horiz::Bool # vertical boxplots by default
 end
-
-"""
-    Boxplot(d, n)
-
-I/ Constructor for Boxplot object adding boxstyles.
-"""
-Boxplot(d, n) = Boxplot(
-    stats=d,
-    nobj=n,
-    boxstyles=nvec(n, BoxplotStyle)
-)
+Boxplot(d, n) = default(Boxplot, d, n, nvec(n, BoxplotStyle))
 
 
 """
@@ -154,16 +143,17 @@ Boxplot(d, n) = Boxplot(
 
 Heatmap of a matrix.
 """
-@with_kw mutable struct Heatmap <: Drawing2D
+mutable struct Heatmap <: Drawing2D
     data::Matrix{Int}
     zmin::F64
     zmax::F64
     #
-    cmap::Vector{Color} = colormap("RdBu", 10)
-    cmiss::Color = c"white" # box filling for missing values
+    cmap::Vector{Color}
+    cmiss::Color # box filling for missing values
     # transpose
     # whether to write the matrix as a transpose
     # this is useful because GLE can deal only with 1000-cols
     # files at most (at least with the way we do the heatmap now)
-    transpose::Bool = false
+    transpose::Bool
 end
+Heatmap(d, zmin, zmax) = default(Heatmap, d, zmin, zmax)

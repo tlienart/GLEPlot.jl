@@ -78,96 +78,96 @@ function apply_axes!(
     return
 end
 
-
-function apply_axes!(
-            g::GS,
-            a::Axes3D,
-            figid::String,
-            axidx::Int
-        )::Nothing
-
-    a.off && return
-    axid = "a3d_$(hash(a))"
-
-    #
-    # begin object ax3d_hash
-    #   begin surface
-    #       size x y
-    #       cube xlen 10 ylen 10 zlen 10 lstyle 9 color blue
-    #       xaxis ...
-    #       xtitle ...
-    #       yaxis ...
-    #       ytitle ...
-    #       zaxis ...
-    #       ztitle ...
-    #       (surface)
-    #   end surface
-    #   (objects)
-    # end object
-    #
-    # amove (appropriate location)
-    # draw ax3d_hash.cc
-    #
-
-    "\nbegin object $axid" |> g
-    "\n\tbegin surface"    |> g
-    "\n\t\tsize $(a.size[1]) $(a.size[2])" |> g
-    # ------------------------------------------
-    # CUBE
-    "\n\t\tcube"      |> g
-    a.nocube && "off" |> g
-    "xlen $(a.cubedims[1]) ylen $(a.cubedims[2]) zlen $(a.cubedims[3])"   |> g
-    a.nocube || apply_linestyle!(g, a.linestyle)
-
-    # TODO should become apply_axis3 or something
-    δx = round((a.xaxis.max - a.xaxis.min)/5, digits=1)
-    "\n\t\txaxis min $(a.xaxis.min) max $(a.xaxis.max) dticks $δx" |> g
-    δy = round((a.yaxis.max - a.yaxis.min)/5, digits=1)
-    "\n\t\tyaxis min $(a.yaxis.min) max $(a.yaxis.max) dticks $δy" |> g
-    δz = round((a.zaxis.max - a.zaxis.min)/5, digits=1)
-    "\n\t\tzaxis min $(a.zaxis.min) max $(a.zaxis.max) dticks $δz" |> g
-
-    # ROTATION
-    if isdef(a.rotate)
-        "\n\t\trotate $(a.rotation[1]) $(a.rotation[2]) 0" |> g
-    else
-        "\n\t\trotate 65 20 0" |> g
-    end
-
-    # XXX AXIS
-    # parent_font = Figure(figid; _noreset=true).textstyle.font
-    # for axis in (a.xaxis, a.yaxis, a.zaxis)
-    #     apply_axis!(g, axis, parent_font)
-    # end
-
-    # SURFACE
-    if isempty(a.drawings) || all(d->!isa(d, Surface), a.drawings)
-        # NOTE if there is no surface, we MUST add dummy data otherwise ghostscript crashes.
-        fd = joinpath(GP_ENV["TMP_PATH"], "$(figid)_dummy.z")
-        write(fd, "! nx 2 ny 2 xmin 1 xmax 2 ymin 1 ymax 2\n1 2\n2 2\n")
-        "\n\t\tdata \"$fd\""   |> g
-        "\n\t\ttop off"        |> g
-        "\n\t\tunderneath off" |> g
-    end
-    surfs = [i for i ∈ 1:length(a.drawings) if a.drawings[i] isa Surface]
-    apply_drawings!(g, a.drawings[surfs], figid, axidx)
-    # -----------------------------------------
-    "\n\tend surface"      |> g
-    apply_drawings!(g, a.drawings[setdiff(1:length(a.drawings), surfs)], figid, axidx)
-    # OBJECTS
-    apply_objects!(g, a.objects, figid)
-
-    "\nend object"         |> g
-
-    if isdef(a.origin)
-        # move to center of container
-        cx = a.origin[1] + a.size[1]/2
-        cy = a.origin[2] + a.size[2]/2
-        "\namove $cx $cy" |> g
-    else
-        # move to center of page
-        "\namove pagewidth()/2 pageheight()/2" |> g
-    end
-    # draw the overall container centered
-    "\ndraw $axid.cc" |> g
-end
+#
+# function apply_axes!(
+#             g::GS,
+#             a::Axes3D,
+#             figid::String,
+#             axidx::Int
+#         )::Nothing
+#
+#     a.off && return
+#     axid = "a3d_$(hash(a))"
+#
+#     #
+#     # begin object ax3d_hash
+#     #   begin surface
+#     #       size x y
+#     #       cube xlen 10 ylen 10 zlen 10 lstyle 9 color blue
+#     #       xaxis ...
+#     #       xtitle ...
+#     #       yaxis ...
+#     #       ytitle ...
+#     #       zaxis ...
+#     #       ztitle ...
+#     #       (surface)
+#     #   end surface
+#     #   (objects)
+#     # end object
+#     #
+#     # amove (appropriate location)
+#     # draw ax3d_hash.cc
+#     #
+#
+#     "\nbegin object $axid" |> g
+#     "\n\tbegin surface"    |> g
+#     "\n\t\tsize $(a.size[1]) $(a.size[2])" |> g
+#     # ------------------------------------------
+#     # CUBE
+#     "\n\t\tcube"      |> g
+#     a.nocube && "off" |> g
+#     "xlen $(a.cubedims[1]) ylen $(a.cubedims[2]) zlen $(a.cubedims[3])"   |> g
+#     a.nocube || apply_linestyle!(g, a.linestyle)
+#
+#     # TODO should become apply_axis3 or something
+#     δx = round((a.xaxis.max - a.xaxis.min)/5, digits=1)
+#     "\n\t\txaxis min $(a.xaxis.min) max $(a.xaxis.max) dticks $δx" |> g
+#     δy = round((a.yaxis.max - a.yaxis.min)/5, digits=1)
+#     "\n\t\tyaxis min $(a.yaxis.min) max $(a.yaxis.max) dticks $δy" |> g
+#     δz = round((a.zaxis.max - a.zaxis.min)/5, digits=1)
+#     "\n\t\tzaxis min $(a.zaxis.min) max $(a.zaxis.max) dticks $δz" |> g
+#
+#     # ROTATION
+#     if isdef(a.rotate)
+#         "\n\t\trotate $(a.rotation[1]) $(a.rotation[2]) 0" |> g
+#     else
+#         "\n\t\trotate 65 20 0" |> g
+#     end
+#
+#     # XXX AXIS
+#     # parent_font = Figure(figid; _noreset=true).textstyle.font
+#     # for axis in (a.xaxis, a.yaxis, a.zaxis)
+#     #     apply_axis!(g, axis, parent_font)
+#     # end
+#
+#     # SURFACE
+#     if isempty(a.drawings) || all(d->!isa(d, Surface), a.drawings)
+#         # NOTE if there is no surface, we MUST add dummy data otherwise ghostscript crashes.
+#         fd = joinpath(GP_ENV["TMP_PATH"], "$(figid)_dummy.z")
+#         write(fd, "! nx 2 ny 2 xmin 1 xmax 2 ymin 1 ymax 2\n1 2\n2 2\n")
+#         "\n\t\tdata \"$fd\""   |> g
+#         "\n\t\ttop off"        |> g
+#         "\n\t\tunderneath off" |> g
+#     end
+#     surfs = [i for i ∈ 1:length(a.drawings) if a.drawings[i] isa Surface]
+#     apply_drawings!(g, a.drawings[surfs], figid, axidx)
+#     # -----------------------------------------
+#     "\n\tend surface"      |> g
+#     apply_drawings!(g, a.drawings[setdiff(1:length(a.drawings), surfs)], figid, axidx)
+#     # OBJECTS
+#     apply_objects!(g, a.objects, figid)
+#
+#     "\nend object"         |> g
+#
+#     if isdef(a.origin)
+#         # move to center of container
+#         cx = a.origin[1] + a.size[1]/2
+#         cy = a.origin[2] + a.size[2]/2
+#         "\namove $cx $cy" |> g
+#     else
+#         # move to center of page
+#         "\namove pagewidth()/2 pageheight()/2" |> g
+#     end
+#     # draw the overall container centered
+#     "\ndraw $axid.cc" |> g
+# end

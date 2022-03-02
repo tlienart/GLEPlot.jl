@@ -16,7 +16,7 @@ const GLE_DEFAULTS = LittleDict{Symbol,Any}(
     :textstyle_hei   => 0.35,
     :textstyle_color => nothing,
     #
-    :linestyle_lstyle => nothing,
+    :linestyle_lstyle => 0,
     :linestyle_lwidth => nothing,
     :linestyle_smooth => nothing,
     :linestyle_color  => nothing,
@@ -97,6 +97,38 @@ const GLE_DEFAULTS = LittleDict{Symbol,Any}(
     :axis_max       => nothing,
     :axis_off       => false,
     :axis_log       => false,
+    #
+    :axes2d_title  => nothing,
+    :axes2d_size   => nothing,
+    :axes2d_legend => nothing,
+    :axes2d_origin => nothing,
+    :axes2d_math   => false,
+    :axes2d_off    => false,
+    :axes2d_scale  => "auto",
+    #
+    :scatter2d_linestyles_lstyle => 0,
+    :scatter2d_linestyles_lwidth => 0.05,
+    :scatter2d_linestyles_smooth => true,
+    #
+    :hist2d_horiz    => false,
+    :hist2d_bins     => nothing,
+    :hist2d_scaling  => "none",
+    :hist2d_label    => "",
+    #
+    :bar2d_stacked => false,
+    :bar2d_horiz   => false,
+    :bar2d_bwidth  => nothing,
+    :bar2d_labels  => String[],
+    #
+    :boxplot_horiz => false,
+    #
+    :heatmap_cmap      => colormap("RdBu", 10),
+    :heatmap_cmiss     => c"white",
+    :heatmap_transpose => false,
+    #
+    :scatter3d_linestyle => :default_LineStyle,
+    :scatter3d_markerstyle => :default_MarkerStyle,
+    :scatter3d_label => "",
 )
 
 
