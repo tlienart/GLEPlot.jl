@@ -50,6 +50,7 @@ const GP_ENV = LittleDict{String, Any}(
     "CUR_FIG"       => nothing,
     "CUR_AXES"      => nothing,
     "CLEAN_TMP"     => true,
+    "GLE_PATH"      => `gle`
 )
 
 function palette(cntr::Int)::Color

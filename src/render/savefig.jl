@@ -72,13 +72,14 @@ function savefig(
         `-transparent`, ``
     )
 
+    glex  = GP_ENV["GLE_PATH"]
     cext  = `-d $format`
     cres  = ifelse(format in OUTPUT_FORMATS_RASTER, `-r $res`, ``)
     copt  = `$cairo $texlabels $transparent`
     cverb = `-vb 0`
     cout  = `-o $output_path $script_path`
     com   = pipeline(
-        `gle $cext $cres $copt $cverb $cout`,
+        `$glex $cext $cres $copt $cverb $cout`,
         stdout = log_path,
         stderr = log_path
     )
