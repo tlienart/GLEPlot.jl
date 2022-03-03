@@ -90,7 +90,8 @@ function fill_data(
     y1 isa AV || (y1 = fill(y1, length(x)))
     y2 isa AV || (y2 = fill(y2, length(x)))
     length(x) == length(y1) == length(y2) ||throw(
-        DimensionMismatch("vectors x,y1,y2 must have matching lengths"))
+        DimensionMismatch("vectors x,y1,y2 must have matching lengths")
+    )
     return (
         data = zip(x, y1, y2),
     )
