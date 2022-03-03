@@ -14,7 +14,7 @@ Note: `set_properties!` (to avoid ambiguities in the code) is used internally,
     `set!` is exported (less verbose and not ambiguous).
 """
 function set_properties!(
-            dict::LittleDict{Symbol, Pair{Function, Function}},
+            dict::Dict{Symbol, Pair{Function, Function}},
             obj;
             opts...
         )::Nothing
@@ -190,7 +190,7 @@ pick_omstyle(b, v) = (b.boxstyles,    v, :omstyle)
 # set_font! <- string
 # set_hei!  <- F64, positive
 
-const PROP_ALIAS = LittleDict(
+const PROP_ALIAS = Dict(
     :color              => :col,
     :colour             => :col,
     :colors             => :col,
@@ -369,7 +369,7 @@ const PROP_ALIAS = LittleDict(
     :texpreamble => :preamble,
 )
 
-const OptsDict = LittleDict{Symbol,Pair{Function,Function}}
+const OptsDict = Dict{Symbol,Pair{Function,Function}}
 
 
 const TEXTSTYLE_OPTS = OptsDict(

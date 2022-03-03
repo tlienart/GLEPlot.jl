@@ -25,7 +25,7 @@ const PALETTE_RDBU_10 = nosp.([
     "rgba(0.0328, 0.1717, 0.3473, 1.0)"
 ])
 
-const GLE_DEFAULTS = LittleDict{Symbol,Any}(
+const GLE_DEFAULTS = Dict{Symbol,Any}(
     :palette => PALETTE_TAB_10,
     #
     :textstyle_font  => "texcmss",

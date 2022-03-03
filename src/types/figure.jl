@@ -13,7 +13,7 @@ mutable struct Figure
     texpreamble ::Option{String} # latex preamble
     transparency::Option{Bool}   # if true, use cairo device
     # ---
-    subroutines::LittleDict{String,String}
+    subroutines::Dict{String,String}
 end
 Figure(g::GS, id::String) =
     Figure(
@@ -29,7 +29,7 @@ Figure(g::GS, id::String) =
         nothing,
         nothing,
         # --
-        LittleDict{String,String}()
+        Dict{String,String}()
     )
 
 

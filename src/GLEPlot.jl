@@ -6,9 +6,6 @@ import Base: /, |>, take!, isempty
 # stdlib
 import DelimitedFiles: writedlm
 
-# external
-import OrderedCollections: LittleDict
-
 
 const AV  = AbstractVector
 const AVM = AbstractVecOrMat
@@ -28,7 +25,7 @@ const Listable   = Union{Tuple, NTuple, AV}
 
 
 # see subroutines/
-const GLE_DRAW_SUB = LittleDict{String, String}()
+const GLE_DRAW_SUB = Dict{String, String}()
 
 
 include("utils.jl")
@@ -37,7 +34,7 @@ include("gle_script.jl")
 include("strings.jl")
 include("defaults.jl")
 
-const GP_ENV = LittleDict{String, Any}(
+const GP_ENV = Dict{String, Any}(
     "TMP_PATH"     => mktempdir(),
     "PALETTE"      => GLE_DEFAULTS[:palette],
     "CONT_PREVIEW" => true,

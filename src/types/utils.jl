@@ -1,7 +1,7 @@
 export gcf, gca
 
 
-GP_ENV["ALL_FIGS"] = LittleDict{String, Figure}()
+GP_ENV["ALL_FIGS"] = Dict{String, Figure}()
 
 
 """

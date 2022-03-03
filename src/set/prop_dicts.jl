@@ -5,7 +5,7 @@ Internal function to add the values of a dictionary as keys with the same
 values. So for instance if the dictionary has a pair "s" => "square", it
 will add "square" => "square".
 """
-function add_dict_vals!(d::LittleDict{String,String})
+function add_dict_vals!(d::Dict{String,String})
     for v ∈ values(d)
         get(d, v) do
             d[v] = v
@@ -15,7 +15,7 @@ function add_dict_vals!(d::LittleDict{String,String})
 end
 
 
-const GLE_MARKERS = LittleDict{String,String}(
+const GLE_MARKERS = Dict{String,String}(
     "^"  => "triangle"   ,
     "w^" => "wtriangle"  ,
     "f^" => "ftriangle"  ,
@@ -54,7 +54,7 @@ const GLE_MARKERS = LittleDict{String,String}(
 add_dict_vals!(GLE_MARKERS)
 
 
-const GLE_LSTYLES = LittleDict{String,Int}(
+const GLE_LSTYLES = Dict{String,Int}(
     "-"    => 0,
     "--"   => 9,
     "-."   => 8,
@@ -65,7 +65,7 @@ const GLE_LSTYLES = LittleDict{String,Int}(
 const GLE_TEXSCALE = ("scale", "fixed", "none")
 
 
-const GLE_FONTS = LittleDict{String,String}(
+const GLE_FONTS = Dict{String,String}(
     "roman"                 => "rm"     ,
     "roman-bold"            => "rmb"    ,
     "roman-italic"          => "rmi"    ,
@@ -171,7 +171,7 @@ const GLE_FONTS = LittleDict{String,String}(
 add_dict_vals!(GLE_FONTS)
 
 
-const GLE_POSITION = LittleDict{String,String}(
+const GLE_POSITION = Dict{String,String}(
     "top-left"      => "tl",
     "bottom-left"   => "bl",
     "top-right"     => "tr",
@@ -185,7 +185,7 @@ const GLE_POSITION = LittleDict{String,String}(
 add_dict_vals!(GLE_POSITION)
 
 
-const HIST2D_SCALING = LittleDict{String,String}(
+const HIST2D_SCALING = Dict{String,String}(
     "none"  => "count",
     "pdf"   => "pdf",
     "prob"  => "probability",
@@ -193,7 +193,7 @@ const HIST2D_SCALING = LittleDict{String,String}(
 add_dict_vals!(HIST2D_SCALING)
 
 
-const AXSCALE = LittleDict{String,Bool}(
+const AXSCALE = Dict{String,Bool}(
     "log"         => true,
     "logarithmic" => true,
     "lin"         => false,
