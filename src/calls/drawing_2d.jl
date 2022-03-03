@@ -35,7 +35,11 @@ function plot_data(
         ArgumentError("Cannot display empty vectors.")
     )
     x isa AV{<:CanMiss{<:Real}} || throw(
-        ArgumentError("x has un-handled type $(typeof(x))")
+        ArgumentError("""
+            'x' has un-handled type $(typeof(x)), expected a vector of reals
+            possibly with missing values.
+            """
+        )
     )
 
     nobj       = 0
@@ -44,13 +48,18 @@ function plot_data(
                    any(isnan, x)
     for y ∈ ys
         y isa AVM{<:CanMiss{<:Real}} || throw(
-            ArgumentError("y has un-handled type $(typeof(y))")
+            ArgumentError(
+                """
+                'y' has un-handled type $(typeof(y))"), expected a vector or
+                a matrix of reals, possibly with missing values.
+                """
+            )
         )
         size(y, 1) == length(x) || throw(
             DimensionMismatch("y data must match x")
         )
 
-        nobj      += size(y, 2)
+        nobj       += size(y, 2)
         hasmissing |= Missing <: eltype(y) ||
                         any(isinf, y)      ||
                         any(isnan, y)
@@ -70,7 +79,7 @@ I/ Preprocess data for a Fill2D.
 """
 function fill_data(
             x::AVR,
-            y1::Union{Real, AVR},
+            y1::Union{Real,AVR},
             y2::Union{Real,AVR}
         )::NamedTuple
 
