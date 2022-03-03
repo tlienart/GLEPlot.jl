@@ -62,14 +62,14 @@ end
 #     drawings::Vector{Drawing3D} = Vector{Drawing3D}()
 #     objects ::Vector{Object3D}  = Vector{Object3D}()
 #     # ---
-#     title::Option{Title} = ∅
+#     title::Option{Title} = nothing
 #     size ::T2F           = (20.,10.) # box size
 #     # cube
 #     nocube   ::Bool      = false # XXX if true, then xaxis have an expressed linestyle
 #     cubedims ::T3F       = (20.,20.,10.) # cube sides x,y,z
 #     linestyle::LineStyle = LineStyle() # XXX only lstyle, color, see set
-#     origin   ::Option{T2F} = ∅
-#     rotate   ::Option{T2F} = ∅
+#     origin   ::Option{T2F} = nothing
+#     rotate   ::Option{T2F} = nothing
 #     off      ::Bool = false # do not show
 # end
 # Axes3D(p) = default(Axes3D,

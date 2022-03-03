@@ -5,7 +5,7 @@ Internal function to add a subroutine to the GLE script to generate a palette.
 """
 function add_sub_palette!(
             f::Figure,
-            vc::Vector{<:Color}
+            vc::Vector{String}
         )::Nothing
 
     nc   = length(vc) - 1

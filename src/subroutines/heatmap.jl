@@ -25,17 +25,17 @@ function add_sub_heatmap!(f::Figure, hm::Heatmap, hashid::UInt)
     =#
     ifpart = """
         if zij <= 1 then
-        \t\t    cij\$ = \"$(col2str(hm.cmap[1]))\"
+        \t\t    cij\$ = \"$(hm.cmap[1])\"
         """
     for k ∈ 2:length(hm.cmap)-1
         ifpart *= """
             \n\t\telse if zij <= $k then
-            cij\$ = \"$(col2str(hm.cmap[k]))\"
+            cij\$ = \"$(hm.cmap[k])\"
             """
     end
     ifpart *= """
         \n\t\telse
-            cij\$ = \"$(col2str(hm.cmiss))\"
+            cij\$ = \"$(hm.cmiss)\"
         end if"""
 
     box_default = """

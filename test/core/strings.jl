@@ -8,13 +8,11 @@ include("../utils.jl")
 end
 
 
-@testset "c_str" begin
-    @test c"red" == colorant"red"
-end
-
-
 @testset "col2str" begin
-    c = c"red"
+    c = "red"
+    s = G.col2str(c)
+    @test s // "red"
+    c = colorant"red"
     s = G.col2str(c)
     @test s // "rgba(1.0,0.0,0.0,1.0)"
     s = G.col2str(c, str=true)

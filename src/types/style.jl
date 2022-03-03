@@ -4,7 +4,7 @@ abstract type Style end
 mutable struct TextStyle <: Style
     font ::Option{String}
     hei  ::Option{F64}
-    color::Option{Color}
+    color::Option{String}
 end
 TextStyle() = default(TextStyle)
 
@@ -13,7 +13,7 @@ mutable struct LineStyle <: Style
     lstyle::Option{Int}
     lwidth::Option{F64}
     smooth::Option{Bool}
-    color ::Option{Color}
+    color ::Option{String}
 end
 LineStyle() = default(LineStyle)
 
@@ -21,21 +21,21 @@ LineStyle() = default(LineStyle)
 mutable struct MarkerStyle <: Style
     marker::Option{String}
     msize ::Option{F64}
-    color ::Option{Color}
+    color ::Option{String}
 end
 MarkerStyle() = default(MarkerStyle)
 
 
 mutable struct BarStyle <: Style
-    color::Option{Color}
-    fill ::Colorant
+    color::Option{String}
+    fill ::String
 #   pattern::Option{String}   =  .... see page 39 of manual, test first
 end
 BarStyle() = default(BarStyle)
 
 
 mutable struct FillStyle <: Style
-    fill::Colorant
+    fill::String
 end
 FillStyle() = default(FillStyle)
 

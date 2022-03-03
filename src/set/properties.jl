@@ -94,12 +94,8 @@ posint(x,      o::Symbol) = throw(
 )
 
 # color
-col(c::Color,     ::Symbol) = c
-col(s::String,    ::Symbol) = parse(Color, s)
+col(c,           o::Symbol) = col2str(c, o)
 col(v::Listable, o::Symbol) = col.(v, o)
-col(x,           o::Symbol) = throw(
-    OptionValueError(o, x, "((List of) Color or String-Color)")
-)
 
 
 """
@@ -113,7 +109,7 @@ is checked for transparency properties if set to false, a warning will be
 raised and the color will be defaulted to `"white"` if the transparency
 setting is unset, it will be set to `true`.
 """
-function opcol(x::String, o::Symbol)::Option{Color}
+function opcol(x::String, o::Symbol)::Option{String}
     if lowercase(x) == "none"
         isdef(gcf().transparency) || (gcf().transparency = true)
         if !gcf().transparency

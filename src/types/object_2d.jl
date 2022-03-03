@@ -71,7 +71,7 @@ Add a colorbar.
 mutable struct Colorbar <: Object2D
     zmin::F64
     zmax::F64
-    cmap::Vector{Color}
+    cmap::Vector{String}
     #
     ticks   ::Ticks        # constructed
     size    ::Option{T2F}  # (width, height)
@@ -81,5 +81,6 @@ mutable struct Colorbar <: Object2D
     offset  ::T2F          # h, v distance from closest corner of the graph
 end
 Colorbar(zmin, zmax, cmap) = default(Colorbar,
-    zmin, zmax, cmap, Ticks(collect(range(zmin, stop=zmax, length=5))[2:end-1])
+    zmin, zmax, cmap,
+    Ticks(collect(range(zmin, stop=zmax, length=5))[2:end-1])
 )

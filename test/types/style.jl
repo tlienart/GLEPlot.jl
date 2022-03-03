@@ -2,12 +2,12 @@ include("../utils.jl")
 
 
 @testset "TextStyle" begin
-    ts = G.TextStyle("hello", 0.5, c"red")
+    ts = G.TextStyle("hello", 0.5, "red")
     @test ts isa G.Style
     @test fieldnames(typeof(ts)) == (:font, :hei, :color)
     @test ts.font  == "hello"
     @test ts.hei   == 0.5
-    @test ts.color == c"red"
+    @test ts.color == "red"
 
     # Everything optional
     G.reset!(ts)
@@ -19,13 +19,13 @@ end
 
 @testset "LineStyle" begin
     # Everything optional
-    ls = G.LineStyle(2, 1.3, true, c"red")
+    ls = G.LineStyle(2, 1.3, true, "red")
     @test ls isa G.Style
     @test fieldnames(typeof(ls)) == (:lstyle, :lwidth, :smooth, :color)
     @test ls.lstyle == 2
     @test ls.lwidth == 1.3
     @test ls.smooth === true
-    @test ls.color == c"red"
+    @test ls.color == "red"
 
     # Everything optional
     G.reset!(ls)
@@ -34,12 +34,12 @@ end
 
 
 @testset "MarkerStyle" begin
-    ms = G.MarkerStyle("v", 2.0, c"red")
+    ms = G.MarkerStyle("v", 2.0, "red")
     @test ms isa G.Style
     @test fieldnames(typeof(ms)) == (:marker, :msize, :color)
     @test ms.marker == "v"
     @test ms.msize == 2.0
-    @test ms.color == c"red"
+    @test ms.color == "red"
 
     # Everything optional
     G.reset!(ms)
@@ -48,11 +48,11 @@ end
 
 
 @testset "BarStyle" begin
-    bs = G.BarStyle(c"red", c"green")
+    bs = G.BarStyle("red", "green")
     @test bs isa G.Style
     @test fieldnames(typeof(bs)) == (:color, :fill)
-    @test bs.color == c"red"
-    @test bs.fill == c"green"
+    @test bs.color == "red"
+    @test bs.fill == "green"
 
     G.reset!(bs)
     @test G.isanydef(bs)
@@ -62,10 +62,10 @@ end
 
 
 @testset "FillStyle" begin
-    fs = G.FillStyle(c"blue")
+    fs = G.FillStyle("blue")
     @test fs isa G.Style
     @test fieldnames(typeof(fs)) == (:fill,)
-    @test fs.fill == c"blue"
+    @test fs.fill == "blue"
 
     G.reset!(fs)
     @test fs.fill == G.GLE_DEFAULTS[:fillstyle_fill]
@@ -74,10 +74,10 @@ end
 
 @testset "BoxplotStyle" begin
     bs = G.BoxplotStyle(0.5, 0.5, 0.5,
-            G.LineStyle(2, 0.5, false, c"red"),
-            G.LineStyle(3, 1.5, false, c"green"),
-            G.MarkerStyle("v", 0.5, c"blue"),
-            G.MarkerStyle("o", 0.6, c"yellow"),
+            G.LineStyle(2, 0.5, false, "red"),
+            G.LineStyle(3, 1.5, false, "green"),
+            G.MarkerStyle("v", 0.5, "blue"),
+            G.MarkerStyle("o", 0.6, "yellow"),
             false,
             false,
     )
@@ -89,18 +89,18 @@ end
     @test bs.wrlength == 0.5
     @test bs.blstyle.lstyle == 2
     @test bs.blstyle.lwidth == 0.5
-    @test bs.blstyle.color == c"red"
+    @test bs.blstyle.color == "red"
     @test bs.mlstyle.lstyle == 3
     @test bs.mlstyle.lwidth == 1.5
-    @test bs.mlstyle.color == c"green"
+    @test bs.mlstyle.color == "green"
     @test bs.mshow == false
     @test bs.mmstyle.marker == "v"
     @test bs.mmstyle.msize == 0.5
-    @test bs.mmstyle.color == c"blue"
+    @test bs.mmstyle.color == "blue"
     @test bs.oshow == false
     @test bs.omstyle.marker == "o"
     @test bs.omstyle.msize == 0.6
-    @test bs.omstyle.color == c"yellow"
+    @test bs.omstyle.color == "yellow"
 
     G.reset!(bs)
     @test bs.bwidth == G.GLE_DEFAULTS[:boxplotstyle_bwidth]

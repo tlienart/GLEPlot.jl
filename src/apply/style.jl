@@ -114,11 +114,11 @@ function apply_barstyles_nostack!(
     # with the set_properties!)
     isanydef(v[1]) || return
     if isdef(v[1].color)
-        cv = svec2str((col2str(s.color) for s ∈ v))
+        cv = svec2str((s.color for s ∈ v))
         "color $cv" |> f
     end
     if isdef(v[1].fill)
-        cv = svec2str((col2str(s.fill) for s ∈ v))
+        cv = svec2str((s.fill for s ∈ v))
         "fill $cv"  |> f
     end
     return

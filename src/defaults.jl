@@ -1,16 +1,32 @@
+# Tableau 10-2 style palette
+const PALETTE_TAB_10 = nosp.([
+    "rgba(0.33, 0.47, 0.64, 1.0)",
+    "rgba(0.90, 0.57, 0.26, 1.0)",
+    "rgba(0.82, 0.37, 0.36, 1.0)",
+    "rgba(0.51, 0.70, 0.69, 1.0)",
+    "rgba(0.42, 0.62, 0.35, 1.0)",
+    "rgba(0.91, 0.79, 0.37, 1.0)",
+    "rgba(0.66, 0.49, 0.62, 1.0)",
+    "rgba(0.95, 0.63, 0.66, 1.0)",
+    "rgba(0.59, 0.46, 0.38, 1.0)",
+    "rgba(0.72, 0.69, 0.67, 1.0)"
+])
+# Red - Blue palette
+const PALETTE_RDBU_10 = nosp.([
+    "rgba(0.3786, 0.0056, 0.0064, 1.0)",
+    "rgba(0.753,  0.1959, 0.1625, 1.0)",
+    "rgba(0.961,  0.4386, 0.3725, 1.0)",
+    "rgba(1.0,    0.6565, 0.5902, 1.0)",
+    "rgba(1.0,    0.8304, 0.7872, 1.0)",
+    "rgba(0.7731, 0.8975, 0.9752, 1.0)",
+    "rgba(0.5698, 0.7806, 0.9392, 1.0)",
+    "rgba(0.3578, 0.6193, 0.861,  1.0)",
+    "rgba(0.1777, 0.411,  0.6793, 1.0)",
+    "rgba(0.0328, 0.1717, 0.3473, 1.0)"
+])
+
 const GLE_DEFAULTS = LittleDict{Symbol,Any}(
-    :palette => [ # imitated from tableau 10 - 2
-        RGB(0.33, 0.47, 0.64),
-        RGB(0.90, 0.57, 0.26),
-        RGB(0.82, 0.37, 0.36),
-        RGB(0.51, 0.70, 0.69),
-        RGB(0.42, 0.62, 0.35),
-        RGB(0.91, 0.79, 0.37),
-        RGB(0.66, 0.49, 0.62),
-        RGB(0.95, 0.63, 0.66),
-        RGB(0.59, 0.46, 0.38),
-        RGB(0.72, 0.69, 0.67)
-    ],
+    :palette => PALETTE_TAB_10,
     #
     :textstyle_font  => "texcmss",
     :textstyle_hei   => 0.35,
@@ -26,25 +42,25 @@ const GLE_DEFAULTS = LittleDict{Symbol,Any}(
     :markerstyle_color  => nothing,
     #
     :barstyle_color => nothing,
-    :barstyle_fill  => c"white",
+    :barstyle_fill  => "white",
     #
-    :fillstyle_fill   => c"cornflowerblue",
+    :fillstyle_fill   => "cornflowerblue",
     #
     :boxplotstyle_bwidth         => 0.6,
     :boxplotstyle_wwidth         => 0.3,
     :boxplotstyle_wrlength       => 1.5,
     :boxplotstyle_blstyle_lstyle => 1,
     :boxplotstyle_blstyle_lwidth => 0.0,
-    :boxplotstyle_blstyle_color  => c"seagreen",
+    :boxplotstyle_blstyle_color  => "seagreen",
     :boxplotstyle_mlstyle_lstyle => 1,
     :boxplotstyle_mlstyle_lwidth => 0.0,
-    :boxplotstyle_mlstyle_color  => c"seagreen",
+    :boxplotstyle_mlstyle_color  => "seagreen",
     :boxplotstyle_mmstyle_marker => "fdiamond",
     :boxplotstyle_mmstyle_msize  => 0.4,
-    :boxplotstyle_mmstyle_color  => c"dodgerblue",
+    :boxplotstyle_mmstyle_color  => "dodgerblue",
     :boxplotstyle_omstyle_marker => "+",
     :boxplotstyle_omstyle_msize  => 0.5,
-    :boxplotstyle_omstyle_color  => c"tomato",
+    :boxplotstyle_omstyle_color  => "tomato",
     :boxplotstyle_mshow          => true,
     :boxplotstyle_oshow          => true,
     #
@@ -122,8 +138,8 @@ const GLE_DEFAULTS = LittleDict{Symbol,Any}(
     #
     :boxplot_horiz => false,
     #
-    :heatmap_cmap      => colormap("RdBu", 10),
-    :heatmap_cmiss     => c"white",
+    :heatmap_cmap      => PALETTE_RDBU_10,
+    :heatmap_cmiss     => "white",
     :heatmap_transpose => false,
     #
     :scatter3d_linestyle => :default_LineStyle,

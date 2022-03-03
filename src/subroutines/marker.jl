@@ -26,7 +26,7 @@ function add_sub_marker!(
     f.subroutines[str(m)] = """
         sub _$(mstr(m)) size mdata
         gsave
-        set color $(col2str(m.color))
+        set color $(m.color)
         marker $(m.marker) size
         grestore
         end sub

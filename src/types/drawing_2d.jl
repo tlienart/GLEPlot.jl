@@ -148,8 +148,8 @@ mutable struct Heatmap <: Drawing2D
     zmin::F64
     zmax::F64
     #
-    cmap::Vector{Color}
-    cmiss::Color # box filling for missing values
+    cmap::Vector{String}
+    cmiss::String # box filling for missing values
     # transpose
     # whether to write the matrix as a transpose
     # this is useful because GLE can deal only with 1000-cols

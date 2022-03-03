@@ -44,7 +44,7 @@ function apply_legend_spec!(
         )::Nothing
 
     fill = h.drawing
-    "\n\ttext \"$label\" fill $(col2str(fill.fillstyle.fill))" |> f
+    "\n\ttext \"$label\" fill $(fill.fillstyle.fill)" |> f
     return
 end
 function apply_legend_spec!(
@@ -57,10 +57,10 @@ function apply_legend_spec!(
     hist = h.drawing
     "\n\ttext \"$label\"" |> f
     # precedence of fill over color
-    if hist.barstyle.fill != c"white"
-        "fill $(col2str(hist.barstyle.fill))" |> f
+    if hist.barstyle.fill != "white"
+        "fill $(hist.barstyle.fill)" |> f
     else
-        "marker square color $(col2str(hist.barstyle.color))" |> f
+        "marker square color $(hist.barstyle.color)" |> f
     end
     return
 end
@@ -75,10 +75,10 @@ function apply_legend_spec!(
     labels isa Vector || (labels = fill(labels, bar.nobj))
     for (k, barstyle) ∈ enumerate(bar.barstyles)
         "\n\ttext \"$(labels[k])\"" |> f
-        if barstyle.fill != c"white"
-            "fill $(col2str(barstyle.fill))" |> f
+        if barstyle.fill != "white"
+            "fill $(barstyle.fill)" |> f
         else
-            "marker square color $(col2str(barstyle.color))" |> f
+            "marker square color $(barstyle.color)" |> f
         end
     end
     return
@@ -107,7 +107,7 @@ function apply_legend!(
     # global commands
     "\n\tcompact"      |> f
     l.nobox && "nobox" |> f
-    isdef(l.bgcolor)   && "background $(col2str(l.bgcolor))"        |> f
+    isdef(l.bgcolor)   && "background $(l.bgcolor)"        |> f
     isdef(l.margins)   && "margins $(l.margins[1]) $(l.margins[2])" |> f
     sum(l.offset) > 0  && "offset $(l.offset[1]) $(l.offset[2])"    |> f
     isdef(l.position)  && "\n\tposition $(l.position)"              |> f

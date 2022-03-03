@@ -11,23 +11,23 @@ Internal functions to set the color value `col` (after parsing) to the
 appropriate field of object `obj`. In some case nothing can be given as `col`
 for instance for a background.
 """
-set_color!(o::Style, c::Color) =
-    (o.color = c;)
-set_color!(o::Union{Figure, Legend}, c::Option{Color}) =
-    (o.bgcolor = c;)
-set_color!(o::Hist2D, c::Color) =
-    set_color!(o.barstyle, c)
-set_color!(o::Union{Ticks, StraightLine2D, Box2D, Scatter3D}, c::Color) =
-    set_color!(o.linestyle, c)
-set_color!(o::Colorbar, c::Color) =
-    set_color!(o.ticks, c)
+set_color!(o::Style, c) =
+    (o.color = col2str(c);)
+set_color!(o::Union{Figure, Legend}, c) =
+    (o.bgcolor = col2str(c);)
+set_color!(o::Hist2D, c) =
+    set_color!(o.barstyle, col2str(c))
+set_color!(o::Union{Ticks, StraightLine2D, Box2D, Scatter3D}, c) =
+    set_color!(o.linestyle, col2str(c))
+set_color!(o::Colorbar, c) =
+    set_color!(o.ticks, col2str(c))
 
-set_textcolor!(o::Ticks, c::Color) =
-    set_color!(o.labels.textstyle, c)
-set_textcolor!(o::Colorbar, c::Color) =
-    set_color!(o.ticks, c)
-set_textcolor!(o::Union{Figure, Axis, Title}, c::Color) =
-    set_color!(o.textstyle, c)
+set_textcolor!(o::Ticks, c) =
+    set_color!(o.labels.textstyle, col2str(c))
+set_textcolor!(o::Colorbar, c) =
+    set_color!(o.ticks, col2str(c))
+set_textcolor!(o::Union{Figure, Axis, Title}, c) =
+    set_color!(o.textstyle, col2str(c))
 
 
 """
@@ -38,7 +38,7 @@ If a single value is passed, all fields will be assigned to that value.
 """
 function set_colors!(
             vs::Vector,
-            c::Vector{<:Color},
+            c::Vector,
             field::Option{Symbol}=nothing
         )::Nothing
 
@@ -49,16 +49,16 @@ function set_colors!(
     # assign
     if isnothing(field)
         for (i, col) ∈ enumerate(c)
-            set_color!(vs[i], col)
+            set_color!(vs[i], col2str(col))
         end
     else
         for (i, col) ∈ enumerate(c)
-            set_color!(fetfield(vs[i], field), col)
+            set_color!(fetfield(vs[i], field), col2str(col))
         end
     end
     return
 end
-set_colors!(vs::Vector, c::Color, f) = set_colors!(vs, fill(c, length(vs)), f)
+set_colors!(vs::Vector, c, f) = set_colors!(vs, fill(col2str(c), length(vs)), f)
 
 
 """
@@ -67,20 +67,20 @@ set_colors!(vs::Vector, c::Color, f) = set_colors!(vs, fill(c, length(vs)), f)
 Internal functions to set the fill color value `v` (after parsing) to the
 appropriate field of object `obj`.
 """
-set_fill!(o::Union{FillStyle,BarStyle}, c::Color) =
+set_fill!(o::Union{FillStyle,BarStyle}, c) =
     (o.fill = c;)
-set_fill!(o::Fill2D, c::Color) =
-    set_fill!(o.fillstyle, c)
-set_fill!(o::Hist2D, c::Color) =
-    set_fill!(o.barstyle, c)
+set_fill!(o::Fill2D, c) =
+    set_fill!(o.fillstyle, col2str(c))
+set_fill!(o::Hist2D, c) =
+    set_fill!(o.barstyle, col2str(c))
 
 function set_fill!(
             o::Box2D,
-            c::Color
+            c
         )::Nothing
 
     isnothing(o.fillstyle) && (o.fillstyle = FillStyle())
-    set_fill!(o.fillstyle, c)
+    set_fill!(o.fillstyle, col2str(c))
 end
 
 
@@ -92,7 +92,7 @@ If a single value is passed, all fields will be assigned to that value.
 """
 function set_fills!(
             vs::Vector,
-            c::Vector{<:Color},
+            c::Vector,
             field::Option{Symbol}=nothing
         )::Nothing
     # check dimensions match
@@ -102,16 +102,16 @@ function set_fills!(
     # assign
     if isnothing(field)
         for (i, col) ∈ enumerate(c)
-            set_fill!(vs[i], col)
+            set_fill!(vs[i], col2str(col))
         end
     else
         for (i, col) ∈ enumerate(c)
-            set_fill!(fetfield(vs[i], field), col)
+            set_fill!(fetfield(vs[i], field), col2str(col))
         end
     end
     return
 end
-set_fills!(vs::Vector, c::Color, f) = set_fills!(vs, fill(c, length(vs)), f)
+set_fills!(vs::Vector, c, f) = set_fills!(vs, fill(col2str(c), length(vs)), f)
 
 
 """
@@ -271,12 +271,12 @@ set_msize!(o, v::F64) = set_msize!(o.markerstyle, v)
 Internal function to set the marker color. If no marker has been given, set it
 to a filled circle.
 """
-function set_mcol!(o::MarkerStyle, c::Color)
+function set_mcol!(o::MarkerStyle, c)
     isdef(o.marker) || (o.marker = "fcircle")
-    o.color = c
+    o.color = col2str(c)
     return
 end
-set_mcol!(o, v::Color) = set_mcol!(o.markerstyle, v)
+set_mcol!(o, v) = set_mcol!(o.markerstyle, v)
 
 
 # generate functions that take vector inputs for linestyle and markerstyle
@@ -285,7 +285,7 @@ for case ∈ ("lstyle", "lwidth", "smooth", "marker", "msize", "mcol")
     f_vector! = Symbol("set_$(case)s!") # e.g. set_markers!
     ex = quote
         # set function for a group of objects (e.g. linestyles, markerstyles)
-        function $f_vector!(vs::Vector, v, f::Option{Symbol}=∅)
+        function $f_vector!(vs::Vector, v, f::Option{Symbol}=nothing)
             length(vs) == length(v) || throw(
                 DimensionMismatch($case*"s // dimensions don't match")
             )

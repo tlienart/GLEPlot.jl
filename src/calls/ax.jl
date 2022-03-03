@@ -228,7 +228,7 @@ for axs ∈ ("x", "y", "x2", "y2")
     f  = Symbol(axs * "lim")
     ex = quote
         $f(min, max; o...) = _lim(Symbol($axs * "axis"), fl(min), fl(max); o...)
-        $f(; min=∅, max=∅) = _lim(Symbol($axs * "axis"), fl(min), fl(max))
+        $f(; min=nothing, max=nothing) = _lim(Symbol($axs * "axis"), fl(min), fl(max))
     end
     eval(ex)
 end

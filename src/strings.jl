@@ -17,29 +17,55 @@ macro tex_str(s)
 end
 
 @eval const $(Symbol("@t_str")) = $(Symbol("@tex_str"))
-@eval const $(Symbol("@c_str")) = $(Symbol("@colorant_str"))
+#@eval const $(Symbol("@c_str")) = $(Symbol("@colorant_str"))
+
+
+"""
+    nosp(s)
+
+I/ Remove all spaces, e.g. for rgba representation this is needed otherwise
+GLE doesn't understand the string.
+"""
+nosp(s::String) = replace(s, " "=>"")
 
 
 const BRACKETS_PAT = r"[\(\),\.]"
 
 """
-    col2str(c; str)
+    col2str(c, o; str)
 
 I/ Return a GLE-compatible string representation of a color.
 In the case of Markerstyle color with the relevant routine it is useful
 to get a representation devoid of brackets, dots or dashes.
 """
 function col2str(
-            col::Colorant;
-            str=false
-        )::String
+            col::T,
+            o::Option{Symbol} = nothing;
+            #
+            str::Bool =false
+        )::String where T
 
-    crgba = convert(RGBA, col)
-    r, g, b, α = fl2str.(Float64.((crgba.r, crgba.g, crgba.b, crgba.alpha)))
-    s = "rgba($r,$g,$b,$α)"
-    str || return s
-    return replace(s, BRACKETS_PAT => "_")
+    fnT = fieldnames(T)
+    if fnT != (:r, :g, :b) && fnT != (:r, :g, :b, :alpha)
+        op = isdef(o) ? " (given for option $o)" : ""
+        @error """
+            Given color '$col' does not match a known type. Expected a string or
+            an object with :r, :g, :b (:alpha) fields$op.
+            """
+    end
+    r, g, b  = Float64.((col.r, col.g, col.b))
+    alpha    = :alpha in fnT ? Float64(col.alpha) : 1.0
+    gle_rgba = "rgba($r,$g,$b,$alpha)"
+    str || return gle_rgba
+    return replace(gle_rgba, BRACKETS_PAT => "_")
 end
+col2str(col::String; kw...) = lowercase(nosp(col))
+col2str(::Nothing) = nothing
+
+alpha(s::String)::Float64 =
+    startswith(s, "rgba(") ?
+    parse(Float64, split(strip(s, ')'), ',')[end]) :
+    1.0
 
 
 """

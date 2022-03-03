@@ -47,7 +47,7 @@ mutable struct Legend <: AxesObject
     position::Option{String}
     textstyle::TextStyle
     offset  ::T2F
-    bgcolor ::Option{Colorant}
+    bgcolor ::Option{String}
     margins ::Option{T2F}
     nobox   ::Bool
     off     ::Bool

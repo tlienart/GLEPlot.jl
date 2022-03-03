@@ -4,14 +4,12 @@ module GLEPlot
 import Base: /, |>, take!, isempty
 
 # stdlib
-using DelimitedFiles
+import DelimitedFiles: writedlm
 
 # external
-using Colors
-using OrderedCollections: LittleDict
+import OrderedCollections: LittleDict
 
 
-const ∅   = nothing
 const AV  = AbstractVector
 const AVM = AbstractVecOrMat
 const AM  = AbstractMatrix
@@ -29,36 +27,6 @@ const CanMiss{T} = Union{Missing, T}
 const Listable   = Union{Tuple, NTuple, AV}
 
 
-const PALETTE_1 = [ # imitated from tableau 10 - 2
-    RGB(0.33, 0.47, 0.64),
-    RGB(0.90, 0.57, 0.26),
-    RGB(0.82, 0.37, 0.36),
-    RGB(0.51, 0.70, 0.69),
-    RGB(0.42, 0.62, 0.35),
-    RGB(0.91, 0.79, 0.37),
-    RGB(0.66, 0.49, 0.62),
-    RGB(0.95, 0.63, 0.66),
-    RGB(0.59, 0.46, 0.38),
-    RGB(0.72, 0.69, 0.67)
-]
-
-const GP_ENV = LittleDict{String, Any}(
-    "TMP_PATH"     => mktempdir(),   # where intermediate files are stored
-    "PALETTE"      => PALETTE_1,
-    "CONT_PREVIEW" => true,
-    "ALL_FIGS"      => nothing,
-    "CUR_FIG"       => nothing,
-    "CUR_AXES"      => nothing,
-    "CLEAN_TMP"     => true,
-)
-
-function palette(cntr::Int)::Color
-    ncols = length(GP_ENV["PALETTE"])
-    idx   = mod(cntr, ncols)
-    idx   = ifelse(idx == 0, ncols, idx)
-    return GP_ENV["PALETTE"][idx]
-end
-
 # see subroutines/
 const GLE_DRAW_SUB = LittleDict{String, String}()
 
@@ -68,6 +36,23 @@ include("exceptions.jl")
 include("gle_script.jl")
 include("strings.jl")
 include("defaults.jl")
+
+const GP_ENV = LittleDict{String, Any}(
+    "TMP_PATH"     => mktempdir(),
+    "PALETTE"      => GLE_DEFAULTS[:palette],
+    "CONT_PREVIEW" => true,
+    "ALL_FIGS"     => nothing,
+    "CUR_FIG"      => nothing,
+    "CUR_AXES"     => nothing,
+    "CLEAN_TMP"    => true,
+)
+
+function palette(cntr::Int)::String
+    ncols = length(GP_ENV["PALETTE"])
+    idx   = mod(cntr, ncols)
+    idx   = ifelse(idx == 0, ncols, idx)
+    return GP_ENV["PALETTE"][idx]
+end
 
 include("types/style.jl")
 include("types/drawing_2d.jl")

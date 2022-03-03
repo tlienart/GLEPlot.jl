@@ -68,7 +68,7 @@ function savefig(
     cairo       = ifelse(isdef(fig.transparency), `-cairo`, ``)
     texlabels   = ifelse(isdef(fig.texlabels),    `-tex`,   ``)
     transparent = ifelse(
-        isnothing(fig.bgcolor) || Colors.alpha(fig.bgcolor) < 1,
+        isnothing(fig.bgcolor) || alpha(fig.bgcolor) < 1,
         `-transparent`, ``
     )
 

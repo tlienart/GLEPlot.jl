@@ -21,7 +21,7 @@ function write_figure(
         # add a box that is slightly larger than the size
         "\namove -0.05 -0.05" |> f
         "\nbox $(f.size[1]+0.1) $(f.size[2]+0.1)" |> f
-        "fill $(col2str(f.bgcolor)) nobox" |> f
+        "fill $(f.bgcolor) nobox" |> f
     end
 
     # >> apply latex
@@ -47,7 +47,8 @@ function write_figure(
     # NOTE: this organisation is so that if axes need extra
     # subroutines, these will be generated after applying axes
     # but need to be put before in the GLE script
-    gtemp = GS();
+
+    ftemp = Figure(GS(), "__temp__")
     for (i, aᵢ) ∈ enumerate(f.axes)
         apply_axes!(ftemp, aᵢ, f.id, i)
     end
@@ -71,7 +72,7 @@ function write_figure(
         # --------------
         "plot3" ∈ ks && f.subroutines["plot3"] |> f
     end
-    gtemp |> f
+    ftemp |> f
 
     # >> either return as string or write to file
     isempty(opath) && return String(take!(f))

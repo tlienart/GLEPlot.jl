@@ -3,17 +3,17 @@ mutable struct Figure
     script::GS     # description buffer
     id    ::String # id of the figure
     # ---
-    axes     ::Vector{Axes}   # subplots
+    axes     ::Vector{Axes}      # subplots
     size     ::T2F               # (width, heigth)
     textstyle::TextStyle         # parent font etc
-    bgcolor  ::Option{Colorant}  # background col, nothing=transparent
+    bgcolor  ::Option{String}    # background col, nothing=transparent
     # ---
     texlabels   ::Option{Bool}   # true if has tex
     texscale    ::Option{String} # scale latex * hei (def=1)
     texpreamble ::Option{String} # latex preamble
     transparency::Option{Bool}   # if true, use cairo device
     # ---
-    subroutines::Dict{String,String}
+    subroutines::LittleDict{String,String}
 end
 Figure(g::GS, id::String) =
     Figure(
@@ -22,18 +22,20 @@ Figure(g::GS, id::String) =
         Vector{Axes}(),
         (12., 9.),
         TextStyle(),
-        c"white",
+        "white",
         # --
-        ∅,
-        ∅,
-        ∅,
-        ∅,
+        nothing,
+        nothing,
+        nothing,
+        nothing,
         # --
-        Dict{String,String}()
+        LittleDict{String,String}()
     )
 
 
-|>(s::String, f::Figure) = s |> f.script
+|>(s::String, f::Figure)   = s |> f.script
+|>(fi::Figure, fo::Figure) = fi.script |> fo.script
+take!(f::Figure) = take!(f.script)
 
 
 """
@@ -45,11 +47,11 @@ function reset!(f::Figure)
     take!(f.script)  # empty the buffer
     f.axes         = Vector{Axes}() # clean axes
     f.textstyle    = TextStyle(font="texcmss", hei=0.35) # default fontstyle
-    f.bgcolor      = c"white" # default bg color
-    f.texlabels    = ∅
-    f.texscale     = ∅
-    f.texpreamble  = ∅
-    f.transparency = ∅
+    f.bgcolor      = "white" # default bg color
+    f.texlabels    = nothing
+    f.texscale     = nothing
+    f.texpreamble  = nothing
+    f.transparency = nothing
     f.subroutines  = Dict{String,String}()
     GP_ENV["CUR_FIG"]  = f
     GP_ENV["CUR_AXES"] = nothing

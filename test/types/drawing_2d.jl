@@ -71,6 +71,6 @@ end
     @test h.zmin == 0.1
     @test h.zmax == 0.2
     @test length(h.cmap) == 10
-    @test h.cmiss == c"white"
+    @test h.cmiss == "white"
     @test h.transpose == false
 end

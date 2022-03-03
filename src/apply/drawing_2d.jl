@@ -156,7 +156,7 @@ function apply_drawing!(
     "\n\tdata \"$faux\" d$(el_cntr)=c1,c2 d$(el_cntr+1)=c1,c3" |> f
 
     "\n\tfill d$(el_cntr),d$(el_cntr+1)"    |> f
-    "color $(col2str(fill.fillstyle.fill))" |> f
+    "color $(fill.fillstyle.fill)" |> f
     add(f, fill, :xmin, :xmax)
 
     el_cntr += 2
@@ -188,12 +188,12 @@ function apply_drawing!(
 
     # if no color has been specified, assign one according to the PALETTE
     if !isdef(hist.barstyle.color)
-        if hist.barstyle.fill == c"white"
+        if hist.barstyle.fill == "white"
             cc = mod(el_cntr, GP_ENV["SZ_PALETTE"])
             (cc == 0) && (cc = GP_ENV["SZ_PALETTE"])
             hist.barstyle.color = GP_ENV["PALETTE"][cc]
         else
-            hist.barstyle.color = c"white" # looks nicer than black
+            hist.barstyle.color = "white" # looks nicer than black
         end
     end
 
@@ -262,10 +262,10 @@ function apply_drawing!(
     # if no color has been specified, assign with palette
     for c ∈ eachindex(bar.barstyles)
         if !isdef(bar.barstyles[c].color)
-            if bar.barstyles[c].fill == c"white"
+            if bar.barstyles[c].fill == "white"
                 bar.barstyles[c].color = palette(el_cntr + c - 1)
             else
-                bar.barstyles[c].color = c"white"
+                bar.barstyles[c].color = "white"
             end
         end
     end

@@ -83,7 +83,7 @@ function apply_object!(
     obj.nobox && "nobox"                    |> f
     # apply fill
     fs = obj.fillstyle
-    isdef(fs) && "fill $(col2str(fs.fill))" |> f
+    isdef(fs) && "fill $(fs.fill)" |> f
     grestore(g)
     return
 end

@@ -138,7 +138,7 @@ Add a colorbar on a side of the axes corresponding to the span `[zmin,zmax]` wit
 function colorbar(
             zmin::Real,
             zmax::Real,
-            cmap::Vector{Color};
+            cmap::Vector{String};
             axes::Option{Axes}=nothing,
             o...
         )::PreviewFigure

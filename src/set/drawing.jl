@@ -60,4 +60,4 @@ set_stacked!(o::Bar2D, v::Bool) = (o.stacked = v;)
 #### Heatmap
 ####
 
-set_cmap!(h::Heatmap, c::Vector{<:Color}) = (h.cmap = c;)
+set_cmap!(h::Heatmap, c::Vector) = (h.cmap = col2str.(c);)

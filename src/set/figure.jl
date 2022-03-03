@@ -18,7 +18,7 @@ function set_texlabels!(
             v::Bool
          )::Nothing
 
-   o.texlabels = ifelse(v, v, ∅)
+   o.texlabels = ifelse(v, v, nothing)
    isnothing(o.texpreamble) || return
    set_texpreamble!(o, t"\usepackage{amssymb}")
    return

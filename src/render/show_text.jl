@@ -30,12 +30,12 @@ function Base.show(
         )::Nothing
 
     tbg = (f.bgcolor === nothing)
-    wbg = (f.bgcolor == RGB(1,1,1))
+    wbg = (f.bgcolor == "white")
     write(io,
         "GLEPlot.Figure" *
         _gs("Name:",        f.id == "_fig_" ? "default (\"_fig_\")" : "\"$(f.id)\""  ) *
         _gs("Size:",        Float64.(f.size)                                         ) *
-        _gs("Bg. color:",   tbg ? "none" : ifelse(wbg, "white", col2str(f.bgcolor))  ) *
+        _gs("Bg. color:",   tbg ? "none" : ifelse(wbg, "white", f.bgcolor)           ) *
         _gs("N. axes:",     length(f.axes)                                           ) *
         _gs("LaTeX:",       isdef(f.texlabels)    ? f.texlabels    : "false"         ) *
         _gs("Transparent:", isdef(f.transparency) ? f.transparency : "false"         )
