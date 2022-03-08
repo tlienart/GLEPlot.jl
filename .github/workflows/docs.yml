@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - dev
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -15,4 +16,7 @@ jobs:
       - uses: tlienart/xranklin-build-action@v2.1
         with:
           BASE_URL_PREFIX: "GLEPlot"
-          JULIA_SETUP: 'ENV["GLE"] = "gle-4.3.1-Linux/bin/gle";'
+          JULIA_SETUP: '
+            ENV["GLE"] = "gle-4.3.1-Linux/bin/gle";
+            Pkg.add(url="https://github.com/tlienart/GLEPlot.jl", rev="dev");
+            '
