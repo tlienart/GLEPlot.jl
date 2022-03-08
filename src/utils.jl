@@ -51,7 +51,7 @@ I/ Create a `Vector{T}` with `n`
 nvec(n::Int, T)    = [T() for _ in 1:n]
 nvec(n::Int, T, s) = [
     T((
-        get(GLE_DEFAULTS, Symbol("$(s)_$k"), nothing)
+        get(DEFAULTS, Symbol("$(s)_$k"), nothing)
         for k in fieldnames(T)
       )...)
     for _ in 1:n

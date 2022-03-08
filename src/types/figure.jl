@@ -53,7 +53,7 @@ function reset!(f::Figure)
     f.texpreamble  = nothing
     f.transparency = nothing
     f.subroutines  = Dict{String,String}()
-    GP_ENV["CUR_FIG"]  = f
-    GP_ENV["CUR_AXES"] = nothing
+    GP_ENV[:current_fig]  = f
+    GP_ENV[:current_axes] = nothing
     return f
 end

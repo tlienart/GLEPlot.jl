@@ -91,10 +91,10 @@ mutable struct Hist2D{T} <: Drawing2D
 end
 Hist2D(d, m, n, r) = Hist2D(
     d, m, n, r, BarStyle(),
-    GLE_DEFAULTS[:hist2d_horiz],
-    GLE_DEFAULTS[:hist2d_bins],
-    GLE_DEFAULTS[:hist2d_scaling],
-    GLE_DEFAULTS[:hist2d_label],
+    DEFAULTS[:hist2d_horiz],
+    DEFAULTS[:hist2d_bins],
+    DEFAULTS[:hist2d_scaling],
+    DEFAULTS[:hist2d_label],
 )
 
 
@@ -116,10 +116,10 @@ mutable struct Bar2D{T} <: Drawing2D
 end
 Bar2D(d, m, n) = Bar2D(
     d, m, n, nvec(n, BarStyle),
-    GLE_DEFAULTS[:bar2d_stacked],
-    GLE_DEFAULTS[:bar2d_horiz],
-    GLE_DEFAULTS[:bar2d_bwidth],
-    GLE_DEFAULTS[:bar2d_labels],
+    DEFAULTS[:bar2d_stacked],
+    DEFAULTS[:bar2d_horiz],
+    DEFAULTS[:bar2d_bwidth],
+    DEFAULTS[:bar2d_labels],
 )
 
 

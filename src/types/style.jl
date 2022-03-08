@@ -52,31 +52,31 @@ mutable struct BoxplotStyle <: Style
     oshow   ::Bool         # show outliers
 end
 BoxplotStyle() = BoxplotStyle(
-    GLE_DEFAULTS[:boxplotstyle_bwidth],
-    GLE_DEFAULTS[:boxplotstyle_wwidth],
-    GLE_DEFAULTS[:boxplotstyle_wrlength],
+    DEFAULTS[:boxplotstyle_bwidth],
+    DEFAULTS[:boxplotstyle_wwidth],
+    DEFAULTS[:boxplotstyle_wrlength],
     LineStyle(
-        GLE_DEFAULTS[:boxplotstyle_blstyle_lstyle],
-        GLE_DEFAULTS[:boxplotstyle_blstyle_lwidth],
+        DEFAULTS[:boxplotstyle_blstyle_lstyle],
+        DEFAULTS[:boxplotstyle_blstyle_lwidth],
         false,
-        GLE_DEFAULTS[:boxplotstyle_blstyle_color]
+        DEFAULTS[:boxplotstyle_blstyle_color]
     ),
     LineStyle(
-        GLE_DEFAULTS[:boxplotstyle_mlstyle_lstyle],
-        GLE_DEFAULTS[:boxplotstyle_mlstyle_lwidth],
+        DEFAULTS[:boxplotstyle_mlstyle_lstyle],
+        DEFAULTS[:boxplotstyle_mlstyle_lwidth],
         false,
-        GLE_DEFAULTS[:boxplotstyle_mlstyle_color]
+        DEFAULTS[:boxplotstyle_mlstyle_color]
     ),
     MarkerStyle(
-        GLE_DEFAULTS[:boxplotstyle_mmstyle_marker],
-        GLE_DEFAULTS[:boxplotstyle_mmstyle_msize],
-        GLE_DEFAULTS[:boxplotstyle_mmstyle_color]
+        DEFAULTS[:boxplotstyle_mmstyle_marker],
+        DEFAULTS[:boxplotstyle_mmstyle_msize],
+        DEFAULTS[:boxplotstyle_mmstyle_color]
     ),
     MarkerStyle(
-        GLE_DEFAULTS[:boxplotstyle_omstyle_marker],
-        GLE_DEFAULTS[:boxplotstyle_omstyle_msize],
-        GLE_DEFAULTS[:boxplotstyle_omstyle_color]
+        DEFAULTS[:boxplotstyle_omstyle_marker],
+        DEFAULTS[:boxplotstyle_omstyle_msize],
+        DEFAULTS[:boxplotstyle_omstyle_color]
         ),
-    GLE_DEFAULTS[:boxplotstyle_mshow],
-    GLE_DEFAULTS[:boxplotstyle_oshow]
+    DEFAULTS[:boxplotstyle_mshow],
+    DEFAULTS[:boxplotstyle_oshow]
 )

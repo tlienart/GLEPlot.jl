@@ -147,7 +147,7 @@ end
 #     # SURFACE
 #     if isempty(a.drawings) || all(d->!isa(d, Surface), a.drawings)
 #         # NOTE if there is no surface, we MUST add dummy data otherwise ghostscript crashes.
-#         fd = joinpath(GP_ENV["TMP_PATH"], "$(figid)_dummy.z")
+#         fd = joinpath(GP_ENV[:tmp_path], "$(figid)_dummy.z")
 #         write(fd, "! nx 2 ny 2 xmin 1 xmax 2 ymin 1 ymax 2\n1 2\n2 2\n")
 #         "\n\t\tdata \"$fd\""   |> f
 #         "\n\t\ttop off"        |> f

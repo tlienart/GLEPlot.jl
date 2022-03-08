@@ -8,4 +8,7 @@ site_author = "Thibaut Lienart"
 content_tag = ""
 heading_link = false
 
+# Misc
+skiplatex = true
+
 +++

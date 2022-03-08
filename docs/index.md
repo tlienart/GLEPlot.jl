@@ -9,7 +9,7 @@ Foo bar
 @@
 
 ```!
-using GLEPlot
+using GLEPlot, Colors
 ```
 
 ## Explicit arrays
@@ -70,3 +70,89 @@ y2 = @. cos(x)
 fill_between(x, y1, y2)
 gcf()
 ``` -->
+
+
+## 2D plot and properties
+
+**Note**: add legend to stuff.
+
+```!
+x = range(-2, 2, length=100)
+```
+
+### Line style
+
+```!
+opts = ("-", "--", "-.")
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, lstyle=o)
+end
+gcf()
+```
+
+### Line width
+
+```!
+opts = (0.001, 0.01, 0.05, 0.1, 0)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, lwidth=o)
+end
+gcf()
+```
+
+### Line colour
+
+```!
+opts = ("cornflowerblue", "forestgreen", "indigo", RGB(.5,.7,.2))
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, col=o)
+end
+gcf()
+```
+
+### Smooth
+
+Reduce the resolution a lot
+
+```!
+x = range(-2, 2, length=20)
+
+opts = (true, false)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, smooth=o)
+end
+gcf()
+```
+
+### Marker type
+
+```!
+# there's a bunch of other ones like diamond etc
+opts = ("circle", "fcircle", "triangle", "ftriangle", "cross", "plus")
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, marker=o)
+end
+gcf()
+```
+
+### Marker size
+
+```!
+opts = (0.1, 0.25, 0.5)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, marker="fcircle", msize=o)
+end
+gcf()
+```

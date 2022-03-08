@@ -34,7 +34,7 @@ same command is issued, the file is not re-written). The `axidx` and `figid`
 are there to make the auxiliary file unique and easy to delete after use.
 """
 auxpath(h::UInt, fid::String, axid::Int) =
-    GP_ENV["TMP_PATH"] / "$(fid)_$(axid)_$h.csv"
+    GP_ENV[:tmp_path] / "$(fid)_$(axid)_$h.csv"
 
 """
     auxdata(o, fid, axid)
@@ -191,7 +191,7 @@ function apply_drawing!(
         if hist.barstyle.fill == "white"
             cc = mod(el_cntr, GP_ENV["SZ_PALETTE"])
             (cc == 0) && (cc = GP_ENV["SZ_PALETTE"])
-            hist.barstyle.color = GP_ENV["PALETTE"][cc]
+            hist.barstyle.color = GP_ENV[:palette][cc]
         else
             hist.barstyle.color = "white" # looks nicer than black
         end

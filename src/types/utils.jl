@@ -1,7 +1,7 @@
 export gcf, gca
 
 
-GP_ENV["ALL_FIGS"] = Dict{String, Figure}()
+GP_ENV[:all_figs] = Dict{String, Figure}()
 
 
 """
@@ -9,7 +9,7 @@ GP_ENV["ALL_FIGS"] = Dict{String, Figure}()
 
 Return the current active Figure or a new figure if there isn't one.
 """
-gcf()::Figure = isdef(GP_ENV["CUR_FIG"]) ? GP_ENV["CUR_FIG"] : Figure()
+gcf()::Figure = isdef(GP_ENV[:current_fig]) ? GP_ENV[:current_fig] : Figure()
 
 
 """
@@ -17,7 +17,7 @@ gcf()::Figure = isdef(GP_ENV["CUR_FIG"]) ? GP_ENV["CUR_FIG"] : Figure()
 
 Return the current active Axes and `nothing` if there isn't one.
 """
-gca()::Option{Axes} = GP_ENV["CUR_AXES"] # if nothing, whatever called it will create
+gca()::Option{Axes} = GP_ENV[:current_axes] # if nothing, whatever called it will create
 
 
 """

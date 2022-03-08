@@ -58,7 +58,7 @@ function set_colors!(
     end
     return
 end
-set_colors!(vs::Vector, c, f) = set_colors!(vs, fill(col2str(c), length(vs)), f)
+set_colors!(vs::Vector, c, f=nothing) = set_colors!(vs, fill(col2str(c), length(vs)), f)
 
 
 """
@@ -285,7 +285,7 @@ for case ∈ ("lstyle", "lwidth", "smooth", "marker", "msize", "mcol")
     f_vector! = Symbol("set_$(case)s!") # e.g. set_markers!
     ex = quote
         # set function for a group of objects (e.g. linestyles, markerstyles)
-        function $f_vector!(vs::Vector, v, f::Option{Symbol}=nothing)
+        function $f_vector!(vs::Vector, v::Vector, f::Option{Symbol}=nothing)
             length(vs) == length(v) || throw(
                 DimensionMismatch($case*"s // dimensions don't match")
             )
@@ -300,7 +300,7 @@ for case ∈ ("lstyle", "lwidth", "smooth", "marker", "msize", "mcol")
             end
             return
         end
-        $f_vector!(vs::Vector, v::Vector, f) = $f_vector!(vs, fill(v, length(vs)), f)
+        $f_vector!(vs::Vector, v, f=nothing) = $f_vector!(vs, fill(v, length(vs)), f)
     end
     eval(ex)
 end

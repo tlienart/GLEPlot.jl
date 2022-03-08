@@ -11,9 +11,9 @@ include("../utils.jl")
 
     # Everything optional
     G.reset!(ts)
-    @test ts.font  == GLEPlot.GLE_DEFAULTS[:textstyle_font]
-    @test ts.hei   == GLEPlot.GLE_DEFAULTS[:textstyle_hei]
-    @test ts.color == GLEPlot.GLE_DEFAULTS[:textstyle_color]
+    @test ts.font  == GLEPlot.DEFAULTS[:textstyle_font]
+    @test ts.hei   == GLEPlot.DEFAULTS[:textstyle_hei]
+    @test ts.color == GLEPlot.DEFAULTS[:textstyle_color]
 end
 
 
@@ -57,7 +57,7 @@ end
     G.reset!(bs)
     @test G.isanydef(bs)
     @test bs.color === nothing
-    @test bs.fill == G.GLE_DEFAULTS[:barstyle_fill]
+    @test bs.fill == G.DEFAULTS[:barstyle_fill]
 end
 
 
@@ -68,7 +68,7 @@ end
     @test fs.fill == "blue"
 
     G.reset!(fs)
-    @test fs.fill == G.GLE_DEFAULTS[:fillstyle_fill]
+    @test fs.fill == G.DEFAULTS[:fillstyle_fill]
 end
 
 
@@ -103,20 +103,20 @@ end
     @test bs.omstyle.color == "yellow"
 
     G.reset!(bs)
-    @test bs.bwidth == G.GLE_DEFAULTS[:boxplotstyle_bwidth]
-    @test bs.wwidth == G.GLE_DEFAULTS[:boxplotstyle_wwidth]
-    @test bs.wrlength == G.GLE_DEFAULTS[:boxplotstyle_wrlength]
-    @test bs.blstyle.lstyle == G.GLE_DEFAULTS[:boxplotstyle_blstyle_lstyle]
-    @test bs.blstyle.lwidth == G.GLE_DEFAULTS[:boxplotstyle_blstyle_lwidth]
-    @test bs.blstyle.color == G.GLE_DEFAULTS[:boxplotstyle_blstyle_color]
-    @test bs.mlstyle.lstyle == G.GLE_DEFAULTS[:boxplotstyle_mlstyle_lstyle]
-    @test bs.mlstyle.color == G.GLE_DEFAULTS[:boxplotstyle_mlstyle_color]
-    @test bs.mshow == G.GLE_DEFAULTS[:boxplotstyle_mshow]
-    @test bs.oshow == G.GLE_DEFAULTS[:boxplotstyle_oshow]
-    @test bs.mmstyle.marker==G.GLE_DEFAULTS[:boxplotstyle_mmstyle_marker]
-    @test bs.mmstyle.msize==G.GLE_DEFAULTS[:boxplotstyle_mmstyle_msize]
-    @test bs.mmstyle.color == G.GLE_DEFAULTS[:boxplotstyle_mmstyle_color]
-    @test bs.omstyle.marker == G.GLE_DEFAULTS[:boxplotstyle_omstyle_marker]
-    @test bs.omstyle.msize == G.GLE_DEFAULTS[:boxplotstyle_omstyle_msize]
-    @test bs.omstyle.color == G.GLE_DEFAULTS[:boxplotstyle_omstyle_color]
+    @test bs.bwidth == G.DEFAULTS[:boxplotstyle_bwidth]
+    @test bs.wwidth == G.DEFAULTS[:boxplotstyle_wwidth]
+    @test bs.wrlength == G.DEFAULTS[:boxplotstyle_wrlength]
+    @test bs.blstyle.lstyle == G.DEFAULTS[:boxplotstyle_blstyle_lstyle]
+    @test bs.blstyle.lwidth == G.DEFAULTS[:boxplotstyle_blstyle_lwidth]
+    @test bs.blstyle.color == G.DEFAULTS[:boxplotstyle_blstyle_color]
+    @test bs.mlstyle.lstyle == G.DEFAULTS[:boxplotstyle_mlstyle_lstyle]
+    @test bs.mlstyle.color == G.DEFAULTS[:boxplotstyle_mlstyle_color]
+    @test bs.mshow == G.DEFAULTS[:boxplotstyle_mshow]
+    @test bs.oshow == G.DEFAULTS[:boxplotstyle_oshow]
+    @test bs.mmstyle.marker==G.DEFAULTS[:boxplotstyle_mmstyle_marker]
+    @test bs.mmstyle.msize==G.DEFAULTS[:boxplotstyle_mmstyle_msize]
+    @test bs.mmstyle.color == G.DEFAULTS[:boxplotstyle_mmstyle_color]
+    @test bs.omstyle.marker == G.DEFAULTS[:boxplotstyle_omstyle_marker]
+    @test bs.omstyle.msize == G.DEFAULTS[:boxplotstyle_omstyle_msize]
+    @test bs.omstyle.color == G.DEFAULTS[:boxplotstyle_omstyle_color]
 end

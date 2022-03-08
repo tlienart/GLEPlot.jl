@@ -45,7 +45,7 @@ function savefig(
     #
     # 3. form temporary paths for GLE
     #
-    base_path   = GP_ENV["TMP_PATH"] / fig.id
+    base_path   = GP_ENV[:tmp_path] / fig.id
     script_path = base_path * ".gle"
     log_path    = base_path * ".log"
 
@@ -88,7 +88,7 @@ function savefig(
 
     if !success(com)
         log = read(log_path, String)
-        # XXX GP_ENV["CLEAN_TMP"] && cleanup(fig)
+        # XXX GP_ENV[:clean_tmp] && cleanup(fig)
         @error """
             GLE error: ...
             $log

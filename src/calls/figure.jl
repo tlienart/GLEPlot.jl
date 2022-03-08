@@ -35,18 +35,18 @@ function Figure(
     if id == "_fig_" && !_noreset
         f = Figure(GLEScript(), id)
         set_properties!(f;  opts...)
-        GP_ENV["ALL_FIGS"][id] = f
-        GP_ENV["CUR_FIG"]  = f
-        GP_ENV["CUR_AXES"] = nothing
+        GP_ENV[:all_figs][id] = f
+        GP_ENV[:current_fig]  = f
+        GP_ENV[:current_axes] = nothing
         return f
     end
     # otherwise try to find an existing figure, if nothing found, return a new one as well
-    f = get(GP_ENV["ALL_FIGS"], id) do
-        GP_ENV["ALL_FIGS"][id] = Figure(GLEScript(), id)
+    f = get(GP_ENV[:all_figs], id) do
+        GP_ENV[:all_figs][id] = Figure(GLEScript(), id)
     end
     reset && erase!(f)
-    GP_ENV["CUR_FIG"]  = f
-    GP_ENV["CUR_AXES"] = isempty(f.axes) ? nothing : f.axes[1]
+    GP_ENV[:current_fig]  = f
+    GP_ENV[:current_axes] = isempty(f.axes) ? nothing : f.axes[1]
     set_properties!(f;  opts...) # f exists but properties have been given
     return f
 end
@@ -58,7 +58,7 @@ Internal function to add axes `ax` to figure `fig`.
 """
 function add_axes!(f::Figure, ax::Axes)
     push!(f.axes, ax)
-    GP_ENV["CUR_AXES"] = ax
+    GP_ENV[:current_axes] = ax
     return ax
 end
 
@@ -88,8 +88,8 @@ function erase!(f::Figure)
     take!(f.script)
     # give `f` a fresh set of axes
     f.axes = Vector{Axes}()
-    GP_ENV["CUR_FIG"]  = f
-    GP_ENV["CUR_AXES"] = nothing
+    GP_ENV[:current_fig]  = f
+    GP_ENV[:current_axes] = nothing
     return f
 end
 
@@ -108,8 +108,8 @@ clf() = (f=gcf(); reset!(f); PreviewFigure(f))
 Internal function to remove all references to `fig` and set the current figure to nothing.
 """
 function destroy(f::Figure)
-    delete!(GP_ENV["ALL_FIGS"], f.id)
-    GP_ENV["CUR_FIG"]  = nothing
-    GP_ENV["CUR_AXES"] = nothing
+    delete!(GP_ENV[:all_figs], f.id)
+    GP_ENV[:current_fig]  = nothing
+    GP_ENV[:current_axes] = nothing
     return nothing
 end

@@ -28,28 +28,34 @@ const Listable   = Union{Tuple, NTuple, AV}
 const GLE_DRAW_SUB = Dict{String, String}()
 
 
+# CORE ==========================================
+
 include("utils.jl")
 include("exceptions.jl")
 include("gle_script.jl")
 include("strings.jl")
 include("defaults.jl")
 
-const GP_ENV = Dict{String, Any}(
-    "TMP_PATH"     => mktempdir(),
-    "PALETTE"      => GLE_DEFAULTS[:palette],
-    "CONT_PREVIEW" => true,
-    "ALL_FIGS"     => nothing,
-    "CUR_FIG"      => nothing,
-    "CUR_AXES"     => nothing,
-    "CLEAN_TMP"    => true,
+const GP_ENV = Dict{Symbol, Any}(
+    :tmp_path           => mktempdir(),
+    :palette            => DEFAULTS[:palette],
+    :continuous_preview => true,
+    :all_figs           => nothing,
+    :current_fig        => nothing,
+    :current_axes       => nothing,
+    :clean_tmp          => true,
 )
 
 function palette(cntr::Int)::String
-    ncols = length(GP_ENV["PALETTE"])
+    ncols = length(GP_ENV[:palette])
     idx   = mod(cntr, ncols)
     idx   = ifelse(idx == 0, ncols, idx)
-    return GP_ENV["PALETTE"][idx]
+    return GP_ENV[:palette][idx]
 end
+
+
+# TYPES =========================================
+# Figure, Axes2D, Scatter2D etc
 
 include("types/style.jl")
 include("types/drawing_2d.jl")
@@ -61,15 +67,21 @@ include("types/ax.jl")
 include("types/figure.jl")
 include("types/utils.jl")
 
-include("set/prop_dicts.jl")
-include("set/style.jl")
-include("set/drawing.jl")
-include("set/object.jl")
-include("set/ax_object.jl")
-include("set/legend.jl")
-include("set/ax.jl")
-include("set/figure.jl")
-include("set/properties.jl")
+# PROPERTIES ====================================
+# functions to set properties like lwidth etc
+
+include("properties/prop_dicts.jl")
+include("properties/style.jl")
+include("properties/drawing.jl")
+include("properties/object.jl")
+include("properties/ax_object.jl")
+include("properties/legend.jl")
+include("properties/ax.jl")
+include("properties/figure.jl")
+include("properties/properties.jl")
+
+# APPLY =========================================
+# write style to a gle script
 
 include("apply/utils.jl")
 include("apply/style.jl")
@@ -81,11 +93,17 @@ include("apply/legend.jl")
 include("apply/ax.jl")
 include("apply/figure.jl")
 
+# SUBROUTINES ===================================
+# gle routines e.g. for color map or markers
+
 include("subroutines/boxplot.jl")
 include("subroutines/heatmap.jl")
 include("subroutines/marker.jl")
 include("subroutines/palette.jl")
 include("subroutines/plot3.jl")
+
+# CALLS =========================================
+# plot, hist etc
 
 include("calls/drawing_2d.jl")
 include("calls/drawing_3d.jl")
@@ -95,6 +113,9 @@ include("calls/ax_object.jl")
 include("calls/legend.jl")
 include("calls/figure.jl")
 include("calls/layout.jl")
+
+# RENDER ========================================
+# show methods, savefig
 
 include("render/show_text.jl")
 include("render/show_image.jl")

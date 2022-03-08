@@ -1,5 +1,5 @@
 export plot!, plot, scatter!, scatter,
-       fill_between!,
+       fill_between!, fill_between,
        hist!, hist, bar!, bar,
        boxplot, heatmap, heatmap_ticks
 

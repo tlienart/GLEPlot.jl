@@ -1,4 +1,4 @@
-export @t_str, @tex_str, @c_str
+export @t_str, @tex_str
 
 const TEX_STR_PAT  = r"##([_\p{L}](?:[\p{L}\d_]*))"
 
@@ -17,7 +17,6 @@ macro tex_str(s)
 end
 
 @eval const $(Symbol("@t_str")) = $(Symbol("@tex_str"))
-#@eval const $(Symbol("@c_str")) = $(Symbol("@colorant_str"))
 
 
 """
@@ -59,8 +58,8 @@ function col2str(
     str || return gle_rgba
     return replace(gle_rgba, BRACKETS_PAT => "_")
 end
-col2str(col::String; kw...) = lowercase(nosp(col))
-col2str(::Nothing) = nothing
+col2str(col::String, o::Option{Symbol} = nothing; kw...) = lowercase(nosp(col))
+col2str(::Nothing, o::Option{Symbol} = nothing; kw...)   = nothing
 
 alpha(s::String)::Float64 =
     startswith(s, "rgba(") ?

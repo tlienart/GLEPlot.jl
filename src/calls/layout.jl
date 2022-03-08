@@ -106,7 +106,7 @@ function subplot(nrows::Int, ncols::Int, idx::Int)
     end
     # 3. select the relevant axes and make them the current ones
     curax = f.axes[idx]
-    GP_ENV["CUR_AXES"] = curax
+    GP_ENV[:current_axes] = curax
     return nothing
 end
 

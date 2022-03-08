@@ -25,7 +25,7 @@ const PALETTE_RDBU_10 = nosp.([
     "rgba(0.0328, 0.1717, 0.3473, 1.0)"
 ])
 
-const GLE_DEFAULTS = Dict{Symbol,Any}(
+const DEFAULTS = Dict{Symbol,Any}(
     :palette => PALETTE_TAB_10,
     #
     :textstyle_font  => "texcmss",
@@ -159,7 +159,7 @@ function default(::Type{T}, a...) where T
         (
             begin
                 s = Symbol(lowercase("$(tname)_$(fn)"))
-                v = get(GLE_DEFAULTS, s, nothing)
+                v = get(DEFAULTS, s, nothing)
                 if v isa Symbol
                     sv = string(v)
                     if startswith(sv, "default")

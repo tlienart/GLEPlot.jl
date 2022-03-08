@@ -1,0 +1,18 @@
+name: Build and Deploy
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install GLE
+        run: |
+            curl -L https://sourceforge.net/projects/glx/files/gle4%20%28Current%20Active%20Version%29/4.3.1/gle-4.3.1-Linux.zip/download > gle.zip
+            unzip gle.zip
+      - uses: tlienart/xranklin-build-action@v2.1
+        with:
+          BASE_URL_PREFIX: "GLEPlot"
+          JULIA_SETUP: 'ENV["GLE"] = "gle-4.3.1-Linux/bin/gle";'
