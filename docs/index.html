@@ -1,0 +1,119 @@
+<div class="franklin-content" >
+  <h1 id="gleplot" ><a href="#gleplot"> GLEPlot</a></h1><div class="lead"><p>Foo bar</p>
+</div><pre><code class="julia">using GLEPlot, Colors</code></pre>
+<div class="code-output"><pre><code class="code-stderr language-plaintext">LoadError: ArgumentError: Package Colors not found in current path:
+- Run `import Pkg; Pkg.add("Colors")` to install the Colors package.
+
+Stacktrace:
+  [1] require(into::Module, mod::Symbol)
+    @ Base ./loading.jl:967
+  [2] eval
+    @ ./boot.jl:373 [inlined]
+  [3] include_string(mapexpr::typeof(REPL.softscope), mod::Module, code::String, filename::String)
+    @ Base ./loading.jl:1196
+  [4] include_string
+    @ ./loading.jl:1180 [inlined]
+  [5] #49
+    @ ~/.julia/packages/Xranklin/QHd0y/src/context/code/notebook_code.jl:168 [inlined]
+  [6] (::IOCapture.var"#3#5"{DataType, Xranklin.var"#49#50"{Module, String}, Task, IOContext{Base.PipeEndpoint}, IOContext{Base.PipeEndpoint}, Base.PipeEndpoint, Base.PipeEndpoint})()
+    @ IOCapture ~/.julia/packages/IOCapture/sXY71/src/IOCapture.jl:118
+  [7] with_logstate(f::Function, logstate::Any)
+    @ Base.CoreLogging ./logging.jl:511
+  [8] with_logger
+    @ ./logging.jl:623 [inlined]
+  [9] capture(f::Xranklin.var"#49#50"{Module, String}; rethrow::Type, color::Bool)
+    @ IOCapture ~/.julia/packages/IOCapture/sXY71/src/IOCapture.jl:116
+ [10] capture
+    @ ~/.julia/packages/IOCapture/sXY71/src/IOCapture.jl:75 [inlined]
+ [11] _eval_code_cell(mdl::Module, code::String, cell_name::String)
+    @ Xranklin ~/.julia/packages/Xranklin/QHd0y/src/context/code/notebook_code.jl:167
+ [12] eval_code_cell!(ctx::Xranklin.LocalContext, cell_code::SubString{String}, cell_name::String; imgdir_html::String, imgdir_latex::String, force::Bool, indep::Bool)
+    @ Xranklin ~/.julia/packages/Xranklin/QHd0y/src/context/code/notebook_code.jl:111
+ [13] html_code_block(b::FranklinParser.Block, c::Xranklin.LocalContext)
+    @ Xranklin ~/.julia/packages/Xranklin/QHd0y/src/convert/markdown/rules/code.jl:239</code></pre></div><h2 id="explicit_arrays" ><a href="#explicit_arrays"> Explicit arrays</a></h2><pre><code class="julia">x = range(-1, 1, length=250)
+y = @. exp(-x^2) * sinc(5x)
+plot(x, y)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_12013424846927379064.svg">
+</div><h2 id="implicit_arrays" ><a href="#implicit_arrays"> Implicit arrays</a></h2><pre><code class="julia">plot(x -&gt; exp(-x^2) * sinc(5x), -1, 1)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_14505589299643852324.svg">
+</div><h2 id="multi_curves" ><a href="#multi_curves"> Multi curves</a></h2><pre><code class="julia">x  = range(-1, 1, length=250)
+y1 = @. exp(-x^2) * sinc(5x)
+y2 = @. exp(-x^3) * sinc(3x)
+y3 = @. exp(-x^4) * sinc(2x)
+plot(x, y1, y2, y3)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_898369797731419140.svg">
+</div><h2 id="adding_curves" ><a href="#adding_curves"> Adding curves</a></h2><pre><code class="julia">x  = range(-3, 3, length=250)
+y  = @. exp(-x^2)
+x2 = range(-3, 3, length=50)
+y2  = @. -abs(x2/3) + 1
+plot(x, y)
+plot!(x2, y2)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_6321813609445953891.svg">
+</div><h2 id="smooth_/_non_smooth" ><a href="#smooth_/_non_smooth"> Smooth / non-smooth</a></h2><pre><code class="julia">x = range(-3, 3, length=10)
+y = @. sin(x)
+plot(x, y)
+plot!(x, y .+ 1, smooth=false)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_15753378711080352284.svg">
+</div><h2 id="fill" ><a href="#fill"> Fill</a></h2><h2 id="2d_plot_and_properties" ><a href="#2d_plot_and_properties"> 2D plot and properties</a></h2><p><strong>Note</strong>: add legend to stuff.</p>
+<pre><code class="julia">x = range(-2, 2, length=100)</code></pre>
+<div class="code-output"><pre><code class="code-result language-plaintext">-2.0:0.04040404040404041:2.0</code></pre></div><h3 id="line_style" ><a href="#line_style"> Line style</a></h3><pre><code class="julia">opts = (&quot;-&quot;, &quot;--&quot;, &quot;-.&quot;)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, lstyle=o)
+end
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_14684921667790330897.svg">
+</div><h3 id="line_width" ><a href="#line_width"> Line width</a></h3><pre><code class="julia">opts = (0.001, 0.01, 0.05, 0.1, 0)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, lwidth=o)
+end
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_17833679101946696778.svg">
+</div><h3 id="line_colour" ><a href="#line_colour"> Line colour</a></h3><pre><code class="julia">opts = (&quot;cornflowerblue&quot;, &quot;forestgreen&quot;, &quot;indigo&quot;, RGB(.5,.7,.2))
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, col=o)
+end
+gcf()</code></pre>
+<div class="code-output"><pre><code class="code-stderr language-plaintext">LoadError: UndefVarError: RGB not defined
+Stacktrace:
+</code></pre></div><h3 id="smooth" ><a href="#smooth"> Smooth</a></h3><p>Reduce the resolution a lot</p>
+<pre><code class="julia">x = range(-2, 2, length=20)
+
+opts = (true, false)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, smooth=o)
+end
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_3459819271354868551.svg">
+</div><h3 id="marker_type" ><a href="#marker_type"> Marker type</a></h3><pre><code class="julia"># there's a bunch of other ones like diamond etc
+opts = (&quot;circle&quot;, &quot;fcircle&quot;, &quot;triangle&quot;, &quot;ftriangle&quot;, &quot;cross&quot;, &quot;plus&quot;)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, marker=o)
+end
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_16832291332712418614.svg">
+</div><h3 id="marker_size" ><a href="#marker_size"> Marker size</a></h3><pre><code class="julia">opts = (0.1, 0.25, 0.5)
+Figure()
+for (α, o) in enumerate(opts)
+    y = @. sinc(α * x)
+    plot!(x, y, marker=&quot;fcircle&quot;, msize=o)
+end
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/docs/index/figs-html/__autofig_13449102582560623064.svg">
+</div>
+  
+</div>
