@@ -11,10 +11,12 @@
     
     <link href="/GLEPlot.jl/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/GLEPlot.jl/libs/highlight/github.min.css">
+    <link rel="stylesheet" href="/GLEPlot.jl/libs/katex/katex.min.css">
 
     
 
-    <meta name="theme-color" content="#7952b3">
+    
+
 
     <style>
       .bd-placeholder-img {
@@ -36,7 +38,25 @@
         min-height: 75rem;
         padding-top: 4.5rem;
       }
+
+      img.code-figure {
+        margin-bottom: 2em;
+      }
+      :is(h1, h2, h3, h4) {
+        margin-top: 2em;
+        margin-bottom: .5em;
+      }
+
+      pre code.hljs {
+        background-color: #e4e4f4;
+        border-radius: 5px;
+        font-size: 1.1em;
+      }
+
     </style>
+
+
+
   </head>
   <body>
 
@@ -69,7 +89,49 @@
   <main class="container">
     <div class="bg-light p-5 rounded">
       <h1 id="gleplot" > GLEPlot</h1><div class="lead"><p>Foo bar baz</p>
-</div><pre><code class="julia">using GLEPlot, Colors</code></pre>
+</div><h2 id="installation" > Installation</h2><h3 id="mac_os" > Mac OS</h3><p>Get latest from sourceforge. At the time of writing it's <code>4.3.2</code> <a href="https://sourceforge.net/projects/glx/files/gle/4.3.2/gle-4.3.2-Darwin.zip/download">here</a>.
+Once downloaded, copy paste the content (except the <code>Applications</code> symlink) to a <code>gle</code> folder somewhere on your computer.
+Say for instance <code>~/Desktop/gle</code> so that its structure looks like</p>
+<pre><code class="plain">gle
+├── bin
+├── doc
+├── font
+├── gleinc
+├── glerc
+├── init.tex
+└── inittex.ini</code></pre>
+<p>then make <code>bin/gle</code> executable</p>
+<pre><code class="plain">$&gt; sudo chmod +x bin/gle</code></pre>
+<p>Mac OS will try to block you from using it because it's un-indentified software.
+To trigger this, run</p>
+<pre><code class="plain">$&gt; bin/gle -v</code></pre>
+<p>a popup like the following may appears</p>
+<img src="/GLEPlot.jl/assets/popup.png"><p>go to your System Preferences, click on <em>Security &#38; Privacy</em> and click on the button "Allow Anyway" then close the popup and try again.
+You might again see a popup but this time can click on "Open"
+(and it will be the last time you'll get a popup for GLE).
+The result should be something like:</p>
+<pre><code class="plain">$&gt; bin/gle -v
+GLE version 4.3.2
+Usage: gle [options] filename.gle
+More information: gle -help</code></pre>
+<p>Finally, you can add the <code>gle</code> executable to your global <code>PATH</code>.
+For instance if you put the <code>gle</code> folder on your Desktop:</p>
+<pre><code class="plain">$&gt; export PATH=$HOME/Desktop/gle/bin:$PATH</code></pre>
+<p>you might want to put this in your <code>~/.bashrc</code> file (or <code>~/.zshrc</code> if you're using ZSH etc.).
+Following this, you should be able to just do</p>
+<pre><code class="plain">$&gt; gle -v
+GLE version 4.3.2
+Usage: gle [options] filename.gle
+More information: gle -help</code></pre>
+<h3 id="linux" > Linux</h3><p>This is also what we use on CI:</p>
+<pre><code class="plain">curl -L https://sourceforge.net/projects/glx/files/gle/4.3.2/gle-4.3.2-Linux.zip/download &gt; gle.zip
+unzip gle.zip</code></pre>
+<p>Here as well you might want to add <code>gle/bin/</code> to the PATH.</p>
+<h3 id="setting_the_path" > Setting the path</h3><p>You don't have to set the <code>PATH</code>, in fact we don't on CI (where it's not straightforward).
+You can specify explicitly to GLEPlot where the executable is by doing</p>
+<pre><code class="julia">ENV[&quot;GLE&quot;] = &quot;...&quot;</code></pre>
+<p>replacing <code>...</code> by the path to the <code>gle</code> executable.</p>
+<h1 id="stuff" > Stuff</h1><pre><code class="julia">using GLEPlot, Colors</code></pre>
 <h2 id="explicit_arrays" > Explicit arrays</h2><pre><code class="julia">x = range(-1, 1, length=250)
 y = @. exp(-x^2) * sinc(5x)
 plot(x, y)
@@ -153,6 +215,56 @@ for (α, o) in enumerate(opts)
 end
 gcf()</code></pre>
 <div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_13449102582560623064.svg">
+</div><h3 id="missing,_nan_or_inf_values" > Missing, NaN or Inf values</h3><pre><code class="julia">y = [1,2,3,missing,3,2,1,NaN,0,1]
+plot(y, marker=&quot;o&quot;, smooth=false)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_14216423579238949070.svg">
+</div><h3 id="modifying_the_data_in_place" > Modifying the data in place</h3><pre><code class="julia">y = collect(1:6)
+plot(y, marker=&quot;.&quot;, smooth=false)
+y[3] = 0
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_17896166847140710946.svg">
+</div><h3 id="data_formats" > Data Formats</h3><p>Single vector → \((i, x_i)\)</p>
+<pre><code class="julia">x = randn(5)
+plot(x, smooth=false)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_255930921442466835.svg">
+</div><p>Two vectors → \((x_i, y_i)\)</p>
+<pre><code class="julia">x = 0:0.1:3
+y = @. sinc(x)
+plot(x, y)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_13176002635368950543.svg">
+</div><p>Multiple vectors → \(\left\{(x_i, y^{(1)}_i), (x_i, y^{(2)}_i), \dots\right\}\)</p>
+<pre><code class="julia">x = range(-1,1,length=100)
+y1 = @. sinc(x)
+y2 = @. sinc(2x)
+y3 = @. sinc(3x)
+plot(x, y1, y2, y3)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_11321199409069423869.svg">
+</div><p>Single matrix → \(\left\{(i, Z_{i1}), (i, Z_{i2}), \dots\right\}\)</p>
+<pre><code class="julia">x = range(-1,1,length=100)
+z = hcat(sin.(x), cos.(x))
+plot(z)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_9707879359098128913.svg">
+</div><p>Vector and vectors or matrices → pairs between the first vector and subsequent "columns":</p>
+<pre><code class="julia">x = range(-1,1,length=100)
+z = hcat(sin.(x), cos.(x))
+z2 = @. x^2 - 1
+plot(x, z, z2)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_9792328261117993673.svg">
+</div><p>Function with range (and optionally a number of points):</p>
+<pre><code class="julia">plot(sin, 0, 2pi, length=150)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_6619138775595477491.svg">
+</div><h3 id="styling_a_group" > Styling a group</h3><p>When multiple lines are shown jointly, you can pass vectors for option values or single values,
+in the first case, the vector must have length corresponding to the number of plots, in the second case, the option is applied to all plots:</p>
+<pre><code class="julia">plot(randn(10, 3), colors=[&quot;violet&quot;, &quot;navy&quot;, &quot;orange&quot;], lwidth=0.1, smooth=false)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_11988378897111181993.svg">
 </div>
     </div>
   </main>
@@ -161,6 +273,9 @@ gcf()</code></pre>
     <script src="/GLEPlot.jl/libs/bootstrap.bundle.min.js"></script>
     <script src="/GLEPlot.jl/libs/highlight/highlight.min.js"></script>
     <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+    <script src="/GLEPlot.jl/libs/katex/katex.min.js"></script>
+    <script src="/GLEPlot.jl/libs/katex/auto-render.min.js"></script>
+    <script>renderMathInElement(document.body)</script>
 
   </body>
 </html>
