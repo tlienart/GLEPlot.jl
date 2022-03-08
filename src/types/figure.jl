@@ -22,7 +22,7 @@ Figure(g::GS, id::String) =
         Vector{Axes}(),
         (12., 9.),
         TextStyle(),
-        "white",
+        nothing,
         # --
         nothing,
         nothing,

@@ -29,7 +29,7 @@ const DEFAULTS = Dict{Symbol,Any}(
     :palette => PALETTE_TAB_10,
     #
     :textstyle_font  => "texcmss",
-    :textstyle_hei   => 0.35,
+    :textstyle_hei   => 0.5,
     :textstyle_color => nothing,
     #
     :linestyle_lstyle => nothing,
