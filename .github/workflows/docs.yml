@@ -19,7 +19,7 @@ jobs:
             unzip gle.zip
       - uses: tlienart/xranklin-build-action@v2.1
         with:
-          BASE_URL_PREFIX: "GLEPlot"
+          BASE_URL_PREFIX: "GLEPlot.jl"
           JULIA_SETUP: '
             ENV["GLE"] = "gle-${{env.GLEv}}-Linux/bin/gle";
             Pkg.add(url="https://github.com/tlienart/GLEPlot.jl", rev="dev");
