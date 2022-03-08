@@ -42,7 +42,9 @@ $> bin/gle -v
 
 a popup like the following may appears
 
+@@img-small
 ![](/assets/popup.png)
+@@
 
 go to your System Preferences, click on _Security \& Privacy_ and click on the button "Allow Anyway" then close the popup and try again.
 You might again see a popup but this time can click on "Open"
