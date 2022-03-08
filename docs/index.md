@@ -5,7 +5,7 @@ page_title = "GLEPlot.jl"
 # GLEPlot
 
 @@lead
-Foo bar
+Foo bar baz
 @@
 
 ```!
