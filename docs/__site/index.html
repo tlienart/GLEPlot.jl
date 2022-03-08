@@ -9,8 +9,8 @@
     <title>GLEPlot.jl</title>
 
     
-    <link href="/GLEPlot/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/GLEPlot/libs/highlight/github.min.css">
+    <link href="/GLEPlot.jl/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/GLEPlot.jl/libs/highlight/github.min.css">
 
     
 
@@ -74,17 +74,17 @@
 y = @. exp(-x^2) * sinc(5x)
 plot(x, y)
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_12013424846927379064.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_12013424846927379064.svg">
 </div><h2 id="implicit_arrays" > Implicit arrays</h2><pre><code class="julia">plot(x -&gt; exp(-x^2) * sinc(5x), -1, 1)
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_14505589299643852324.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_14505589299643852324.svg">
 </div><h2 id="multi_curves" > Multi curves</h2><pre><code class="julia">x  = range(-1, 1, length=250)
 y1 = @. exp(-x^2) * sinc(5x)
 y2 = @. exp(-x^3) * sinc(3x)
 y3 = @. exp(-x^4) * sinc(2x)
 plot(x, y1, y2, y3)
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_898369797731419140.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_898369797731419140.svg">
 </div><h2 id="adding_curves" > Adding curves</h2><pre><code class="julia">x  = range(-3, 3, length=250)
 y  = @. exp(-x^2)
 x2 = range(-3, 3, length=50)
@@ -92,13 +92,13 @@ y2  = @. -abs(x2/3) + 1
 plot(x, y)
 plot!(x2, y2)
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_6321813609445953891.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_6321813609445953891.svg">
 </div><h2 id="smooth_/_non_smooth" > Smooth / non-smooth</h2><pre><code class="julia">x = range(-3, 3, length=10)
 y = @. sin(x)
 plot(x, y)
 plot!(x, y .+ 1, smooth=false)
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_15753378711080352284.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_15753378711080352284.svg">
 </div><h2 id="fill" > Fill</h2><h2 id="2d_plot_and_properties" > 2D plot and properties</h2><p><strong>Note</strong>: add legend to stuff.</p>
 <pre><code class="julia">x = range(-2, 2, length=100)</code></pre>
 <div class="code-output"><pre><code class="code-result language-plaintext">-2.0:0.04040404040404041:2.0</code></pre></div><h3 id="line_style" > Line style</h3><pre><code class="julia">opts = (&quot;-&quot;, &quot;--&quot;, &quot;-.&quot;)
@@ -108,7 +108,7 @@ for (α, o) in enumerate(opts)
     plot!(x, y, lstyle=o)
 end
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_14684921667790330897.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_14684921667790330897.svg">
 </div><h3 id="line_width" > Line width</h3><pre><code class="julia">opts = (0.001, 0.01, 0.05, 0.1, 0)
 Figure()
 for (α, o) in enumerate(opts)
@@ -116,7 +116,7 @@ for (α, o) in enumerate(opts)
     plot!(x, y, lwidth=o)
 end
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_17833679101946696778.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_17833679101946696778.svg">
 </div><h3 id="line_colour" > Line colour</h3><pre><code class="julia">opts = (&quot;cornflowerblue&quot;, &quot;forestgreen&quot;, &quot;indigo&quot;, RGB(.5,.7,.2))
 Figure()
 for (α, o) in enumerate(opts)
@@ -124,7 +124,7 @@ for (α, o) in enumerate(opts)
     plot!(x, y, col=o)
 end
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_18207641736423151589.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_18207641736423151589.svg">
 </div><h3 id="smooth" > Smooth</h3><p>Reduce the resolution a lot</p>
 <pre><code class="julia">x = range(-2, 2, length=20)
 
@@ -135,7 +135,7 @@ for (α, o) in enumerate(opts)
     plot!(x, y, smooth=o)
 end
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_3459819271354868551.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_3459819271354868551.svg">
 </div><h3 id="marker_type" > Marker type</h3><pre><code class="julia"># there's a bunch of other ones like diamond etc
 opts = (&quot;circle&quot;, &quot;fcircle&quot;, &quot;triangle&quot;, &quot;ftriangle&quot;, &quot;cross&quot;, &quot;plus&quot;)
 Figure()
@@ -144,7 +144,7 @@ for (α, o) in enumerate(opts)
     plot!(x, y, marker=o)
 end
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_16832291332712418614.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_16832291332712418614.svg">
 </div><h3 id="marker_size" > Marker size</h3><pre><code class="julia">opts = (0.1, 0.25, 0.5)
 Figure()
 for (α, o) in enumerate(opts)
@@ -152,14 +152,14 @@ for (α, o) in enumerate(opts)
     plot!(x, y, marker=&quot;fcircle&quot;, msize=o)
 end
 gcf()</code></pre>
-<div class="code-output"><img class="code-figure" src="/GLEPlot/assets/index/figs-html/__autofig_13449102582560623064.svg">
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/index/figs-html/__autofig_13449102582560623064.svg">
 </div>
     </div>
   </main>
 
 
-    <script src="/GLEPlot/libs/bootstrap.bundle.min.js"></script>
-    <script src="/GLEPlot/libs/highlight/highlight.min.js"></script>
+    <script src="/GLEPlot.jl/libs/bootstrap.bundle.min.js"></script>
+    <script src="/GLEPlot.jl/libs/highlight/highlight.min.js"></script>
     <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
 
   </body>
