@@ -25,3 +25,5 @@ jobs:
             ENV["GLE"] = "gle-${{env.GLEv}}-Linux/bin/gle";
             Pkg.add(url="https://github.com/tlienart/GLEPlot.jl", rev="dev");
             '
+          CLEAR_CACHE: ${{ contains(github.event.head_commit.message, '[clear]') }}
+          CACHE_KEY: "franklin-cache"
