@@ -56,7 +56,7 @@ not(x,       o::Symbol) = throw(
 )
 
 # string or vector
-str(x::String,    ::Symbol)    = x
+str(x::String,    ::Symbol) = x
 str(x::Listable, o::Symbol) = str.(x, o)
 str(x,           o::Symbol) = throw(
     OptionValueError(o, x, "((List of) String)")
@@ -64,6 +64,7 @@ str(x,           o::Symbol) = throw(
 
 # Lowercase string or strings
 lc(x::String,    ::Symbol) = lowercase(x)
+lc(x::Symbol,    ::Symbol) = lc(string(x), :o)
 lc(x::Listable, o::Symbol) = lc.(x, o)
 lc(x,           o::Symbol) = throw(
     OptionValueError(o, x, "((List of) String)")

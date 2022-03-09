@@ -186,9 +186,11 @@ add_dict_vals!(GLE_POSITION)
 
 
 const HIST2D_SCALING = Dict{String,String}(
-    "none"  => "count",
-    "pdf"   => "pdf",
-    "prob"  => "probability",
+    "none"        => "count",
+    "density"     => "pdf",
+    "frequency"   => "freq",
+    "prob"        => "freq",
+    "probability" => "freq",
     )
 add_dict_vals!(HIST2D_SCALING)
 

@@ -41,8 +41,8 @@ const DEFAULTS = Dict{Symbol,Any}(
     :markerstyle_msize  => nothing,
     :markerstyle_color  => nothing,
     #
-    :barstyle_color => nothing,
-    :barstyle_fill  => "white",
+    :barstyle_color => "white",
+    :barstyle_fill  => "cornflowerblue",
     #
     :fillstyle_fill   => "cornflowerblue",
     #

@@ -74,10 +74,10 @@ I/ Round a float `f` to `d` digits after the decimals and return the string.
 """
 function fl2str(
             f::Float64;
-            d::Int=4
+            d::Int=5
         )::String
 
-    return string(round(f, digits=d))
+    return string(round(f, sigdigits=d))
 end
 fl2str(r::Real; kw...) = fl2str(Float64(r); kw...)
 

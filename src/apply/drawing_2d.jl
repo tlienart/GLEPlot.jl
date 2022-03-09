@@ -189,9 +189,7 @@ function apply_drawing!(
     # if no color has been specified, assign one according to the PALETTE
     if !isdef(hist.barstyle.color)
         if hist.barstyle.fill == "white"
-            cc = mod(el_cntr, GP_ENV["SZ_PALETTE"])
-            (cc == 0) && (cc = GP_ENV["SZ_PALETTE"])
-            hist.barstyle.color = GP_ENV[:palette][cc]
+            hist.barstyle.color = palette(el_cntr)
         else
             hist.barstyle.color = "white" # looks nicer than black
         end
@@ -201,26 +199,33 @@ function apply_drawing!(
     "\n\tdata \"$faux\" d$(el_cntr)" |> f
 
     # (2) hist description  | let d(k+1) = hist dk from min to max
-    minx, maxx = hist.range
+    from, to = hist.range
     "\n\tlet d$(el_cntr+1) = hist d$(el_cntr)" |> f
-    "from $minx to $maxx" |> f
-    el_cntr += 1
+    add(f; from, to)
+
+    el_cntr += 1  # bar will be with that el_cntr, see (4) below
 
     # number of bins
-    nobs = hist.nobs
-    nbauto = (nobs == 0 ? 1 : ceil(Integer, log2(nobs))+1) # sturges, see StatsBase
-    bins = isdef(hist.bins) ? hist.bins : nbauto
-    add(f, hist, :bins)
+    nobs   = hist.nobs
+    nbauto = (nobs == 0 ? 1 : ceil(Integer, log2(nobs)) + 1) # sturges, see StatsBase
+    bins   = isdef(hist.bins) ? hist.bins : nbauto
+    add(f; bins)
 
     # (3) compute appropriate scaling
-    width   = (maxx - minx) / bins
+    width   = (to - from) / bins
     scaling = 1.0
-    hist.scaling == "probability" && (scaling /= nobs)
-    hist.scaling == "pdf"         && (scaling /= (nobs * width))
-    "\n\tlet d$(el_cntr) = d$(el_cntr)*$scaling" |> f
+    if hist.scaling == "freq"
+        scaling /= nobs
+    elseif hist.scaling == "pdf"
+        scaling /= nobs * width
+    end
+    if scaling != 1.0
+        "\n\tlet d$(el_cntr) = d$(el_cntr)*$scaling" |> f
+    end
 
     # (4) apply histogram
-    "\n\tbar d$(el_cntr) width $width" |> f
+    "\n\tbar d$(el_cntr)" |> f
+    add(f; width)
 
     # apply styling
     apply_barstyle!(f, hist.barstyle)
