@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GLEPlot.jl documentation">
+    <meta name="author" content="Thibaut Lienart">
+    <meta name="generator" content="Franklin">
+    <title>Histogram</title>
+
+    
+    <link href="/GLEPlot.jl/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/GLEPlot.jl/libs/highlight/github.min.css">
+    <link rel="stylesheet" href="/GLEPlot.jl/libs/katex/katex.min.css">
+
+    
+
+    
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+      /* Show it is fixed to the top */
+      body {
+        min-height: 75rem;
+        padding-top: 4.5rem;
+      }
+
+      img.code-figure {
+        margin-bottom: 2em;
+      }
+      :is(h1, h2, h3, h4) {
+        margin-top: 2em;
+        margin-bottom: .5em;
+      }
+
+      pre code.hljs {
+        background-color: #e4e4f4;
+        border-radius: 5px;
+        font-size: 1.1em;
+      }
+
+      .img-small img {
+        width: 250px;
+      }
+
+    </style>
+
+
+
+  </head>
+  <body>
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <div class="container-fluid">
+
+    <a class="navbar-brand" href="#">Fixed navbar</a>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="/GLEPlot.jl/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="/GLEPlot.jl/plot2d/">Plot (2D)</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/GLEPlot.jl/histogram/">Histogram</a>
+        </li>
+      </ul>
+
+
+      
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="container">
+    <div class="bg-light p-5 rounded">
+      <h1 id="histogram" > Histogram</h1><pre><code class="julia">using GLEPlot, Colors, Distributions
+x = 3 .+ 2 * randn(5_000);</code></pre>
+<pre><code class="julia">Figure()
+hist(x)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/histogram/figs-html/__autofig_9714159157494502517.svg">
+</div><h3 id="scaling" > Scaling</h3><p>Base one is to just use count. You can pass the scaling as a string or a symbol, case doesn't matter.</p>
+<ul>
+<li>&#123;<code>none</code>&#125;: raw count per bin,</li>
+<li>&#123;<code>freq</code>, <code>frequency</code>, <code>prob</code>, <code>probability</code>&#125;: each bin count is scaled by the total number of observations,</li>
+<li>&#123;<code>pdf</code>, <code>density</code>&#125;: each bin count is scaled by the total number of observations and the width of each bin
+so that the total area covered by the histogram equals one.</li>
+</ul>
+<pre><code class="julia">Figure()
+hist(x, scaling=:freq)
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/histogram/figs-html/__autofig_7497292239212559986.svg">
+</div><p>The PDF/Density one is what you want if you want to compare with a distribution:</p>
+<pre><code class="julia">Figure()
+hist(x, scaling=:pdf)
+
+nd = Normal(3, 2)
+xx = range(-4, 12, length=100)
+yy = pdf.(nd, xx)
+plot!(xx, yy)
+
+gcf()</code></pre>
+<div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/histogram/figs-html/__autofig_16773827005248905692.svg">
+</div>
+    </div>
+  </main>
+
+
+    <script src="/GLEPlot.jl/libs/bootstrap.bundle.min.js"></script>
+    <script src="/GLEPlot.jl/libs/highlight/highlight.min.js"></script>
+    <script>hljs.highlightAll();hljs.configure({tabReplace: '    '});</script>
+    <script src="/GLEPlot.jl/libs/katex/katex.min.js"></script>
+    <script src="/GLEPlot.jl/libs/katex/auto-render.min.js"></script>
+    <script>renderMathInElement(document.body)</script>
+
+  </body>
+</html>
