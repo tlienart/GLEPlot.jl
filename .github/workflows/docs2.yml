@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - dev
+      - docs2
 
 env:
   GLEv: '4.3.2'
@@ -35,7 +36,7 @@ jobs:
             run(pipeline(`$(NodeJS.npm_cmd()) i --prefix $td purgecss`));
             purger = `$(NodeJS.nodejs_cmd()) $(td)/node_modules/purgecss/bin/purgecss.js`;
             config = "module.exports = {\n  content: [\"${{env.FOLDER}}/__site/index.html\", \"${{env.FOLDER}}/__site/**/*.html\"],\n  css: [\"${{env.FOLDER}}/_css/tailwind.min.css\"],\n  output: \"${{env.FOLDER}}/__site/css/tailwind.min.css\",\n  extractors: [\n    {\n      extractor: content => content.match(/[A-Za-z0-9-_:\\/]+/g) || [],\n      extensions: [\"html\"]\n    }\n  ]\n}\n";
-            write("tailwind.config.js", config)
+            write("tailwind.config.js", config);
             run(pipeline(`$purger --config tailwind.config.js`));
             '
           CLEAR_CACHE: ${{ contains(github.event.head_commit.message, '[clear]') }}
