@@ -10,5 +10,6 @@ heading_link = false
 
 # Misc
 skiplatex = true
+ignore = ["tailwind.config.js"]
 
 +++
