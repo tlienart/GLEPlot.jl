@@ -28,10 +28,10 @@ jobs:
           JULIA_PRE: '
             ENV["GLE"] = "gle-${{env.GLEv}}-Linux/bin/gle";
             Pkg.add(url="https://github.com/tlienart/GLEPlot.jl", rev="dev");
-            Pkg.add("NodeJS")
+            Pkg.add(["NodeJS","Glob"])
             '
           JULIA_POST: '
-            using NodeJS;
+            using NodeJS, Glob;
             td = mktempdir();
             run(pipeline(`$(NodeJS.npm_cmd()) i --prefix $td purgecss postcss postcss-cli autoprefixer svgo`));
             isempty("${{ env.FOLDER }}") || cd("${{ env.FOLDER }}");
@@ -40,7 +40,7 @@ jobs:
             svgo     = `$(NodeJS.nodejs_cmd()) $(td)/node_modules/svgo/bin/svgo`;
             run(pipeline(`$purgecss --config ${{ env.PURGECSS_CONFIG }}`));
             run(pipeline(`$postcss __site/css/ -r --no-map -u autoprefixer`));
-            run(pipeline(`$svgo -f "__site/assets/**/figs-html/"`));
+            foreach(f -> run(pipeline(`$svgo $f`)), glob("__site/assets/**/figs-html/*.svg"));
             '
           CLEAR_CACHE: ${{ contains(github.event.head_commit.message, '[clear]') }}
           CACHE_KEY: "franklin-cache"
