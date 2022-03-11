@@ -10,7 +10,7 @@ env:
   FOLDER: "docs"
   PREVIEW: "preview"
   PREFIX: "GLEPlot.jl"
-  PURGECSS_CONFIG: "docs/purgecss.config.js"
+  PURGECSS_CONFIG: "purgecss.config.js"
 
 jobs:
   build-and-deploy:
