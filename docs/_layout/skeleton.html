@@ -8,13 +8,13 @@
     <meta name="generator" content="Franklin">
     <title>{{page_title}}</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/libs/highlight/github.min.css">
-    <link rel="stylesheet" href="/libs/katex/katex.min.css">
-
-    <!-- Generated after purge and post -->
-    <link href="/css/final.css" rel="stylesheet">
+    {{if _final}}
+      <link href="/css/final.css" rel="stylesheet">
+    {{else}}
+      <link href="/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="/libs/highlight/github.min.css">
+      <link rel="stylesheet" href="/libs/katex/katex.min.css">
+    {{end}}
 
     <!-- Favicons -->
 <!-- <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
