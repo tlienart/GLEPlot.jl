@@ -122,7 +122,7 @@ gcf()
 
 ### Data Formats
 
-Single vector → $(i, x_i)$
+Single vector → `(i, x_i)`
 
 ```!
 x = randn(5)
@@ -130,7 +130,7 @@ plot(x, smooth=false)
 gcf()
 ```
 
-Two vectors → $(x_i, y_i)$
+Two vectors → `(x_i, y_i)`
 
 ```!
 x = 0:0.1:3
@@ -139,7 +139,7 @@ plot(x, y)
 gcf()
 ```
 
-Multiple vectors → $\left\{(x_i, y^{(1)}_i), (x_i, y^{(2)}_i), \dots\right\}$
+Multiple vectors → `{(x_i, y1_i), (x_i, y2_i), ...}`
 
 ```!
 x = range(-1,1,length=100)
@@ -150,7 +150,7 @@ plot(x, y1, y2, y3)
 gcf()
 ```
 
-Single matrix → $\left\{(i, Z_{i1}), (i, Z_{i2}), \dots\right\}$
+Single matrix `Z` → `{(i, Z_i1), (i, Z_i2), ...}`
 
 ```!
 x = range(-1,1,length=100)

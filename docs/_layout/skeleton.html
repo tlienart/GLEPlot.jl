@@ -11,8 +11,15 @@
     <link href="/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- highlight and katex should not be purged otherwise nothing will be shown -->
-    <link rel="stylesheet" href="/libs/highlight/github.min.css">
-    <link rel="stylesheet" href="/libs/katex/katex.min.css">
+    {{hascode}}
+      <link rel="stylesheet" href="/libs/highlight/github.min.css">
+    {{end}}
+    {{hasmath}}
+      <link rel="stylesheet" href="/libs/katex/katex.min.css">
+    {{end}}
+
+    <!-- inline insertion of tweaks to the bootstrap baseline for speed -->
+    <style>{{insert ../_css/tweaks.css}}</style>
 
     <!-- Favicons -->
 <!-- <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
@@ -23,51 +30,8 @@
 <link rel="icon" href="/docs/5.0/assets/img/favicons/favicon.ico"> -->
     <!-- <meta name="theme-color" content="#7952b3"> -->
 
-<!-- ================================================================ -->
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      /* Show it is fixed to the top */
-      body {
-        min-height: 75rem;
-        padding-top: 4.5rem;
-      }
-
-      img.code-figure {
-        margin-bottom: 2em;
-      }
-      :is(h1, h2, h3, h4) {
-        margin-top: 2em;
-        margin-bottom: .5em;
-      }
-
-      pre code.hljs {
-        background-color: #e4e4f4;
-        border-radius: 5px;
-        font-size: 1.1em;
-      }
-
-      .img-small img {
-        width: 250px;
-      }
-
-    </style>
-<!-- ================================================================ -->
-
-
   </head>
+
   <body>
 
   {{insert navigation.html}}
@@ -90,4 +54,5 @@
     {{end}}
 
   </body>
+
 </html>
