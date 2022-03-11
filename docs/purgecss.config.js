@@ -1,6 +1,7 @@
 module.exports = {
   content: ["__site/index.html", "__site/**/*.html"],
-  css: ["_css/bootstrap.min.css", "_libs/highlight/github.min.css", "_libs/katex/katex.min.css"],
+  // not recommended to put highlight or katex stuff here
+  css: ["_css/bootstrap.min.css"],
   output: "__site/css/",
   extractors: [
     {

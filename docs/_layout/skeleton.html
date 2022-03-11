@@ -8,13 +8,11 @@
     <meta name="generator" content="Franklin">
     <title>{{page_title}}</title>
 
-    {{if _final}}
-      <link href="/css/final.css" rel="stylesheet">
-    {{else}}
-      <link href="/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="stylesheet" href="/libs/highlight/github.min.css">
-      <link rel="stylesheet" href="/libs/katex/katex.min.css">
-    {{end}}
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- highlight and katex should not be purged otherwise nothing will be shown -->
+    <link rel="stylesheet" href="/libs/highlight/github.min.css">
+    <link rel="stylesheet" href="/libs/katex/katex.min.css">
 
     <!-- Favicons -->
 <!-- <link rel="apple-touch-icon" href="/docs/5.0/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
