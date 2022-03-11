@@ -7,6 +7,7 @@ page_title = "Histogram"
 ```!
 using GLEPlot, Colors, Distributions
 x = 3 .+ 2 * randn(5_000);
+y = 2.5 .+ 0.3 * randn(1_000);
 ```
 
 ```!
@@ -42,4 +43,17 @@ yy = pdf.(nd, xx)
 plot!(xx, yy)
 
 gcf()
+```
+
+### Fills
+
+```!
+Figure()
+hist(x, scaling=:pdf, fill="rgba(0.5,0.2,0.3,0.5)")
+hist!(y, scaling=:pdf, fill="rgba(0.2,0.5,0.3,0.5)")
+gcf()
+```
+
+```!
+printstyled("hello, world"; color=:red, bold=true)
 ```

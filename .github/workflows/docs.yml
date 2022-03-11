@@ -6,7 +6,11 @@ on:
       - dev
 
 env:
-  GLEv: '4.3.2'
+  GLEv: "4.3.2"
+  FOLDER: "docs"
+  PREVIEW: "preview"
+  PREFIX: "GLEPlot.jl"
+  PURGECSS_CONFIG: "docs/purgecss.config.js"
 
 jobs:
   build-and-deploy:
@@ -17,13 +21,28 @@ jobs:
         run: |
             curl -L https://sourceforge.net/projects/glx/files/gle/${{env.GLEv}}/gle-${{env.GLEv}}-Linux.zip/download > gle.zip
             unzip gle.zip
-      - uses: tlienart/xranklin-build-action@v2.1
+      - uses: tlienart/xranklin-build-action@v3.1
         with:
-          BASE_URL_PREFIX: "GLEPlot.jl"
-          SITE_FOLDER: "docs/"
-          JULIA_SETUP: '
+          BASE_URL_PREFIX: ${{ env.PREFIX }}
+          SITE_FOLDER: ${{ env.FOLDER }}
+          PREVIEW: ${{ env.PREVIEW }}
+          JULIA_PRE: '
             ENV["GLE"] = "gle-${{env.GLEv}}-Linux/bin/gle";
             Pkg.add(url="https://github.com/tlienart/GLEPlot.jl", rev="dev");
+            Pkg.add("NodeJS")
+            '
+          JULIA_POST: '
+            using NodeJS;
+            td = mktempdir();
+            run(pipeline(`$(NodeJS.npm_cmd()) i -D --prefix $td purgecss postcss postcss-cli`));
+            isempty("${{ env.FOLDER }}") || cd("${{ env.FOLDER }}");
+            purgecss = `$(NodeJS.nodejs_cmd()) $(td)/node_modules/purgecss/bin/purgecss.js`;
+            postcss  = `$(NodeJS.nodejs_cmd()) $(td)/node_modules/postcss-cli/index.js`;
+            run(pipeline(`$purger --config ${{ env.PURGECSS_CONFIG }}`));
+            run(pipeline(`$postcss __site/css/final.css -u autoprefixer -o __site/final.css`));
+            rm("__site/css/", recursive=true);
+            mkdir("__site/css/");
+            mv("__site/final.css", "__site/css/final.css");
             '
           CLEAR_CACHE: ${{ contains(github.event.head_commit.message, '[clear]') }}
           CACHE_KEY: "franklin-cache"
