@@ -8,7 +8,6 @@ on:
 env:
   GLEv: "4.3.2"
   FOLDER: "docs"
-  PREVIEW: "preview"
   PREFIX: "GLEPlot.jl"
   PURGECSS_CONFIG: "purgecss.config.js"
 
