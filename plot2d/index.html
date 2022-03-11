@@ -11,58 +11,59 @@
     <link href="/GLEPlot.jl/css/bootstrap.min.css" rel="stylesheet">
 
     
-    <link rel="stylesheet" href="/GLEPlot.jl/libs/highlight/github.min.css">
-    <link rel="stylesheet" href="/GLEPlot.jl/libs/katex/katex.min.css">
+    
+      <link rel="stylesheet" href="/GLEPlot.jl/libs/highlight/github.min.css">
+    
+    
+      <link rel="stylesheet" href="/GLEPlot.jl/libs/katex/katex.min.css">
+    
+
+    
+    <style>.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+
+/* Show it is fixed to the top */
+body {
+  min-height: 75rem;
+  padding-top: 4.5rem;
+}
+
+img.code-figure {
+  margin-bottom: 2em;
+}
+:is(h1, h2, h3, h4) {
+  margin-top: 2em;
+  margin-bottom: .5em;
+}
+
+pre code.hljs {
+  background-color: #e4e4f4;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+
+.img-small img {
+  width: 250px;
+}
+</style>
 
     
 
     
-
-
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-
-      /* Show it is fixed to the top */
-      body {
-        min-height: 75rem;
-        padding-top: 4.5rem;
-      }
-
-      img.code-figure {
-        margin-bottom: 2em;
-      }
-      :is(h1, h2, h3, h4) {
-        margin-top: 2em;
-        margin-bottom: .5em;
-      }
-
-      pre code.hljs {
-        background-color: #e4e4f4;
-        border-radius: 5px;
-        font-size: 1.1em;
-      }
-
-      .img-small img {
-        width: 250px;
-      }
-
-    </style>
-
-
 
   </head>
+
   <body>
 
   <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -166,18 +167,18 @@ plot(y, marker=&quot;.&quot;, smooth=false)
 y[3] = 0
 gcf()</code></pre>
 <div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/plot2d/figs-html/__autofig_17896166847140710946.svg">
-</div><h3 id="data_formats" > Data Formats</h3><p>Single vector → \((i, x_i)\)</p>
+</div><h3 id="data_formats" > Data Formats</h3><p>Single vector → <code>(i, x_i)</code></p>
 <pre><code class="julia">x = randn(5)
 plot(x, smooth=false)
 gcf()</code></pre>
 <div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/plot2d/figs-html/__autofig_255930921442466835.svg">
-</div><p>Two vectors → \((x_i, y_i)\)</p>
+</div><p>Two vectors → <code>(x_i, y_i)</code></p>
 <pre><code class="julia">x = 0:0.1:3
 y = @. sinc(x)
 plot(x, y)
 gcf()</code></pre>
 <div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/plot2d/figs-html/__autofig_13176002635368950543.svg">
-</div><p>Multiple vectors → \(\left\{(x_i, y^{(1)}_i), (x_i, y^{(2)}_i), \dots\right\}\)</p>
+</div><p>Multiple vectors → <code>&lbrace;(x_i, y1_i), (x_i, y2_i), ...&rbrace;</code></p>
 <pre><code class="julia">x = range(-1,1,length=100)
 y1 = @. sinc(x)
 y2 = @. sinc(2x)
@@ -185,7 +186,7 @@ y3 = @. sinc(3x)
 plot(x, y1, y2, y3)
 gcf()</code></pre>
 <div class="code-output"><img class="code-figure" src="/GLEPlot.jl/assets/plot2d/figs-html/__autofig_11321199409069423869.svg">
-</div><p>Single matrix → \(\left\{(i, Z_{i1}), (i, Z_{i2}), \dots\right\}\)</p>
+</div><p>Single matrix <code>Z</code> → <code>&lbrace;(i, Z_i1), (i, Z_i2), ...&rbrace;</code></p>
 <pre><code class="julia">x = range(-1,1,length=100)
 z = hcat(sin.(x), cos.(x))
 plot(z)
@@ -223,4 +224,5 @@ gcf()</code></pre>
     
 
   </body>
+
 </html>
