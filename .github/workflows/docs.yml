@@ -34,15 +34,15 @@ jobs:
           JULIA_POST: '
             using NodeJS;
             td = mktempdir();
-            run(pipeline(`$(NodeJS.npm_cmd()) i -D --prefix $td purgecss postcss postcss-cli`));
+            run(pipeline(`$(NodeJS.npm_cmd()) i --prefix $td purgecss postcss postcss-cli autoprefixer`));
             isempty("${{ env.FOLDER }}") || cd("${{ env.FOLDER }}");
             purgecss = `$(NodeJS.nodejs_cmd()) $(td)/node_modules/purgecss/bin/purgecss.js`;
             postcss  = `$(NodeJS.nodejs_cmd()) $(td)/node_modules/postcss-cli/index.js`;
-            run(pipeline(`$purger --config ${{ env.PURGECSS_CONFIG }}`));
-            run(pipeline(`$postcss __site/css/final.css -u autoprefixer -o __site/final.css`));
+            run(pipeline(`$purgecss --config ${{ env.PURGECSS_CONFIG }}`));
+            run(pipeline(`$postcss __site/css/ -r --no-map -u autoprefixer`));
+            full_css = join((read(p, String) for p in readdir("__site/css/", join=true) if endswith(p, ".css")), '\n');
             rm("__site/css/", recursive=true);
             mkdir("__site/css/");
-            mv("__site/final.css", "__site/css/final.css");
-            '
+            write("__site/css/final.css", full_css);'
           CLEAR_CACHE: ${{ contains(github.event.head_commit.message, '[clear]') }}
           CACHE_KEY: "franklin-cache"
