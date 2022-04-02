@@ -33,7 +33,7 @@ then make `bin/gle` executable
 $> sudo chmod +x bin/gle
 ```
 
-Mac OS will try to block you from using it because it's un-indentified software.
+Mac OS might then try to block you from using it because it's un-indentified software.
 To trigger this, run
 
 ```plain
@@ -52,13 +52,14 @@ You might again see a popup but this time can click on "Open"
 The result should be something like:
 
 ```plain
-$> bin/gle -v
+$> bin/gle -vr
 GLE version 4.3.2
 Usage: gle [options] filename.gle
 More information: gle -help
 ```
 
-Finally, you can add the `gle` executable to your global `PATH`.
+Finally, you can add the `gle` executable to your global `PATH` (it is recommended
+but you could skip this step, see further bellow).
 For instance if you put the `gle` folder on your Desktop:
 
 ```plain
@@ -88,7 +89,9 @@ Here as well you might want to add `gle/bin/` to the PATH.
 
 ### Setting the path
 
-You don't have to set the `PATH`, in fact we don't on CI (where it's not straightforward).
+You don't have to set the `PATH` (also, it may not work well if somehow your Julia REPL is not
+connected to the same terminal where you set the PATH).
+In fact we don't set it on CI (where it's not straightforward).
 You can specify explicitly to GLEPlot where the executable is by doing
 
 ```julia
@@ -96,6 +99,27 @@ ENV["GLE"] = "..."
 ```
 
 replacing `...` by the path to the `gle` executable.
+For instance
+
+```julia
+ENV["GLE"] = "/Users/tlienart/Desktop/gle/bin/gle"
+```
+
+and you can put that line in your `~/.julia/config/startup.jl` so that it's always set when you  start a new Julia session.
+
+## Testing
+
+This should "just work" in a Julia REPL session:
+
+```julia
+julia> success(`$(get(ENV, "GLE", "gle")) -v`)
+true
+```
+
+If you get an error, check (from the Julia REPL) that `ENV["PATH"]` has `gle`
+in it **or** that `ENV["GLE"]` is set.
+
+
 
 # Stuff
 
